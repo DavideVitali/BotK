@@ -122,7 +122,7 @@
     {
         "name": "Canderous Ordo",
         "base_id": "CANDEROUSORDO",
-        "abbr": []
+        "abbr": ["ORDO"]
     },
     {
         "name": "Captain Han Solo",
