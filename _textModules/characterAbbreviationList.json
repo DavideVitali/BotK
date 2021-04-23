@@ -117,7 +117,7 @@
     {
         "name": "Cad Bane",
         "base_id": "CADBANE",
-        "abbr": []
+        "abbr": ["CAD"]
     },
     {
         "name": "Canderous Ordo",
