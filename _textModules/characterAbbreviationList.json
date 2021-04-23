@@ -102,17 +102,17 @@
     {
         "name": "Bodhi Rook",
         "base_id": "BODHIROOK",
-        "abbr": []
+        "abbr": ["BODHI"]
     },
     {
         "name": "Bossk",
         "base_id": "BOSSK",
-        "abbr": []
+        "abbr": ["BOSSK"]
     },
     {
         "name": "C-3PO",
         "base_id": "C3POLEGENDARY",
-        "abbr": []
+        "abbr": ["C3PO"]
     },
     {
         "name": "Cad Bane",
