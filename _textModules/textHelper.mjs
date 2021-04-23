@@ -1,28 +1,30 @@
-import { Console } from 'console';
 import fs from 'fs';
 
 class TextHelper {
-    findAbbreviated(abbreviation) {
+    findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
-            var cList;
             fs.readFile('./_textModules/characterAbbreviationList.json', 'utf8', (err, data) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                cList = JSON.parse(data);
-                var found = false;
-                for (var el of cList) {
-                    if (el.abbr.includes(abbreviation)) {
-                        found = true;
-                        resolve(el);
+                var cList = JSON.parse(data);
+                var idTeamList = []
+                for (var teamElement of teamList) {
+                    var found = false;
+                    for (var character of cList) {
+                        if (character.abbr.includes(teamElement)) {
+                            found = true;
+                            idTeamList.push(character);
+                        };
                     };
+                    if (found == false) {
+                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" +teamElement + "'. Digita 'bk -abl' per ottenere la lista delle abbreviazioni riconosciute, che riceverai con un messaggio privato.");
+                        return;
+                    }
                 };
-
-                if (found == false) {
-                    reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + abbreviation + "'");
-                }
+                resolve(idTeamList);
             });
         });
     }
