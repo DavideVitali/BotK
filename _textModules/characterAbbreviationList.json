@@ -127,7 +127,7 @@
     {
         "name": "Captain Han Solo",
         "base_id": "HOTHHAN",
-        "abbr": []
+        "abbr": ["CHS"]
     },
     {
         "name": "Captain Phasma",
