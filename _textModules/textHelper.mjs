@@ -17,6 +17,7 @@ class TextHelper {
                         if (character.abbr.includes(teamElement)) {
                             found = true;
                             idTeamList.push(character);
+                            break;
                         };
                     };
                     if (found == false) {
