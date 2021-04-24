@@ -1,7 +1,38 @@
 {
-    "type": "module",
-    "dependencies": {
-        "axios": "^0.21.1",
-        "fs": "0.0.1-security"
-    }
+  "type": "module",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "fs": "0.0.1-security"
+  },
+  "name": "botk",
+  "version": "1.0.0",
+  "description": "Discord Bot for Star Wars: Galaxy of Heroes mobile game",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "bk -h"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/davidevitali/botk.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "swgoh",
+    "star",
+    "wars",
+    "galaxy",
+    "of",
+    "heroes",
+    "tw",
+    "territory",
+    "war"
+  ],
+  "author": "Davide Vitali",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidevitali/botk/issues"
+  },
+  "homepage": "https://github.com/davidevitali/botk#readme"
 }
