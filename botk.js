@@ -1,3 +1,7 @@
+/*
+        questo modulo è di test quando non si vuole mandare roba al bot vero e proprio (index.js)
+*/
+
 import { Swapi } from './_apiModules/swgohApi.mjs';
 import { TextHelper } from './_textModules/textHelper.mjs';
 
