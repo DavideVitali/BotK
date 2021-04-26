@@ -4,6 +4,17 @@
 
 import { Swapi } from './_apiModules/swgohApi.mjs';
 import { TextHelper } from './_textModules/textHelper.mjs';
+import mongolib from 'mongodb';
+const { MongoClient } = mongolib;
+
+const uri = "mongodb+srv://botk:<password>@botkcluster.qsfgz.mongodb.net/db?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const collection = client.db("db").collection("playerRoster");
+        console.log(collection);
+  client.close();
+});
+
 
 //connessione alle api e ai moduli ausiliari
 let swapi = new Swapi();
@@ -17,6 +28,6 @@ let textHelper = new TextHelper();
 /*
         per trovare il personaggio abbreviato
 */
-var c = textHelper.findAbbreviated(["AA","GK"]);
+var c = textHelper.findAbbreviated(["AA"]);
 c.then(r => console.log(r)).catch(e => console.log(e));
         

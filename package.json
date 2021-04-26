@@ -3,7 +3,8 @@
   "dependencies": {
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "mongodb": "^3.6.6"
   },
   "name": "botk",
   "version": "1.0.0",
