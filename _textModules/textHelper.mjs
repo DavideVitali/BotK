@@ -14,9 +14,9 @@ class TextHelper {
                 for (var teamElement of teamList) {
                     var found = false;
                     for (var character of cList) {
-                        if (character.abbr.includes(teamElement)) {
+                        if (character.abbr.includes(teamElement.toUpperCase()) || character.name.replace(' ', '').toUpperCase() == teamElement.replace(' ', '').toUpperCase() || character.base_id == teamElement.replace(' ', '').toUpperCase()) {
                             found = true;
-                            idTeamList.push(character);
+                            idTeamList.push(character.base_id);
                             break;
                         };
                     };

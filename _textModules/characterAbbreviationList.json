@@ -382,7 +382,7 @@
     {
         "name": "General Hux",
         "base_id": "GENERALHUX",
-        "abbr": []
+        "abbr": ["HUX"]
     },
     {
         "name": "General Kenobi",
@@ -417,7 +417,7 @@
     {
         "name": "Grand Admiral Thrawn",
         "base_id": "GRANDADMIRALTHRAWN",
-        "abbr": []
+        "abbr": ["GAT","THRAWN","PUFFO"]
     },
     {
         "name": "Grand Master Yoda",
@@ -602,12 +602,12 @@
     {
         "name": "Kylo Ren",
         "base_id": "KYLOREN",
-        "abbr": []
+        "abbr": ["OGKR", "KROG", "KR"]
     },
     {
         "name": "Kylo Ren (Unmasked)",
         "base_id": "KYLORENUNMASKED",
-        "abbr": []
+        "abbr": ["KRU"]
     },
     {
         "name": "L3-37",
@@ -887,7 +887,7 @@
     {
         "name": "Supreme Leader Kylo Ren",
         "base_id": "SUPREMELEADERKYLOREN",
-        "abbr": []
+        "abbr": ["SLKR"]
     },
     {
         "name": "T3-M4",
