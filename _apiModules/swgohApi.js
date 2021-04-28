@@ -1,5 +1,5 @@
-import axios from 'axios';
-import fs from 'fs';
+const axios = require('axios');
+const fs = require('fs');
 
 class Swapi {
   playerInfo(allyCode, mock) {
@@ -25,4 +25,4 @@ class Swapi {
   }
 }
 
-export { Swapi };
+module.exports = Swapi;

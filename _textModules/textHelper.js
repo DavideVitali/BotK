@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 class TextHelper {
     getSecrets() {
@@ -35,4 +35,4 @@ class TextHelper {
     }
 }
 
-export { TextHelper };
+module.exports = TextHelper;

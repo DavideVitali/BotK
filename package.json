@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "dependencies": {
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
