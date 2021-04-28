@@ -5,7 +5,7 @@ class Swapi {
   playerInfo(allyCode, mock) {
     if (mock && mock === true) {
       return new Promise((resolve, reject) => {
-        fs.readFile('./_apiModules/mockPlayerInfo.json', 'utf8', (err, data) => {
+        fs.readFile('./src/_apiModules/mockPlayerInfo.json', 'utf8', (err, data) => {
           if (err) {
               reject(err);
               return;
@@ -16,7 +16,14 @@ class Swapi {
         });
       });
     } else {
-      return axios.get('https://swgoh.gg/api/player/' + allyCode).then(r => r.data);
+      return new Promise((resolve, reject) => {
+        try {
+          const response = axios.get('https://swgoh.gg/api/player/' + allyCode);
+          resolve(response.then(r => r.data));
+        } catch (error) {
+          reject(error);
+        }
+      });
     }
   }
 

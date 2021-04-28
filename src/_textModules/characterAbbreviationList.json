@@ -387,7 +387,7 @@
     {
         "name": "General Kenobi",
         "base_id": "GENERALKENOBI",
-        "abbr": []
+        "abbr": ["GK"]
     },
     {
         "name": "General Skywalker",
@@ -537,7 +537,7 @@
     {
         "name": "Jedi Knight Anakin",
         "base_id": "ANAKINKNIGHT",
-        "abbr": []
+        "abbr": ["ANAKIN", "JKA"]
     },
     {
         "name": "Jedi Knight Guardian",
@@ -712,7 +712,7 @@
     {
         "name": "Padmé Amidala",
         "base_id": "PADMEAMIDALA",
-        "abbr": []
+        "abbr": ["PADME"]
     },
     {
         "name": "Pao",

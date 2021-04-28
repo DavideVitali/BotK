@@ -2,12 +2,12 @@ const fs = require('fs');
 
 class TextHelper {
     getSecrets() {
-        return JSON.parse(fs.readFileSync('./secrets/tokens.json', 'utf8'));
+        return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
     findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
-            fs.readFile('./_textModules/characterAbbreviationList.json', 'utf8', (err, data) => {
+            fs.readFile('./src/_textModules/characterAbbreviationList.json', 'utf8', (err, data) => {
                 if (err) {
                     reject(err);
                     return;
