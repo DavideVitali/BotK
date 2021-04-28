@@ -2,7 +2,7 @@ import fs from 'fs';
 
 class TextHelper {
     getSecrets() {
-        return fs.readFileSync('./secrets/tokens.json', 'utf8');
+        return JSON.parse(fs.readFileSync('./secrets/tokens.json', 'utf8'));
     }
 
     findAbbreviated(teamList) {

@@ -14,8 +14,12 @@ let textHelper = new TextHelper();
 let swapi = new Swapi();
 
 // connessione al db
-const dbPass = textHelper.getSecrets().dbPassword;
-const uri = "mongodb+srv://botk:"+dbPass+"@botkcluster.qsfgz.mongodb.net/db?retryWrites=true&w=majority";
+const dbSecrets = textHelper.getSecrets().mongodb; 
+const dbDomain = dbSecrets.domain;
+const dbNamespace = dbSecrets.namespace;
+const dbUser = dbSecrets.user;
+const dbPass = dbSecrets.pass;
+const uri = "mongodb+srv://"+dbUser+":"+dbPass+"@"+dbDomain+"/"+dbNamespace+"?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("db").collection("playerRoster");
