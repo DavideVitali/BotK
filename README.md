@@ -5,7 +5,7 @@ Applicazione NodeJS.
 
 Per interfacciarsi al bot da console:
 
-> node local.js bk [<opzioni>:<valori>]
+> node local.js bk [opzioni:valori]
 
 Per avviare l'interfaccia discord:
 
@@ -13,4 +13,4 @@ Per avviare l'interfaccia discord:
 
 Il bot risponderà ai comandi quando l'utente iscritto al canale digiterà 
 
-bk [<opzioni>:<valori>]
+bk [opzioni:valori]
