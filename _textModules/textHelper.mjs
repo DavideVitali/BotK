@@ -1,6 +1,10 @@
 import fs from 'fs';
 
 class TextHelper {
+    getSecrets() {
+        return fs.readFileSync('./secrets/tokens.json', 'utf8');
+    }
+
     findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
             fs.readFile('./_textModules/characterAbbreviationList.json', 'utf8', (err, data) => {

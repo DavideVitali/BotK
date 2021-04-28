@@ -7,18 +7,20 @@ import { TextHelper } from './_textModules/textHelper.mjs';
 import mongolib from 'mongodb';
 const { MongoClient } = mongolib;
 
-const uri = "mongodb+srv://botk:<password>@botkcluster.qsfgz.mongodb.net/db?retryWrites=true&w=majority";
+// connessione ai moduli ausiliari
+let textHelper = new TextHelper();
+
+// connessione alle api di swgoh
+let swapi = new Swapi();
+
+// connessione al db
+dbPass = textHelper.getSecrets().dbPassword;
+const uri = "mongodb+srv://botk:"+dbPass+"@botkcluster.qsfgz.mongodb.net/db?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
   const collection = client.db("db").collection("playerRoster");
-        console.log(collection);
   client.close();
 });
-
-
-//connessione alle api e ai moduli ausiliari
-let swapi = new Swapi();
-let textHelper = new TextHelper();
 
 var args = process.argv.slice(2);
 
