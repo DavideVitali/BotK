@@ -1,11 +1,10 @@
 /*
         questo modulo è di test quando non si vuole mandare roba al bot vero e proprio (index.js)
 */
-
-import { Swapi } from './_apiModules/swgohApi.mjs';
-import { TextHelper } from './_textModules/textHelper.mjs';
-import mongolib from 'mongodb';
-const { MongoClient } = mongolib;
+const yargs = require('yargs');
+const Swapi = require('./_apiModules/swgohApi.js');
+const TextHelper = require('./_textModules/textHelper.js');
+const MongoClient = require('mongodb').MongoClient;
 
 // connessione ai moduli ausiliari
 let textHelper = new TextHelper();
@@ -47,7 +46,7 @@ if (args[0] == '-team')
 {
     var teamList = args[1].replace(' ','').split(',');
 
-    var result = textHelper.findAbbreviated(teamList)
+    var result = TextHelper.findAbbreviated(teamList)
         .then(baseIdResult => {
             var selectedCharacters = [];
             var result = '';
