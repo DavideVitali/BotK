@@ -14,7 +14,7 @@ let textHelper = new TextHelper();
 let swapi = new Swapi();
 
 // connessione al db
-dbPass = textHelper.getSecrets().dbPassword;
+const dbPass = textHelper.getSecrets().dbPassword;
 const uri = "mongodb+srv://botk:"+dbPass+"@botkcluster.qsfgz.mongodb.net/db?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
@@ -42,12 +42,12 @@ var args = process.argv.slice(2);
 if (args[0] == '-team')
 {
     var teamList = args[1].replace(' ','').split(',');
-    console.log(teamList)
+
     var result = textHelper.findAbbreviated(teamList)
         .then(baseIdResult => {
             var selectedCharacters = [];
             var result = '';
-            swapi.playerInfo(914315138, true)
+            swapi.playerInfo(914315138)
             .then(pInfo => {
                 for (var baseId of baseIdResult) {
                     for (var unit of pInfo.units) {

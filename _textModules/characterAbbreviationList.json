@@ -212,17 +212,17 @@
     {
         "name": "CT-21-0408 \"Echo\"",
         "base_id": "CT210408",
-        "abbr": []
+        "abbr": ["ECHO"]
     },
     {
         "name": "CT-5555 \"Fives\"",
         "base_id": "CT5555",
-        "abbr": []
+        "abbr": ["FIVES", "5", "5S"]
     },
     {
         "name": "CT-7567 \"Rex\"",
         "base_id": "CT7567",
-        "abbr": []
+        "abbr": ["REX"]
     },
     {
         "name": "Dark Trooper",
@@ -392,7 +392,7 @@
     {
         "name": "General Skywalker",
         "base_id": "GENERALSKYWALKER",
-        "abbr": []
+        "abbr": ["GAS"]
     },
     {
         "name": "General Veers",

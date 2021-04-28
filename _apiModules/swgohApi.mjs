@@ -16,12 +16,12 @@ class Swapi {
         });
       });
     } else {
-      return axios.get('https://swgoh.gg/api/player/' + allyCode);
+      return axios.get('https://swgoh.gg/api/player/' + allyCode).then(r => r.data);
     }
   }
 
   characterList() {
-    return axios.get('https://swgoh.gg/api/characters/');
+    return axios.get('https://swgoh.gg/api/characters/').then(r => r.data);
   }
 }
 
