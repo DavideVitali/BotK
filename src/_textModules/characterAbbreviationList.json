@@ -22,7 +22,7 @@
     {
         "name": "Ahsoka Tano (Fulcrum)",
         "base_id": "FULCRUMAHSOKA",
-        "abbr": ["FULCRUM"]
+        "abbr": ["FULCRUM", "AHSOKAFULCRUM"]
     },
     {
         "name": "Amilyn Holdo",
