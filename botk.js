@@ -65,7 +65,7 @@ if (args[0] == '-team')
                     if (Number(c.data.gear_level) >= 13) {
                         gear = "R" + String(Number(c.data.relic_tier) - 2);
                     } else {
-                        gear = "G" + String(Number(c.data.gear_level));
+                        gear = "G" + c.data.gear_level;
                     }
                     result = result + c.data.name + ": " + c.data.rarity + '* | ' + gear + ' | ' + String(c.data.zeta_abilities.length) + 'z | v. ' + c.data.stats['5'] + '\n';
                 })
