@@ -46,7 +46,7 @@ if (args[0] == '-team')
 {
     var teamList = args[1].replace(' ','').split(',');
 
-    var result = TextHelper.findAbbreviated(teamList)
+    var result = textHelper.findAbbreviated(teamList)
         .then(baseIdResult => {
             var selectedCharacters = [];
             var result = '';
