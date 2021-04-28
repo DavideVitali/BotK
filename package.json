@@ -4,7 +4,8 @@
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
     "fs": "0.0.1-security",
-    "mongodb": "^3.6.6"
+    "mongodb": "^3.6.6",
+    "yargs": "^16.2.0"
   },
   "name": "botk",
   "version": "1.0.0",
