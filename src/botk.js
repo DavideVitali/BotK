@@ -3,7 +3,7 @@
 */
 const Swapi = require('./_apiModules/swgohApi.js');
 const TextHelper = require('./_textModules/textHelper.js');
-const MongoClient = require('mongodb').MongoClient;
+const DbOperations = require('./_dataModules/dbOperations.js');
 
 class BotK {
     /*
@@ -26,29 +26,18 @@ class BotK {
         'team': 'slkr,kru,hux'
     }
     */
-    constructor(args) {
+    constructor(args, userDiscordId) {
         this.args = args;
+        this.discordId = userDiscordId
     }
     
     Exec() {
         // connessione ai moduli ausiliari
         let textHelper = new TextHelper();
+        let dbOperations = new DbOperations();
 
         // connessione alle api di swgoh
         let swapi = new Swapi();
-
-        // connessione al db
-        const dbSecrets = textHelper.getSecrets().mongodb; 
-        const dbDomain = dbSecrets.domain;
-        const dbNamespace = dbSecrets.namespace;
-        const dbUser = dbSecrets.user;
-        const dbPass = dbSecrets.pass;
-        const uri = "mongodb+srv://"+dbUser+":"+dbPass+"@"+dbDomain+"/"+dbNamespace+"?retryWrites=true&w=majority";
-        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        client.connect(err => {
-        const collection = client.db("db").collection("playerRoster");
-        client.close();
-        });
         
         /*
         <summary>Restituisce le info e il roster di un player in formato JSON</summary>
@@ -68,51 +57,58 @@ class BotK {
         
         if (this.args.command === 'bk')
         {
-            if (this.args.team || this.args.t)
-            {
-                var allyCode = this.args.ally || this.args.a;
-                if (!allyCode) {
-                    allyCode = '914315138';
-                }
-
-                var teamList = this.args.team.split(',');
-                return Promise.all([
-                    textHelper.findAbbreviated(teamList), 
-                    swapi.playerInfo(allyCode)])
-                    .then(promiseResults => {
-                        var selectedCharacters = [];
-                        var result = '';
-                        for (var baseId of promiseResults[0]) {
-                            for (var unit of promiseResults[1].units) {
-                                if (unit.data.base_id === baseId) {
-                                    selectedCharacters.push(unit);
+            return dbOperations.searchUser(this.discordId)
+            .then(dbUser =>  {
+                console.log('il codice alleato corrispondente è: ', dbUser.allyCode);
+                if (this.args.team || this.args.t)
+                {
+                    var teamValue = this.args.team || this.args.t;
+    
+                    var allyCode = this.args.ally || this.args.a;
+                    if (!allyCode) {
+                        allyCode = dbUser.allyCode;
+                    }
+    
+                    var teamList = teamValue.split(',');
+                    return Promise.all([
+                        textHelper.findAbbreviated(teamList), 
+                        swapi.playerInfo(allyCode)])
+                        .then(promiseResults => {
+                            var selectedCharacters = [];
+                            var result = '';
+                            for (var baseId of promiseResults[0]) {
+                                for (var unit of promiseResults[1].units) {
+                                    if (unit.data.base_id === baseId) {
+                                        selectedCharacters.push(unit);
+                                    }
                                 }
                             }
-                        }
-
-                        selectedCharacters.map(c => {
-                            var gear;
-                            if (Number(c.data.gear_level) >= 13) {
-                                gear = "R" + String(Number(c.data.relic_tier) - 2);
-                            } else {
-                                gear = "G" + c.data.gear_level;
+    
+                            selectedCharacters.map(c => {
+                                var gear;
+                                if (Number(c.data.gear_level) >= 13) {
+                                    gear = "R" + String(Number(c.data.relic_tier) - 2);
+                                } else {
+                                    gear = "G" + c.data.gear_level;
+                                }
+                                result = result + c.data.name + ": " + c.data.rarity + '* | ' + gear + ' | ' + String(c.data.zeta_abilities.length) + 'z | v. ' + c.data.stats['5'] + '\n';
+                            });
+    
+                            return result;
+                        })
+                        .catch(err => {
+                            if (err.response && err.response.status == '404' && err.response.config.url.includes('swgoh.gg/api/player/')) {
+                                return ('Il codice alleato richiesto è inesistente.');
                             }
-                            result = result + c.data.name + ": " + c.data.rarity + '* | ' + gear + ' | ' + String(c.data.zeta_abilities.length) + 'z | v. ' + c.data.stats['5'] + '\n';
+                            return err;
                         });
-
-                        return result;
-                    })
-                    .catch(err => {
-                        console.log(err.response.config.url);
-                        if (err.response.status == '404' && err.response.config.url.includes('swgoh.gg/api/player/')) {
-                            return ('Il codice alleato richiesto è inesistente.');
-                        }
-                    });
-            } else if (this.args.defense || this.args.d ) { 
-                return new Promise((resolve, reject) => reject("Opzione difesa non ancora implementata."));
-            } else {
-                return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
-            }
+                } else if (this.args.defense || this.args.d ) { 
+                    return new Promise((resolve, reject) => reject("Opzione difesa non ancora implementata."));
+                } else {
+                    return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
+                }
+            })
+            .catch(err => err);
         }
     }
 }

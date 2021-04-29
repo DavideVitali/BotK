@@ -3,6 +3,7 @@
 const { Client, MessageEmbed } = require('discord.js');
 const TextHelper = require('./src/_textModules/textHelper.js');
 const BotK = require('./src/botk.js')
+const MongoClient = require('mongodb').MongoClient;
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -20,15 +21,24 @@ client.on('message', message => {
     var validEntry = true;
     var parsedArgs = message.content.split(' ');
     parsedArgs.command = parsedArgs[0];
-    var args = parsedArgs.slice(1);
+
+    var args;
+    if (parsedArgs.length == 1) {
+        args = parsedArgs;
+    } else {
+        args = parsedArgs.slice(1);
+    }
+
     if (parsedArgs.command && parsedArgs.command.toUpperCase() == 'BK')
     {
+        console.log(args);
         for (var entry of args)  {
-            if (entry.substring(0, 2) !== '--') {
-                console.log(String(entry) + " non è un'opzione valida.");
+            console.log(entry.substring(0, 1));
+            if (entry.substring(0, 1) !== '-') {
+                parsedArgs.error = (String(entry) + " non è un'opzione valida.");
                 validEntry = false;
             } else {
-                var option = entry.substring(2).split(':');
+                var option = entry.substring(1).split(':');
                 if (!option[1]) {
                     parsedArgs[option[0]] = '';
                 } else {
@@ -39,12 +49,8 @@ client.on('message', message => {
         }
     
         if (validEntry == true) {
-            if (!parsedArgs.a && !parsedArgs.ally)
-            {
-                
-            }
-    
-            const bot = new BotK(parsedArgs);
+            
+            const bot = new BotK(parsedArgs, message.author.id);
             bot.Exec()
             .then(result => {
                 message.channel.send(embeddedMessage(colorContext.success, result))
@@ -52,6 +58,8 @@ client.on('message', message => {
             .catch(error => {
                 message.channel.send(embeddedMessage(colorContext.error, error))
             });
+        } else {
+            message.channel.send(embeddedMessage(colorContext.error, parsedArgs.error));
         }
     }
 });

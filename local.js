@@ -4,13 +4,19 @@ var args = process.argv.slice(2);
 
 var validEntry = true;
 parsedArgs.command = args[0];
-args = args.slice(1);
+
+if (parsedArgs.length == 1) {
+    args = parsedArgs;
+} else {
+    args = parsedArgs.slice(1);
+}
+
 for (var entry of args)  {
-    if (entry.substring(0, 2) !== '--') {
+    if (entry.substring(0, 1) !== '-') {
         console.log(String(entry) + " non è un'opzione valida.");
         validEntry = false;
     } else {
-        var option = entry.substring(2).split(':');
+        var option = entry.substring(1).split(':');
         if (!option[1]) {
             parsedArgs[option[0]] = '';
         } else {
