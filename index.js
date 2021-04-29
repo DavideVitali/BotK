@@ -21,35 +21,38 @@ client.on('message', message => {
     var parsedArgs = message.content.split(' ');
     parsedArgs.command = parsedArgs[0];
     var args = parsedArgs.slice(1);
-    for (var entry of args)  {
-        if (entry.substring(0, 2) !== '--') {
-            console.log(String(entry) + " non è un'opzione valida.");
-            validEntry = false;
-        } else {
-            var option = entry.substring(2).split(':');
-            if (!option[1]) {
-                parsedArgs[option[0]] = '';
+    if (parsedArgs.command && parsedArgs.command.toUpperCase() == 'BK')
+    {
+        for (var entry of args)  {
+            if (entry.substring(0, 2) !== '--') {
+                console.log(String(entry) + " non è un'opzione valida.");
+                validEntry = false;
             } else {
-                parsedArgs[option[0]] = option[1];
+                var option = entry.substring(2).split(':');
+                if (!option[1]) {
+                    parsedArgs[option[0]] = '';
+                } else {
+                    parsedArgs[option[0]] = option[1];
+                }
             }
+            if (validEntry == false) { break; }
         }
-        if (validEntry == false) { break; }
-    }
-
-    if (validEntry == true) {
-        if (!parsedArgs.a && !parsedArgs.ally)
-        {
-            
+    
+        if (validEntry == true) {
+            if (!parsedArgs.a && !parsedArgs.ally)
+            {
+                
+            }
+    
+            const bot = new BotK(parsedArgs);
+            bot.Exec()
+            .then(result => {
+                message.channel.send(embeddedMessage(colorContext.success, result))
+            })
+            .catch(error => {
+                message.channel.send(embeddedMessage(colorContext.error, error))
+            });
         }
-
-        const bot = new BotK(parsedArgs);
-        bot.Exec()
-        .then(result => {
-            message.channel.send(embeddedMessage(colorContext.success, result))
-        })
-        .catch(error => {
-            message.channel.send(embeddedMessage(colorContext.error, error))
-        });
     }
 });
 

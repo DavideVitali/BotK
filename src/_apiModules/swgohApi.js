@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { errorMonitor } = require('events');
 const fs = require('fs');
 
 class Swapi {
@@ -21,7 +22,7 @@ class Swapi {
           const response = axios.get('https://swgoh.gg/api/player/' + allyCode);
           resolve(response.then(r => r.data));
         } catch (error) {
-          reject(error);
+          reject(error => error.data);
         }
       });
     }
