@@ -852,7 +852,7 @@
     {
         "name": "Sith Eternal Emperor",
         "base_id": "SITHPALPATINE",
-        "abbr": []
+        "abbr": ["SEE"]
     },
     {
         "name": "Sith Marauder",

@@ -27,6 +27,7 @@ class BotK {
     }
     */
     constructor(args, userDiscordId) {
+        console.log('al costruttore: ', args);
         this.args = args;
         this.discordId = userDiscordId
     }
@@ -57,16 +58,35 @@ class BotK {
         
         if (this.args.command === 'bk')
         {
-            return dbOperations.searchUser(this.discordId)
-            .then(dbUser =>  {
-                console.log('il codice alleato corrispondente è: ', dbUser.allyCode);
-                if (this.args.team || this.args.t)
-                {
-                    var teamValue = this.args.team || this.args.t;
-    
+            console.log(this.args);
+            if (this.args.d || this.args.defense) {
+                throw 'opzione difesa non implementata';
+            }
+
+            if (this.args.register || this.args.r)
+            {
+                var allyCode = this.args.register || this.args.r;
+                return dbOperations.addUser(this.discordId, allyCode)
+                .then(result => {
+                    console.log(result);
+                    return 'Operazione completata.';
+                })
+                .catch(e => { throw e; });
+            }
+            
+            if (this.args.team || this.args.t) {
+                var teamValue = this.args.team || this.args.t;
+                
+                return dbOperations.searchUser(this.discordId)
+                .then(dbUser =>  {
                     var allyCode = this.args.ally || this.args.a;
+
                     if (!allyCode) {
-                        allyCode = dbUser.allyCode;
+                        if (dbUser == null) {
+                            throw 'Utente non registrato.';
+                        } else {
+                            allyCode = dbUser.allyCode;
+                        }
                     }
     
                     var teamList = teamValue.split(',');
@@ -74,6 +94,7 @@ class BotK {
                         textHelper.findAbbreviated(teamList), 
                         swapi.playerInfo(allyCode)])
                         .then(promiseResults => {
+                            
                             var selectedCharacters = [];
                             var result = '';
                             for (var baseId of promiseResults[0]) {
@@ -93,22 +114,23 @@ class BotK {
                                 }
                                 result = result + c.data.name + ": " + c.data.rarity + '* | ' + gear + ' | ' + String(c.data.zeta_abilities.length) + 'z | v. ' + c.data.stats['5'] + '\n';
                             });
-    
+
                             return result;
                         })
                         .catch(err => {
                             if (err.response && err.response.status == '404' && err.response.config.url.includes('swgoh.gg/api/player/')) {
-                                return ('Il codice alleato richiesto è inesistente.');
+                                throw 'Il codice alleato richiesto è inesistente.';
                             }
-                            return err;
+                            throw err;
                         });
-                } else if (this.args.defense || this.args.d ) { 
-                    return new Promise((resolve, reject) => reject("Opzione difesa non ancora implementata."));
-                } else {
-                    return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
-                }
-            })
-            .catch(err => err);
+                })
+                .catch(e => {
+                    throw e;
+                });
+            } 
+            
+            throw "Opzione non riconosciuta. Digita bk -h per ottenere l'aiuto in linea";
+            //return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
         }
     }
 }

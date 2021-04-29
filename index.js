@@ -19,30 +19,23 @@ client.on('ready', () => {
 // Create an event listener for messages
 client.on('message', message => {
     var validEntry = true;
-    var parsedArgs = message.content.split(' ');
-    parsedArgs.command = parsedArgs[0];
+    var inputArgs = message.content.split(' ');
+    var botCommandLine = new Object();
+    botCommandLine.command = inputArgs[0];
+    var optionArgs = inputArgs.slice(1);
 
-    var args;
-    if (parsedArgs.length == 1) {
-        args = parsedArgs;
-    } else {
-        args = parsedArgs.slice(1);
-    }
-
-    if (parsedArgs.command && parsedArgs.command.toUpperCase() == 'BK')
+    if (botCommandLine.command && botCommandLine.command.toUpperCase() == 'BK')
     {
-        console.log(args);
-        for (var entry of args)  {
-            console.log(entry.substring(0, 1));
-            if (entry.substring(0, 1) !== '-') {
-                parsedArgs.error = (String(entry) + " non è un'opzione valida.");
+        for (let i = 0; i < optionArgs.length; i++)  {
+            if (optionArgs[i].substring(0, 1) !== '-') {
+                botCommandLine.error = (String(optionArgs[i]) + " non è un'opzione valida.");
                 validEntry = false;
             } else {
-                var option = entry.substring(1).split(':');
+                var option = optionArgs[i].substring(1).split(':');
                 if (!option[1]) {
-                    parsedArgs[option[0]] = '';
+                    botCommandLine[option[0]] = '';
                 } else {
-                    parsedArgs[option[0]] = option[1];
+                    botCommandLine[option[0]] = option[1];
                 }
             }
             if (validEntry == false) { break; }
@@ -50,14 +43,19 @@ client.on('message', message => {
     
         if (validEntry == true) {
             
-            const bot = new BotK(parsedArgs, message.author.id);
-            bot.Exec()
-            .then(result => {
-                message.channel.send(embeddedMessage(colorContext.success, result))
-            })
-            .catch(error => {
+            try {
+                const bot = new BotK(botCommandLine, message.author.id);
+
+                bot.Exec()
+                .then(result => {
+                    message.channel.send(embeddedMessage(colorContext.success, result))
+                })
+                .catch(error => {
+                    message.channel.send(embeddedMessage(colorContext.error, error))
+                });
+            } catch (error) {
                 message.channel.send(embeddedMessage(colorContext.error, error))
-            });
+            }
         } else {
             message.channel.send(embeddedMessage(colorContext.error, parsedArgs.error));
         }
