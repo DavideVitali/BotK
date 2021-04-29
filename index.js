@@ -37,6 +37,11 @@ client.on('message', message => {
     }
 
     if (validEntry == true) {
+        if (!parsedArgs.a && !parsedArgs.ally)
+        {
+            
+        }
+
         const bot = new BotK(parsedArgs);
         bot.Exec()
         .then(result => {
