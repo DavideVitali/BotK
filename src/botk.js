@@ -6,6 +6,26 @@ const TextHelper = require('./_textModules/textHelper.js');
 const MongoClient = require('mongodb').MongoClient;
 
 class BotK {
+    /*
+    Gli argomenti passati alla classe come costruttore sono un json di questa forma
+    {
+        command: 'bk' 
+        'opzione1': 'valore',
+        'opzione2': 'valore'
+        .
+        .
+        'opzioneN': 'valore'
+    }
+    dove command è il comando riconosciuto per avviare l'interazione con il bot
+    mentre le opzioni sono le varie flag mandate al bot tramite --opzione.
+
+    Quindi, ad esempio il comando 'bk --a:123456789 --team:slkr,kru,hux' genererà questo json
+    {
+        'command': 'bk',
+        'a': '123456789',
+        'team': 'slkr,kru,hux'
+    }
+    */
     constructor(args) {
         this.args = args;
     }
@@ -50,12 +70,11 @@ class BotK {
         {
             if (this.args.team || this.args.t)
             {
-                var allyCode;
-                if (this.args.ally) {
-                    allyCode = this.args.ally;
-                } else {
+                var allyCode = this.args.ally || this.args.a;
+                if (!allyCode) {
                     allyCode = '914315138';
                 }
+
                 var teamList = this.args.team.split(',');
                 return Promise.all([
                     textHelper.findAbbreviated(teamList), 
@@ -83,7 +102,12 @@ class BotK {
 
                         return result;
                     })
-                    .catch(err => err);
+                    .catch(err => {
+                        console.log(err.response.config.url);
+                        if (err.response.status == '404' && err.response.config.url.includes('swgoh.gg/api/player/')) {
+                            return ('Il codice alleato richiesto è inesistente.');
+                        }
+                    });
             } else if (this.args.defense || this.args.d ) { 
                 return new Promise((resolve, reject) => reject("Opzione difesa non ancora implementata."));
             } else {
