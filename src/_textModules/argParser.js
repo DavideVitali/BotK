@@ -48,6 +48,8 @@ class ArgParser {
                     break;
                 }
             }
+        } else {
+            this.isValid = false;
         }
     }
 }

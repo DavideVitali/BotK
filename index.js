@@ -25,6 +25,7 @@ client.on('message', message => {
         try {
             const bot = new BotK(argParser.commandResult, message.author.id);
 
+            console.log(argParser);
             bot.Exec()
             .then(result => {
                 message.channel.send(embeddedMessage(colorContext.success, result))

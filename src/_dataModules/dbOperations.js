@@ -47,7 +47,9 @@ class DbOperations {
                         $or: [{'discordId': discordId, 'allyCode': allyCode }]
                     });
                     
-                    if (cursor.size() == 0) {
+                    console.log(cursor.then(r => console.log(r.length)));
+
+                    if (cursor == 0) {
                         resolve(client.db('db').collection('users').insertOne(user));
                     } else {
                         reject('Utente o Codice Alleato già registrati.');

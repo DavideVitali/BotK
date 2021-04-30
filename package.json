@@ -11,7 +11,8 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "start": "node local.js"
+    "debug_local": "node local.js",
+    "debug_bot": "node index.jsò"
   },
   "repository": {
     "type": "git",
