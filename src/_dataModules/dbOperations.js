@@ -37,15 +37,21 @@ class DbOperations {
             const client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
             client.connect((err, client) => {
-                if (err) { reject(err); }
-
-                const user = { 'discordId': discordId, 'allyCode': allyCode };
-
-                var cursor = client.db('db').collection('users').find({
-                    $or: [{'discordId': discordId, 'allyCode': allyCode }]
-                });
-                
-                console.log(cursor.length);
+                if (err) {
+                    reject(err); 
+                } else {
+                    const user = { 'discordId': discordId, 'allyCode': allyCode };
+    
+                    var cursor = client.db('db').collection('users').find({
+                        $or: [{'discordId': discordId, 'allyCode': allyCode }]
+                    });
+                    
+                    if (cursor.size() == 0) {
+                        resolve(client.db('db').collection('users').insertOne(user));
+                    } else {
+                        reject('Utente o Codice Alleato già registrati.');
+                    }
+                }
             });
         })
     }
