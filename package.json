@@ -11,7 +11,7 @@
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
-    "test": "bk -h"
+    "start": "node local.js"
   },
   "repository": {
     "type": "git",
