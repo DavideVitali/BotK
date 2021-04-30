@@ -2,6 +2,7 @@
 
 const { Client, MessageEmbed } = require('discord.js');
 const TextHelper = require('./src/_textModules/textHelper.js');
+const ArgParser = require('./src/_textModules/argParser.js');
 const BotK = require('./src/botk.js')
 const MongoClient = require('mongodb').MongoClient;
 
@@ -18,47 +19,24 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('message', message => {
-    var validEntry = true;
-    var inputArgs = message.content.split(' ');
-    var botCommandLine = new Object();
-    botCommandLine.command = inputArgs[0];
-    var optionArgs = inputArgs.slice(1);
+    const argParser = new ArgParser(message.content.split(' '), 'index');
 
-    if (botCommandLine.command && botCommandLine.command.toUpperCase() == 'BK')
-    {
-        for (let i = 0; i < optionArgs.length; i++)  {
-            if (optionArgs[i].substring(0, 1) !== '-') {
-                botCommandLine.error = (String(optionArgs[i]) + " non è un'opzione valida.");
-                validEntry = false;
-            } else {
-                var option = optionArgs[i].substring(1).split(':');
-                if (!option[1]) {
-                    botCommandLine[option[0]] = '';
-                } else {
-                    botCommandLine[option[0]] = option[1];
-                }
-            }
-            if (validEntry == false) { break; }
-        }
-    
-        if (validEntry == true) {
-            
-            try {
-                const bot = new BotK(botCommandLine, message.author.id);
+    if (argParser.isValid == true) {
+        try {
+            const bot = new BotK(argParser.commandResult, message.author.id);
 
-                bot.Exec()
-                .then(result => {
-                    message.channel.send(embeddedMessage(colorContext.success, result))
-                })
-                .catch(error => {
-                    message.channel.send(embeddedMessage(colorContext.error, error))
-                });
-            } catch (error) {
+            bot.Exec()
+            .then(result => {
+                message.channel.send(embeddedMessage(colorContext.success, result))
+            })
+            .catch(error => {
                 message.channel.send(embeddedMessage(colorContext.error, error))
-            }
-        } else {
-            message.channel.send(embeddedMessage(colorContext.error, parsedArgs.error));
+            });
+        } catch (error) {
+            message.channel.send(embeddedMessage(colorContext.error, error))
         }
+    } else {
+        message.channel.send(embeddedMessage(colorContext.error, parsedArgs.error));
     }
 });
 

@@ -11,7 +11,7 @@ class ArgParser {
      */
     constructor(inputArgs, src){
         this.commandResult = new Object();
-        this.isValid = false;
+        this.isValid = true;
 
         // oggetto che memorizza il comando e le opzioni coi loro valori
         this.commandResult.command = inputArgs[0];
@@ -27,6 +27,7 @@ class ArgParser {
                 optionArgs = inputArgs;
             }
 
+            var currentOptionValid = true;
             for (let i = 0; i < optionArgs.length; i++)  {
                 if (optionArgs[i].includes('=')) {
                     var option = optionArgs[i].split('=');
@@ -36,15 +37,16 @@ class ArgParser {
                     } else {
                         this.commandResult[option[0]] = option[1];
                     }
-                    this.isValid = true;
-                }
+
+                    if (!option[0] || !option[1]) {
+                        currentOptionValid = false;
+                    }
+                } 
                 
-                if (this.isValid == false) { 
+                if (currentOptionValid == false) { 
+                    this.isValid = false;
                     break;
                 }
-
-                // si prepara all'iterazione successiva
-                this.isValid = false;
             }
         }
     }
