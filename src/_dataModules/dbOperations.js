@@ -13,6 +13,7 @@ class DbOperations {
         const dbPass = dbSecrets.pass;
         this.uri = "mongodb+srv://"+dbUser+":"+dbPass+"@"+dbDomain+"/"+dbNamespace+"?retryWrites=true&w=majority";
     }
+    
     searchUser(discordId) {
         return new Promise((resolve, reject) => {
             const client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
