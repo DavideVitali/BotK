@@ -9,7 +9,7 @@ class BotK {
     /*
     Gli argomenti passati alla classe come costruttore sono un json di questa forma
     {
-        command: 'bk' 
+        command: 'bk',
         'opzione1': 'valore',
         'opzione2': 'valore'
         .
@@ -27,7 +27,6 @@ class BotK {
     }
     */
     constructor(args, userDiscordId) {
-        console.log('al costruttore: ', args);
         this.args = args;
         this.discordId = userDiscordId
     }
@@ -53,30 +52,34 @@ class BotK {
         <summary>Restituisce l'array degli BASE_ID dei personaggi immessi dall'utente sotto forma di abbreviazione o nickname</summary>
         <param "teamList">Array dei personaggi immessi dal giocatore</param>
         <remarks>restituisce una promise</remarks>
-        var idArray = textHelper.findAbbreviater(teamList: [<string>])
+        var idArray = textHelper.findAbbreviated(teamList: [<string>])
         */
         
         if (this.args.command === 'bk')
         {
-            console.log(this.args);
             if (this.args.d || this.args.defense) {
                 throw 'opzione difesa non implementata';
             }
 
+            /* --------------------------------------
+                    REGISTRAZIONE AL BOT
+               ----------------------------------- */
             if (this.args.register || this.args.r)
             {
                 var allyCode = this.args.register || this.args.r;
                 return dbOperations.addUser(this.discordId, allyCode)
-                .then(result => {
+                .then((result) => {
                     console.log(result);
                     return 'Operazione completata.';
                 })
                 .catch(e => { throw e; });
             }
-            
+
+            /* --------------------------------------
+                    VALUTAZIONE DI UN TEAM
+               ----------------------------------- */
             if (this.args.team || this.args.t) {
                 var teamValue = this.args.team || this.args.t;
-                
                 return dbOperations.searchUser(this.discordId)
                 .then(dbUser =>  {
                     var allyCode = this.args.ally || this.args.a;
@@ -88,13 +91,11 @@ class BotK {
                             allyCode = dbUser.allyCode;
                         }
                     }
-    
                     var teamList = teamValue.split(',');
                     return Promise.all([
-                        textHelper.findAbbreviated(teamList), 
+                        textHelper.findAbbreviated(teamList),
                         swapi.playerInfo(allyCode)])
                         .then(promiseResults => {
-                            
                             var selectedCharacters = [];
                             var result = '';
                             for (var baseId of promiseResults[0]) {
@@ -104,7 +105,6 @@ class BotK {
                                     }
                                 }
                             }
-    
                             selectedCharacters.map(c => {
                                 var gear;
                                 if (Number(c.data.gear_level) >= 13) {
@@ -127,8 +127,7 @@ class BotK {
                 .catch(e => {
                     throw e;
                 });
-            } 
-            
+            }
             throw "Opzione non riconosciuta. Digita bk -h per ottenere l'aiuto in linea";
             //return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
         }

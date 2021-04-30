@@ -1,34 +1,47 @@
 const BotK = require('./src/botk.js')
-var parsedArgs = new Object();
-var args = process.argv.slice(2);
 
+// bool finale che decide se il comando digitato è valido
 var validEntry = true;
-parsedArgs.command = args[0];
 
-if (parsedArgs.length == 1) {
-    args = parsedArgs;
+// elimina node.exe e il nome del file
+var inputArgs = process.argv.slice(2);
+
+// oggetto che memorizza il comando e le opzioni coi loro valori
+var botCommandLine = new Object();
+botCommandLine.command = inputArgs[0];
+
+var optionArgs = [];
+
+// array che esamina solo le opzioni
+if (inputArgs.length > 0) {
+    optionArgs = inputArgs.slice(1);
 } else {
-    args = parsedArgs.slice(1);
+    optionArgs = inputArgs;
 }
 
-for (var entry of args)  {
-    if (entry.substring(0, 1) !== '-') {
-        console.log(String(entry) + " non è un'opzione valida.");
-        validEntry = false;
-    } else {
-        var option = entry.substring(1).split(':');
-        if (!option[1]) {
-            parsedArgs[option[0]] = '';
+if (botCommandLine.command && botCommandLine.command.toUpperCase() == 'BK')
+{
+    console.log('optionArgs:', optionArgs);
+    for (let i = 0; i < optionArgs.length; i++)  {
+        if (optionArgs[i].substring(0, 1) !== '-') {
+            botCommandLine.error = (String(optionArgs[i]) + " non è un'opzione valida.");
+            validEntry = false;
         } else {
-            parsedArgs[option[0]] = option[1];
+            var option = optionArgs[i].substring(1).split(':');
+            if (!option[1]) {
+                botCommandLine[option[0]] = '';
+            } else {
+                botCommandLine[option[0]] = option[1];
+            }
         }
+        if (validEntry == false) { break; }
     }
-    if (validEntry == false) { break; }
-}
-
-if (validEntry == true) {
-    const bot = new BotK(parsedArgs);
-    bot.Exec()
-    .then(result => console.log(result))
-    .catch(error => console.log(error));
+    
+    if (validEntry == true) {
+        console.log('botCommandLine:', botCommandLine);
+        const bot = new BotK(botCommandLine);
+        bot.Exec()
+        .then(result => console.log(result))
+        .catch(error => console.log(error));
+    }
 }

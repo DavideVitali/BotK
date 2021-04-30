@@ -19,14 +19,14 @@ class DbOperations {
             client.connect((err, client) => {
                 if (err) {
                     reject(err);
+                } else {
+                    var query = { discordId: discordId };
+                    client.db('db').collection('users').findOne(query)
+                    .then(result => {
+                        resolve(result);
+                    })
+                    .catch(err => { throw err; });
                 }
-
-                var query = { discordId: discordId };
-                client.db('db').collection('users').findOne(query)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(err => { throw err; });
             });
             client.close();
         });
@@ -46,17 +46,6 @@ class DbOperations {
                 });
                 
                 console.log(cursor.length);
-
-                // .then(result => {
-                //     if (result == null) {
-                //         client.db('db').collection('users').insertOne(user)
-                //         .then(result => {
-                //             resolve(result);
-                //         })
-                //         .catch(err => reject(err));
-                //     }
-                //     else reject('Utente discord o codice alleato già registrato.');
-                // })
             });
         })
     }
