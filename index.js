@@ -25,29 +25,30 @@ client.on('message', message => {
         try {
             const bot = new BotK(argParser.commandResult, message.author.id);
 
-            console.log(argParser);
             bot.Exec()
             .then(result => {
-                message.channel.send(embeddedMessage(colorContext.success, result))
+                message.channel.send(embeddedMessage(colorContext.success, '', result));
             })
             .catch(error => {
-                message.channel.send(embeddedMessage(colorContext.error, error))
+                message.channel.send(embeddedMessage(colorContext.error, '', error));
             });
         } catch (error) {
-            message.channel.send(embeddedMessage(colorContext.error, error))
+            message.channel.send(embeddedMessage(colorContext.error, '', error));
         }
     } else {
-        message.channel.send(embeddedMessage(colorContext.error, parsedArgs.error));
+        if (argParser.isCommand == true) {
+            message.channel.send(embeddedMessage(colorContext.error, 'Tutta colpa di Mimmo', argParser.error));
+        }
     }
 });
 
 const textHelper = new TextHelper();
 client.login(textHelper.getSecrets().discord.token);
 
-var embeddedMessage = function(color, text) {
+var embeddedMessage = function(color, title, text) {
   return new MessageEmbed()
         // Set the title of the field
-        .setTitle('Bot K - Territory War Intelligence')
+        .setTitle(title)
         // Set the color of the embed
         .setColor(color)
         // Set the main content of the embed

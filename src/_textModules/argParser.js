@@ -12,12 +12,14 @@ class ArgParser {
     constructor(inputArgs, src){
         this.commandResult = new Object();
         this.isValid = true;
+        this.isCommand = false;
 
         // oggetto che memorizza il comando e le opzioni coi loro valori
         this.commandResult.command = inputArgs[0];
         
         if (this.commandResult.command && this.commandResult.command.toUpperCase() == 'BK')
         {
+            this.isCommand = true;
             var optionArgs = [];
         
             // array che esamina solo le opzioni
@@ -48,6 +50,8 @@ class ArgParser {
                     break;
                 }
             }
+
+            // andrebbero controllate le opzioni, che siano tra quelle valide
         } else {
             this.isValid = false;
         }

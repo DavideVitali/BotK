@@ -55,7 +55,7 @@ class BotK {
         var idArray = textHelper.findAbbreviated(teamList: [<string>])
         */
         
-        if (this.args.command === 'bk')
+        if (this.args.command.toUpperCase() === 'BK')
         {
             if (this.args.d || this.args.defense) {
                 throw 'opzione difesa non implementata';
