@@ -47,7 +47,7 @@ class DbOperations {
                         $or: [{'discordId': discordId, 'allyCode': allyCode }]
                     });
                     
-                    console.log(cursor.then(r => console.log(r.length)));
+                    cursor.count().then(r => console.log(r));
 
                     if (cursor == 0) {
                         resolve(client.db('db').collection('users').insertOne(user));
