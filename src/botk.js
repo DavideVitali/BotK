@@ -4,6 +4,7 @@
 const Swapi = require('./_apiModules/swgohApi.js');
 const TextHelper = require('./_textModules/textHelper.js');
 const DbOperations = require('./_dataModules/dbOperations.js');
+const { default: axios } = require('axios');
 
 class BotK {
     /*
@@ -60,6 +61,18 @@ class BotK {
             if (this.args.d || this.args.defense) {
                 throw 'opzione difesa non implementata';
             }
+
+            /* --------------------------------------
+                    GESTIONE DELLE IMMAGINI
+               ----------------------------------- */
+            if (this.args.image || this.args.img)
+            {
+                var url = 'https://swgoh.gg/game-asset/u/' + this.args.img;
+                console.log(url);
+                return axios.get(url)
+                .then(r => console.log(r));
+            }
+
 
             /* --------------------------------------
                     REGISTRAZIONE AL BOT
