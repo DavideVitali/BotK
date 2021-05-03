@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const TextHelper = require('../_textModules/textHelper.js');
+const TextHelper = require('../text/textHelper.js');
 
 class DbOperations {
     constructor() {

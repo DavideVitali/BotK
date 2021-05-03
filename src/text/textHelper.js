@@ -7,7 +7,7 @@ class TextHelper {
 
     findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
-            fs.readFile('./src/_textModules/characterAbbreviationList.json', 'utf8', (err, data) => {
+            fs.readFile('./src/text/characterAbbreviationList.json', 'utf8', (err, data) => {
                 if (err) {
                     reject(err);
                     return;

@@ -6,7 +6,7 @@ class Swapi {
   playerInfo(allyCode, mock) {
     if (mock && mock === true) {
       return new Promise((resolve, reject) => {
-        fs.readFile('./src/_apiModules/mockPlayerInfo.json', 'utf8', (err, data) => {
+        fs.readFile('./src/api/mockPlayerInfo.json', 'utf8', (err, data) => {
           if (err) {
               reject(err);
               return;
