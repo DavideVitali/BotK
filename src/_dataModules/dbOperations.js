@@ -35,25 +35,30 @@ class DbOperations {
 
     addUser(discordId, allyCode) {
         return new Promise((resolve, reject) => {
+            var normalizedAllyCode = allyCode.replace(/-/g, '');
+            if (normalizedAllyCode.length != 9 || isNaN(normalizedAllyCode)) {
+                reject('Il codice alleato non è valido.');
+            }
             const client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
             client.connect((err, client) => {
                 if (err) {
                     reject(err); 
                 } else {
-                    const user = { 'discordId': discordId, 'allyCode': allyCode };
+                    const user = { 'discordId': discordId, 'allyCode': normalizedAllyCode };
     
                     var cursor = client.db('db').collection('users').find({
-                        $or: [{'discordId': discordId, 'allyCode': allyCode }]
+                        $or: [{'discordId': discordId }, {'allyCode': normalizedAllyCode }]
                     });
                     
-                    cursor.count().then(r => console.log(r));
-
-                    if (cursor == 0) {
-                        resolve(client.db('db').collection('users').insertOne(user));
-                    } else {
-                        reject('Utente o Codice Alleato già registrati.');
-                    }
+                    cursor.count()
+                    .then(result => {
+                        if (result == 0) {
+                            resolve(client.db('db').collection('users').insertOne(user));
+                        } else {
+                            reject('Utente o Codice Alleato già registrati.');
+                        }
+                    });
                 }
             });
         })
