@@ -5,6 +5,35 @@ class TextHelper {
         return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
+    findAlignment(base_id) {
+        return new Promise((resolve, reject) => {
+            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                var found = JSON.parse(data).filter((parsed) => { 
+                    if (parsed.base_id == base_id) {
+                        return parsed.alignment;
+                    }
+                });
+
+                if (found.length == 0) {
+                    reject('Non ho trovato nessun personaggio con id '+base_id);
+                    return;
+                };
+
+                if (found.length > 1) {
+                    reject('Attenzione, ci sono più personaggi con lo stesso id '+base_id);
+                    return
+                }
+
+                resolve(found[0].alignment.replace(' ','').toUpperCase());
+            });
+        });
+    }
+
     findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
             fs.readFile('./src/text/characterAbbreviationList.json', 'utf8', (err, data) => {
