@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { parse } = require('path');
 
 class TextHelper {
     getSecrets(fromReplit) {
@@ -46,6 +47,68 @@ class TextHelper {
                 resolve(found[0].alignment.replace(' ','').toUpperCase());
             });
         });
+    }
+
+    /**
+     * 
+     * @param {Array<String>} team - Deve essere un array contenente i base_id del team 
+     * @returns 
+     */
+    hasGalacticLegend(team) {
+        return new Promise((resolve, reject) => {
+            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                }
+                var result = false;
+
+                var found = JSON.parse(data).filter((parsed) => { 
+                    if (team.includes(parsed.base_id)) {
+                        if (parsed.categories.includes('Galactic Legend')) {
+                            result = true;
+                        }
+                        return parsed;
+                    }
+                });
+    
+                if (found.length == 0) {
+                    reject('Non ho trovato nessun personaggio con id '+base_id);
+                };
+    
+                if (found.length != team.length) {
+                    reject('Attenzione, alcuni personaggi nel team hanno base_id errato');
+                }
+
+                resolve(result);
+            });
+        })    
+    }
+
+    isGalacticLegend(base_id) {
+        return new Promise((resolve, reject) => {
+            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                }
+                var result;
+                var found = JSON.parse(data).filter((parsed) => { 
+                    if (parsed.base_id == base_id) {
+                        result = parsed.categories.includes('Galactic Legend');
+                        return parsed;
+                    }
+                });
+    
+                if (found.length == 0) {
+                    reject('Non ho trovato nessun personaggio con id '+base_id);
+                };
+    
+                if (found.length > 1) {
+                    reject('Attenzione, ci sono più personaggi con lo stesso id '+base_id);
+                }
+
+                resolve(result);
+            });
+        })
     }
 
     findAbbreviated(teamList) {
