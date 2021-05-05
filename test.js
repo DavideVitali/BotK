@@ -5,7 +5,7 @@
 
     // salvare l'immagine dal sito
 const Jimp = require('jimp');
-const jimp = require('jimp');
+const ImageProcessor = require('./src/img/processor.js');
 const TextHelper = require('./src/text/textHelper.js');
 const textHelper = new TextHelper();
 const SaveTemplate = {
@@ -175,9 +175,9 @@ async function createArena() {
 }
 
 
-createArena();
-createInline();
+// createArena();
+// createInline();
 //const th = new TextHelper();
 //th.findAlignment('ANAKINKNIGHT').then(r => console.log(r)).catch(e => console.log(e));
-
-
+const imageProcessor = new ImageProcessor();
+imageProcessor.downloadPortraits();
