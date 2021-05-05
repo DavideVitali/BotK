@@ -1,9 +1,9 @@
 /*
         questo modulo è di test quando non si vuole mandare roba al bot vero e proprio (index.js)
 */
-const Swapi = require('./_apiModules/swgohApi.js');
-const TextHelper = require('./_textModules/textHelper.js');
-const DbOperations = require('./_dataModules/dbOperations.js');
+const Swapi = require('./api/swgohApi.js');
+const TextHelper = require('./text/textHelper.js');
+const DbOperations = require('./data/dbOperations.js');
 const { default: axios } = require('axios');
 
 class BotK {
