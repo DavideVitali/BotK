@@ -1,8 +1,22 @@
 const fs = require('fs');
 
 class TextHelper {
-    getSecrets() {
-        return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
+    getSecrets(fromReplit) {
+        if (fromReplit == true) {
+          secrets = new Object();
+          secrets.discord = new Object();
+          secrets.discord.token = "$discordToken";
+          secrets.discord.applicationId = "$discordApplicationId";
+          secrets.discord.myId = "$discordMyId";
+          secrets.mongodb = new Object();
+          secrets.mongodb.domain = "$dbDomain";
+          secrets.mongodb.namespace = "$dbNamespace";
+          secrets.mongodb.user = "$dbUser";
+          secrets.mongodb.pass = "$dbPass";
+          return secrets;
+        } else {
+          return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
+        }
     }
 
     findAlignment(base_id) {
