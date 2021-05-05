@@ -3,7 +3,7 @@ const fs = require('fs');
 class TextHelper {
     getSecrets(fromReplit) {
         if (fromReplit == true) {
-          secrets = new Object();
+          var secrets = new Object();
           secrets.discord = new Object();
           secrets.discord.token = "$discordToken";
           secrets.discord.applicationId = "$discordApplicationId";
