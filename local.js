@@ -1,6 +1,6 @@
-const TextHelper = require('./src/_textModules/textHelper.js');
+const TextHelper = require('./src/text/textHelper.js');
 const BotK = require('./src/botk.js');
-const ArgParser = require('./src/_textModules/argParser.js');
+const ArgParser = require('./src/text/argParser.js');
 
 var argParser = new ArgParser(process.argv.slice(2), 'local');
 var textHelper = new TextHelper();
