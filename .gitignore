@@ -1,4 +1,4 @@
 node_modules/
 secrets/
-src/img/portrait
-srg/img/template
+src/img/portrait/
+src/img/template/
