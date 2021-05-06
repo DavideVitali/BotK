@@ -4,6 +4,7 @@
 const Swapi = require('./api/swgohApi.js');
 const TextHelper = require('./text/textHelper.js');
 const DbOperations = require('./data/dbOperations.js');
+const ImageProcessor = require ('./img/processor.js');
 const { default: axios } = require('axios');
 
 class BotK {
@@ -96,7 +97,6 @@ class BotK {
                 return dbOperations.searchUser(this.discordId)
                 .then(dbUser =>  {
                     var allyCode = this.args.ally || this.args.a;
-
                     if (!allyCode) {
                         if (dbUser == null) {
                             throw 'Utente non registrato.';
@@ -105,9 +105,15 @@ class BotK {
                         }
                     }
                     var teamList = teamValue.split(',');
-                    return Promise.all([
+
+                    var format = (this.args.format || this.args.f);
+                    if (!format) {}
+
+                    var promiseResult = Promise.all([
                         textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)])
+                        swapi.playerInfo(allyCode)]);
+
+                    return promiseResult
                         .then(promiseResults => {
                             var selectedCharacters = [];
                             var result = '';

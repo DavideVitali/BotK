@@ -19,6 +19,7 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('message', message => {
+    console.log(message);
     const argParser = new ArgParser(message.content.split(' '), 'index');
 
     if (argParser.isValid == true) {
