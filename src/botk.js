@@ -32,7 +32,7 @@ class BotK {
         this.discordId = userDiscordId
     }
     
-    Exec(local) {
+    Exec() {
         // connessione ai moduli ausiliari
         let textHelper = new TextHelper();
         let dbOperations = new DbOperations();

@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const TextHelper = require('../text/textHelper.js');
 
 class DbOperations {
-    constructor(local) {
+    constructor() {
         let textHelper = new TextHelper();
 
         // connessione al db
