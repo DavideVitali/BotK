@@ -1,8 +1,8 @@
 'use strict';
 
 const { Client, MessageEmbed } = require('discord.js');
-const TextHelper = require('./src/_textModules/textHelper.js');
-const ArgParser = require('./src/_textModules/argParser.js');
+const TextHelper = require('./src/text/textHelper.js');
+const ArgParser = require('./src/text/argParser.js');
 const BotK = require('./src/botk.js')
 const MongoClient = require('mongodb').MongoClient;
 
