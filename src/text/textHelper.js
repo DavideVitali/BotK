@@ -3,7 +3,20 @@ const { parse } = require('path');
 
 class TextHelper {
     getSecrets() {
-        return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
+        return {
+            "discord": {
+                "token": process.env.token,
+                "applicationId": process.env.applicationId,
+                "myId": process.env.myId
+            },
+            "mongodb": {
+                "domain": process.env.domain,
+                "namespace": process.env.namespace,
+                "user": process.env.user,
+                "pass": process.env.pass
+            }
+        }
+        //return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
     findAlignment(base_id) {
