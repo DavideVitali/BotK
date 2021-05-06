@@ -42,8 +42,7 @@ client.on('message', message => {
     }
 });
 
-const textHelper = new TextHelper();
-client.login(textHelper.getSecrets().discord.token);
+client.login(process.env.token);
 
 var embeddedMessage = function(color, title, text) {
   return new MessageEmbed()
