@@ -29,7 +29,7 @@ class Swapi {
   }
 
   characterList() {
-    return axios.get('https://swgoh.gg/api/characters/').then(r => r.data);
+    return axios.get('https://swgoh.gg/api/characters/').then(r => r.data).catch(e => { throw e;});
   }
 }
 

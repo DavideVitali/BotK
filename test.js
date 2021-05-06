@@ -24,7 +24,7 @@ const SaveTemplate = {
  * @param {String} alignment : 'DARKSIDE' oppure 'LIGHTSIDE'gimp
  */
 async function makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta) {
-    const font = await jimp.loadFont(jimp.FONT_SANS_16_WHITE);
+    const font = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE);
     var gStartPoint = 0;
     var rStartPoint = 0;
     var path = './src/img/portrait/';
@@ -37,39 +37,39 @@ async function makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta) {
         gStartPoint = 112;
         rStartPoint = 40;
     }
-    const startPortrait = (await jimp.read(path + name)).resize(100,100);
-    const resizedPortrait = (await jimp.read('./src/img/template/background.png')).blit(startPortrait, 14,14);
-    const mask = await jimp.read(maskPath);
+    const startPortrait = (await Jimp.read(path + name)).resize(100,100);
+    const resizedPortrait = (await Jimp.read('./src/img/template/background.png')).blit(startPortrait, 14,14);
+    const mask = await Jimp.read(maskPath);
     const starActivePath = './src/img/template/star_active.png';
     const starInactivePath = './src/img/template/star_inactive.png'; 
 
     var gearLevel;
     if (gLevel >= 13) {
-        const gearRelicLevel = await jimp.read('./src/img/template/g13.png');
+        const gearRelicLevel = await Jimp.read('./src/img/template/g13.png');
         resizedPortrait.blit(gearRelicLevel, 4, 8, 0, gStartPoint, 120, 112).mask(mask);
         if (rLevel > 0) {
-            const relic = await jimp.read('./src/img/template/relic.png');
+            const relic = await Jimp.read('./src/img/template/relic.png');
             resizedPortrait
             .blit(relic, 80, 78, 0, rStartPoint, 40, 40)
             .print(font, 95, 89, String(rLevel));
         }
     } else {
-        const gearNoRelicLevel = await jimp.read('./src/img/template/g' + String(gLevel) + '.png');
+        const gearNoRelicLevel = await Jimp.read('./src/img/template/g' + String(gLevel) + '.png');
         gearLevel = gearNoRelicLevel.resize(100,100).blit(gearLevel, 14, 14).mask(mask);
     }
 
     if (nZeta > 0)
     {
-        const zeta = await jimp.read('./src/img/template/zeta.png');
+        const zeta = await Jimp.read('./src/img/template/zeta.png');
         resizedPortrait.blit(zeta, 5, 78).print(font, 20, 89, String(nZeta));
     }
 
     for (let i = -3; i < 4; i++) {
         var star;
         if ((i + 3) < rarity) {
-            star = await jimp.read(starActivePath);
+            star = await Jimp.read(starActivePath);
         } else {
-            star = await jimp.read(starInactivePath);
+            star = await Jimp.read(starInactivePath);
         }
 
         var degrees = i * -12; // la documentazione dice che il giro è orario, ma è sbagliata: la rotazione avviene in senso antiorario
@@ -109,16 +109,19 @@ async function createTemplate(portraits, path, template) {
             await portraits[0].write(path);
             break;
         case SaveTemplate.INLINE:
-            const background = await Jimp.read('./src/img/template/inline_template.png')
+            const background = await Jimp.read('./src/img/template/inline5v5template.png')
             for (let i = 0; i < 5; i++)
             {
                 textHelper.isGalacticLegend(portraits[i].base_id)
                 .then(async (isGL) => {
                     if (isGL == true) {
-                        const glBackground = await Jimp.read('./src/img/template/inlineGlBackground.png');
-                        background.blit(glBackground, (i * 128), 0);
+                        const pBack = await Jimp.read('./src/img/template/inlineGlBackground.png');
+                        background.blit(pBack, (i * 128), 0);
+                    } else {
+                        const pBack = await Jimp.read('./src/img/template/inlineBackground.png');
+                        background.blit(pBack, (i * 128), 0);
                     }
-                    background.blit(portraits[i].img, (i * 128), 0);
+                    background.blit(portraits[i].img, (i * 128), 3);
                     background.write(path);
                 })
             }
@@ -150,10 +153,10 @@ async function createInline() {
     var startTime = new Date();
     var pArr = [];
     pArr.push({ base_id: 'SITHPALPATINE', img: await makePortrait('SITHPALPATINE', 85, 7, 13, 7, 6)});
-    pArr.push({ base_id: 'VADER', img: await makePortrait('VADER', 85, 7, 13, 7, 3)});
     pArr.push({ base_id: 'DARTHREVAN', img: await makePortrait('DARTHREVAN', 85, 7, 13, 5, 3)});
     pArr.push({ base_id: 'DARTHMALAK', img: await makePortrait('DARTHMALAK', 85, 7, 13, 5, 2)});
     pArr.push({ base_id: 'BASTILASHANDARK', img: await makePortrait('BASTILASHANDARK', 85, 7, 13, 2, 1)});
+    pArr.push({ base_id: 'VADER', img: await makePortrait('VADER', 85, 7, 13, 7, 3)});
 
     createTemplate(pArr, './src/img/portrait/inline.png', SaveTemplate.INLINE).then(r => {
         console.log('Tempo totale: ', new Date() - startTime);    
@@ -176,8 +179,4 @@ async function createArena() {
 
 
 // createArena();
-// createInline();
-//const th = new TextHelper();
-//th.findAlignment('ANAKINKNIGHT').then(r => console.log(r)).catch(e => console.log(e));
-const imageProcessor = new ImageProcessor();
-imageProcessor.downloadPortraits();
+createInline();
