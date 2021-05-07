@@ -126,12 +126,12 @@ class ImageProcessor {
         result = [];
         characterList.forEach(c => {
             result.push({
-                base_id = c.base_id,
-                level = c.level,
-                rarity = c.rarity,
-                gLevel = c.gear_level,
-                rLevel = Number(c.relic_tier) - 2,
-                zeta = c.zeta_abilities.length
+                "base_id": c.base_id,
+                "level": c.level,
+                "rarity": c.rarity,
+                "gLevel": c.gear_level,
+                "rLevel": Number(c.relic_tier) - 2,
+                "zeta": c.zeta_abilities.length
             });
         })
     }
