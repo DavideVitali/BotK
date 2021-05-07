@@ -121,40 +121,38 @@ class ImageProcessor {
         }
     }
 
-    /**
-     * 
-     * @param {Array<String>} portraitArray - Array con i base_id dei personaggi da visualizzare
-     */
-    async createInline(portraitArray) {
-        var pArr = [];
-        pArr.push({ base_id: 'SITHPALPATINE', img: await this.makePortrait('SITHPALPATINE', 85, 7, 13, 7, 6, "DARKSIDE")});
-        pArr.push({ base_id: 'DARTHREVAN', img: await this.makePortrait('DARTHREVAN', 85, 7, 13, 5, 3, "DARKSIDE")});
-        pArr.push({ base_id: 'DARTHMALAK', img: await this.makePortrait('DARTHMALAK', 85, 7, 13, 5, 2, "DARKSIDE")});
-        pArr.push({ base_id: 'BASTILASHANDARK', img: await this.makePortrait('BASTILASHANDARK', 85, 7, 13, 2, 1, "DARKSIDE")});
-        pArr.push({ base_id: 'VADER', img: await this.makePortrait('VADER', 85, 7, 13, 7, 3, "DARKSIDE")});
     
-        try {
-            this.createTemplate(pArr, './src/img/portrait/inline.png', this.SaveTemplate.INLINE).then(result => result);
-        } catch (e) {
-            throw e;
-        }
+    createCharacterArray(characterList) {
+        result = [];
+        characterList.forEach(c => {
+            result.push({
+                base_id = c.base_id,
+                level = c.level,
+                rarity = c.rarity,
+                gLevel = c.gear_level,
+                rLevel = Number(c.relic_tier) - 2,
+                zeta = c.zeta_abilities.length
+            });
+        })
     }
-    
-    /**
-     * @param {Array<String>} portraitArray - 
-     */
-    async createArena(portraitArray) {
-        portraitArray.forEach()
-        var path = './src/img/processresult/' + String(new Date().getTime()) + '.png';
-        var pArr = [];
-        pArr.push({ base_id: portraitArray[0], img: await this.makePortrait(portraitArray[0], 85, 7, 13, 7, 6, "DARKSIDE")});
-        pArr.push({ base_id: portraitArray[1], img: await this.makePortrait(portraitArray[1], 85, 7, 13, 7, 3, "DARKSIDE")});
-        pArr.push({ base_id: portraitArray[2], img: await this.makePortrait(portraitArray[2], 85, 7, 13, 5, 3, "DARKSIDE")});
-        pArr.push({ base_id: portraitArray[3], img: await this.makePortrait(portraitArray[3], 85, 7, 13, 5, 2, "DARKSIDE")});
-        pArr.push({ base_id: portraitArray[4], img: await this.makePortrait(portraitArray[4], 85, 7, 13, 2, 1, "DARKSIDE")});
-    
+
+    async getImage(characterList, template)
+    {
+        if (characterList.length > 5) {
+            throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
+        }
+
+        cArray = this.createCharacterArray(characterList);
+        pArray = [];
+        cArray.forEach(c => {
+            pArr.push({ 
+                base_id: c.base_id,
+                img: await this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment)});
+        });
+
         try {
-            return this.createTemplate(pArr, path, this.SaveTemplate.ARENA).then(result => result);
+            var timestamp = new Date().getTime();
+            this.createTemplate(pArray, './src/img/portrait/' + String(timestamp) + '.png', template).then(result => result);
         } catch (e) {
             throw e;
         }
