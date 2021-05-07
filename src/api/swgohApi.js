@@ -32,6 +32,29 @@ class Swapi {
     return axios.get('https://swgoh.gg/api/characters/').then(r => r.data).catch(e => { throw e;});
   }
 
+  updateAbbreviationList(isAdmin) {
+    if (!isAdmin) {
+      throw new Error('Non hai i permessi per eseguire questo comando.');
+    }
+
+    const localList = require('../text/characterAbbreviationList.json');
+
+    characterList().then(cList => {
+      cList.forEach(fromApi => {
+        var found = localList.find(fromLocal => {
+          fromLocal.base_id == fromApi.base_id
+        }); 
+        if (!found) {
+          newChar = {
+            'name': fromApi.name,
+            'base_id': fromApi.base_id,
+            'abbr': []
+          };
+          localList.push(newChar);
+        }
+      });
+    });
+  }
   /**
    *  @param{Array<Promise>} team - Promise[0] = Array<base_id>, Promise[1] = playerInfo
    */

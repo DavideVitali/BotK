@@ -96,7 +96,7 @@ class TextHelper {
                         };
                     };
                     if (found == false) {
-                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" +teamElement + "'. Digita 'bk -abl' per ottenere la lista delle abbreviazioni riconosciute, che riceverai con un messaggio privato.");
+                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + teamElement);
                         return;
                     }
                 };

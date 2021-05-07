@@ -232,7 +232,7 @@
     {
         "name": "Darth Malak",
         "base_id": "DARTHMALAK",
-        "abbr": []
+        "abbr": ["MALAK"]
     },
     {
         "name": "Darth Maul",
@@ -247,7 +247,7 @@
     {
         "name": "Darth Revan",
         "base_id": "DARTHREVAN",
-        "abbr": []
+        "abbr": ["DR"]
     },
     {
         "name": "Darth Sidious",

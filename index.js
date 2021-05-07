@@ -27,8 +27,19 @@ client.on('message', message => {
 
             bot.Exec()
             .then(result => {
-              var msgBody = '<@' + message.author.id + '>\n' + result;
-                message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+              console.log(result)
+              if (result.type == 'attachment') {
+                  result.body.then(path => {
+                  const attachment = new MessageAttachment(path);
+                  message.channel.send(attachment);  
+                });
+              }
+              else {
+                result.body.then(text => {
+                  var msgBody = '<@' + message.author.id + '>\n' + text;
+                    message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                });
+              }
             })
             .catch(error => {
                 message.channel.send(embeddedMessage(colorContext.error, '', error));

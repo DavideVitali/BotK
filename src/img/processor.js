@@ -137,21 +137,24 @@ class ImageProcessor {
     /**
      *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
      */
-    async getImage(characterList, template)
+    getImage(characterList, template)
     {
+      console.log('cList:', characterList, 'template', template);
+
         if (characterList.length > 5) {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
         }
 
         var pArray = [];
         var promises = [];
-        characterList.forEach(async(c) => {
+        characterList.forEach(c => {
             promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
         });
 
         try {
             var timestamp;
             Promise.all(promises).then(resolved => {
+                var path = './src/img/processresult/' + String(timestamp) + '.png'
                 timestamp = new Date().getTime();
                 resolved.forEach(e => {
                     pArray.push({ 
@@ -159,7 +162,7 @@ class ImageProcessor {
                         "img": e.portrait
                     });
                 });
-                this.createTemplate(pArray, './src/img/processresult/' + String(timestamp) + '.png', template).then(result => result);
+                this.createTemplate(pArray, path, template).then(result => path);
             });
 
         } catch (e) {

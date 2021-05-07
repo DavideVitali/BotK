@@ -83,8 +83,10 @@ class BotK {
                 var allyCode = this.args.register || this.args.r;
                 return dbOperations.addUser(this.discordId, allyCode)
                 .then((result) => {
-                    console.log(result);
-                    return 'Operazione completata.';
+                    return {
+                      "type": 'text',
+                      "body": 'Operazione completata.'
+                    }
                 })
                 .catch(e => { throw e; });
             }
@@ -112,18 +114,44 @@ class BotK {
                     var format = (this.args.format || this.args.f);
 
                     if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
-                      throw ('Hai richiesto un formato non riconOsciuto. Le opzioni valide sono: "single", "arena" e "inline".');
+                      throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
                     }
-
+                    console.log(format);
                     if (!format) {
                       promiseArray = Promise.all([
                         textHelper.findAbbreviated(teamList),
                         swapi.playerInfo(allyCode)]);
-                      return swapi.teamTextualData(promiseArray);
-                    } else if (format.toUpperCase() == "single") {
+                      return {
+                        "type": "text",
+                        "body": swapi.teamTextualData(promiseArray)
+                      }
+                    } else if (format.toUpperCase() == "ARENA") {
                       const imageProcessor = new ImageProcessor();
+                      promiseArray = Promise.all([
+                        textHelper.findAbbreviated(teamList),
+                        swapi.playerInfo(allyCode)])
+                        .then(promiseResults => {
+                          console.log('ok qui');
+                          var selectedCharacters = [];
+                          var result = '';
+                          for (var baseId of promiseResults[0]) {
+                              for (var unit of promiseResults[1].units) {
+                                  if (unit.data.base_id === baseId) {
+                                      selectedCharacters.push(unit);
+                                  }
+                              }
+                          }
+                          selectedCharacters.filter(c => {
+                              return c.base_id;
+                          });
+                          var ca = processor.createCharacterArray(selectedCharacters);
+
+                          return {
+                            "type": "attachment",
+                            "body": imageProcessor.getImage(ca, 'arena').then(path => path) 
+                          }
+                        }).then(r => console.log(r));
                       //
-                      imageProcessor.getImage()
                       //
                     }
                 })
