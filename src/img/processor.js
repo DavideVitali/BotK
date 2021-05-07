@@ -13,6 +13,7 @@ class ImageProcessor {
     downloadPortraits(isAdmin) {
         if (isAdmin) {
             try {
+                const Swapi = require('../api/swgohApi.js');
                 var swapi = new Swapi();
                 swapi.characterList().then(async (cList) => {
                     console.log('processor:8', cList)

@@ -7,9 +7,9 @@
 const { DataResolver } = require('discord.js');
 const Jimp = require('jimp');
 const ImageProcessor = require('./src/img/processor.js');
+const processor = new ImageProcessor();
 
 var localTest = new Promise((resolve, reject) => {
-    const processor = new ImageProcessor();
 
     const pA = ['SITHPALPATINE','VADER','DARTHMALAK','DARTHREVAN','BASTILASHANDARK'];
     try {       
