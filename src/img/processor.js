@@ -139,7 +139,11 @@ class ImageProcessor {
         }
     }
     
+    /**
+     * @param {Array<String>} portraitArray - 
+     */
     async createArena(portraitArray) {
+        portraitArray.forEach()
         var path = './src/img/processresult/' + String(new Date().getTime()) + '.png';
         var pArr = [];
         pArr.push({ base_id: portraitArray[0], img: await this.makePortrait(portraitArray[0], 85, 7, 13, 7, 6, "DARKSIDE")});
@@ -157,7 +161,7 @@ class ImageProcessor {
 
     /**
      * 
-     * @param {Array<Jimp>} portraits
+     * @param {Array<Jimp>} portraits - array dei personaggi
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
     async createTemplate(portraits, path, template) {

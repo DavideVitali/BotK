@@ -106,42 +106,23 @@ class BotK {
                     }
                     var teamList = teamValue.split(',');
 
-                    var format = (this.args.format || this.args.f);
-                    if (!format) {}
-
-                    var promiseResult = Promise.all([
+                    // Si prepara prendendo i dati dei personaggi
+                    var promiseArray = Promise.all([
                         textHelper.findAbbreviated(teamList),
                         swapi.playerInfo(allyCode)]);
 
-                    return promiseResult
-                        .then(promiseResults => {
-                            var selectedCharacters = [];
-                            var result = '';
-                            for (var baseId of promiseResults[0]) {
-                                for (var unit of promiseResults[1].units) {
-                                    if (unit.data.base_id === baseId) {
-                                        selectedCharacters.push(unit);
-                                    }
-                                }
-                            }
-                            selectedCharacters.map(c => {
-                                var gear;
-                                if (Number(c.data.gear_level) >= 13) {
-                                    gear = "R" + String(Number(c.data.relic_tier) - 2);
-                                } else {
-                                    gear = "G" + c.data.gear_level;
-                                }
-                                result = result + c.data.name + ": " + c.data.rarity + '* | ' + gear + ' | ' + String(c.data.zeta_abilities.length) + 'z | v. ' + c.data.stats['5'] + '\n';
-                            });
+                    var format = (this.args.format || this.args.f);
 
-                            return result;
-                        })
-                        .catch(err => {
-                            if (err.response && err.response.status == '404' && err.response.config.url.includes('swgoh.gg/api/player/')) {
-                                throw 'Il codice alleato richiesto è inesistente.';
-                            }
-                            throw err;
-                        });
+                    if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
+                      throw ('Hai richiesto un formato non riconOsciuto. Le opzioni valide sono: "single", "arena" e "inline".');
+                    }
+
+                    if (!format) {
+                      return swapi.teamTextualData(promiseArray);
+                    } else if (format.toUpperCase() == "single") {
+                      const imageProcessor = new ImageProcessor();
+                      
+                    }
                 })
                 .catch(e => {
                     throw e;

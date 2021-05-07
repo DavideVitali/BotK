@@ -157,7 +157,7 @@
     {
         "name": "Chewbacca",
         "base_id": "CHEWBACCALEGENDARY",
-        "abbr": []
+        "abbr": ["CIUBE","CHEWIE"]
     },
     {
         "name": "Chief Chirpa",
@@ -442,7 +442,7 @@
     {
         "name": "Han Solo",
         "base_id": "HANSOLO",
-        "abbr": []
+        "abbr": ["HAN", "HANRAID"]
     },
     {
         "name": "Hera Syndulla",

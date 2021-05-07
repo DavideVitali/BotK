@@ -19,7 +19,6 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('message', message => {
-    console.log(message);
     const argParser = new ArgParser(message.content.split(' '), 'index');
 
     if (argParser.isValid == true) {
@@ -28,7 +27,8 @@ client.on('message', message => {
 
             bot.Exec()
             .then(result => {
-                message.channel.send(embeddedMessage(colorContext.success, '', result));
+              var msgBody = '<@' + message.author.id + '>\n' + result;
+                message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
             })
             .catch(error => {
                 message.channel.send(embeddedMessage(colorContext.error, '', error));

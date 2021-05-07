@@ -37,11 +37,13 @@ class ArgParser {
                     if (!option[1]) {
                         this.commandResult[option[0]] = '';
                     } else {
-                        this.commandResult[option[0]] = option[1];
+                        this.commandResult[option[0]] = option[1].toUpperCase();
                     }
 
                     if (!option[0] || !option[1]) {
                         currentOptionValid = false;
+                    } else {
+                      option[0] = option[0].toUpperCase();
                     }
                 } 
                 
