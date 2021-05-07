@@ -52,7 +52,7 @@ class ImageProcessor {
      * @param {String} alignment - "DARKSIDE", "LIGHTSIDE"
      */
     async makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta, alignment) {
-        try {
+        // try {
             const font = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE);
             var gStartPoint = 0;
             var rStartPoint = 0;
@@ -64,49 +64,39 @@ class ImageProcessor {
                 gStartPoint = 112;
                 rStartPoint = 40;
             }
-            const startPortrait = (await Jimp.read(path + name)).resize(100,100);
-            const resizedPortrait = (await Jimp.read('./src/img/template/background.png')).blit(startPortrait, 14,14);
+            const resizedPortrait = (await Jimp.read('./src/img/template/background.png')).blit((await Jimp.read(path + name)).resize(100,100), 14,14);
             const mask = await Jimp.read(maskPath);
             const starActivePath = './src/img/template/star_active.png';
             const starInactivePath = './src/img/template/star_inactive.png'; 
     
-            var gearLevel;
             if (gLevel >= 13) {
-                const gearRelicLevel = await Jimp.read('./src/img/template/g13.png');
-                resizedPortrait.blit(gearRelicLevel, 4, 8, 0, gStartPoint, 120, 112).mask(mask);
+                resizedPortrait.blit((await Jimp.read('./src/img/template/g13.png')), 4, 8, 0, gStartPoint, 120, 112).mask(mask);
                 if (rLevel > 0) {
-                    const relic = await Jimp.read('./src/img/template/relic.png');
                     resizedPortrait
-                    .blit(relic, 80, 78, 0, rStartPoint, 40, 40)
+                    .blit((await Jimp.read('./src/img/template/relic.png')), 80, 78, 0, rStartPoint, 40, 40)
                     .print(font, 95, 89, String(rLevel));
                 }
             } else {
-                const gearNoRelicLevel = await Jimp.read('./src/img/template/g' + String(gLevel) + '.png');
-                gearLevel = gearNoRelicLevel.resize(100,100).blit(gearLevel, 14, 14).mask(mask);
+                resizedPortrait.blit((await Jimp.read('./src/img/template/g' + String(gLevel) + '.png')), 14, 14).mask(mask);
             }
     
             if (nZeta > 0)
             {
-                const zeta = await Jimp.read('./src/img/template/zeta.png');
-                resizedPortrait.blit(zeta, 5, 78).print(font, 20, 89, String(nZeta));
+                resizedPortrait.blit((await Jimp.read('./src/img/template/zeta.png')), 5, 78).print(font, 20, 89, String(nZeta));
             }
     
             for (let i = -3; i < 4; i++) {
-                var star;
-                if ((i + 3) < rarity) {
-                    star = await Jimp.read(starActivePath);
-                } else {
-                    star = await Jimp.read(starInactivePath);
-                }
-    
                 var degrees = i * -12; // la documentazione dice che il giro è orario, ma è sbagliata: la rotazione avviene in senso antiorario
                 var yCoord = Math.pow(Math.abs(i*1.05), 2.15);
-                resizedPortrait.blit(star.rotate(degrees, false),
-                        10 + (12 * (i + 4)), 2 + yCoord);
+
+                if ((i + 3) < rarity) {
+                    resizedPortrait.blit((await Jimp.read(starActivePath)).rotate(degrees, false), 10 + (12 * (i + 4)), 2 + yCoord);
+                } else {
+                    resizedPortrait.blit((await Jimp.read(starInactivePath)).rotate(degrees, false), 10 + (12 * (i + 4)), 2 + yCoord);
+                }
             }
     
-            const lv = await Jimp.read('./src/img/template/level.png');
-            resizedPortrait.blit(lv, 49, 95)
+            resizedPortrait.blit((await Jimp.read('./src/img/template/level.png')), 49, 95)
             .print(font, 48, 95, 
                 {
                     text: String(level),
@@ -115,10 +105,13 @@ class ImageProcessor {
                 },
                 30, 30);
     
-            return resizedPortrait;
-        } catch (e) {
-            throw new Error(e.message);
-        }
+            return {
+                "base_id": base_id,
+                "portrait": resizedPortrait
+            }
+        // } catch (e) {
+        //     throw new Error(e.message);
+        // }
     }
 
     
@@ -150,20 +143,25 @@ class ImageProcessor {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
         }
 
-        cArray = this.createCharacterArray(characterList);
-        pArray = [];
-        cArray.forEach(async (c) => {
-          var portrait = await this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment).then(p => {
-            pArray.push({ 
-                "base_id": c.base_id,
-                "img": p
-                });
-            });
+        var pArray = [];
+        var promises = [];
+        characterList.forEach(async(c) => {
+            promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
         });
 
         try {
-            var timestamp = new Date().getTime();
-            this.createTemplate(pArray, './src/img/portrait/' + String(timestamp) + '.png', template).then(result => result);
+            var timestamp;
+            Promise.all(promises).then(resolved => {
+                timestamp = new Date().getTime();
+                resolved.forEach(e => {
+                    pArray.push({ 
+                        "base_id": e.base_id,
+                        "img": e.portrait
+                    });
+                });
+                this.createTemplate(pArray, './src/img/processresult/' + String(timestamp) + '.png', template).then(result => result);
+            });
+
         } catch (e) {
             throw e;
         }
@@ -175,6 +173,7 @@ class ImageProcessor {
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
     async createTemplate(portraits, path, template) {
+        console.log(path);
         const textHelper = new TextHelper();
         if (!template) {
             throw "La definizione di template non è valida.";
@@ -209,20 +208,17 @@ class ImageProcessor {
                 break;
             case this.SaveTemplate.ARENA:
                 var team = portraits.map(portrait => portrait.base_id);
-                textHelper.hasGalacticLegend(team)
-                .then(async (hasGL) => {
-                    if (hasGL == true) {
-                        imgResult = await Jimp.read('./src/img/template/arenaGlTemplate.png');
-                    } else {
-                        imgResult = await Jimp.read('./src/img/template/arenaTemplate.png');
-                    }
-                    imgResult.blit(portraits[0].img, 106, 0);
-                    imgResult.blit(portraits[1].img, 0, 83);
-                    imgResult.blit(portraits[2].img, 212, 83);
-                    imgResult.blit(portraits[3].img, 43, 202);
-                    imgResult.blit(portraits[4].img, 169, 202);
-                    imgResult.write(path);
-                })
+                if (textHelper.hasGalacticLegend(team)) {
+                    imgResult = await Jimp.read('./src/img/template/arenaGlTemplate.png');
+                } else {
+                    imgResult = await Jimp.read('./src/img/template/arenaTemplate.png');
+                }
+                imgResult.blit(portraits[0].img, 106, 0);
+                imgResult.blit(portraits[1].img, 0, 83);
+                imgResult.blit(portraits[2].img, 212, 83);
+                imgResult.blit(portraits[3].img, 43, 202);
+                imgResult.blit(portraits[4].img, 169, 202);
+                imgResult.write(path);
                 break;
             default:
                 throw "Modalità di output non riconosciuta.";

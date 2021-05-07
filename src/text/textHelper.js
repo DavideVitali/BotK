@@ -37,33 +37,16 @@ class TextHelper {
      * @returns 
      */
     hasGalacticLegend(team) {
-        return new Promise((resolve, reject) => {
-            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                }
-                var result = false;
+        const characterList = require('./characterList.json');
 
-                var found = JSON.parse(data).filter((parsed) => { 
-                    if (team.includes(parsed.base_id)) {
-                        if (parsed.categories.includes('Galactic Legend')) {
-                            result = true;
-                        }
-                        return parsed;
-                    }
-                });
-    
-                if (found.length == 0) {
-                    reject('Non ho trovato nessun personaggio con id '+base_id);
-                };
-    
-                if (found.length != team.length) {
-                    reject('Attenzione, alcuni personaggi nel team hanno base_id errato');
-                }
+        var result = false;
+        var found = characterList.filter(c => {
+            if (team.indexOf(c.base_id) > -1 && c.categories.includes('Galactic Legend')) {
+                result = true;
+            }
+        });
 
-                resolve(result);
-            });
-        })    
+        return result;
     }
 
     isGalacticLegend(base_id) {

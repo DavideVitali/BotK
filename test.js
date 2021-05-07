@@ -20,5 +20,6 @@ var localTest = new Promise((resolve, reject) => {
     
     var ca = processor.createCharacterArray(chars);
     console.log(ca);
+    processor.getImage(ca, "arena").then(r => console.log(r));
 });
 
