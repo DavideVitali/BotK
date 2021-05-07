@@ -144,10 +144,13 @@ class ImageProcessor {
 
         cArray = this.createCharacterArray(characterList);
         pArray = [];
-        cArray.forEach(c => {
+        cArray.forEach(async (c) => {
+          var portrait = await this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment).then(p => {
             pArr.push({ 
-                base_id: c.base_id,
-                img: await this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment)});
+                "base_id": c.base_id,
+                "img": p
+                });
+            });
         });
 
         try {
