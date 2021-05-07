@@ -125,6 +125,8 @@ class ImageProcessor {
     createCharacterArray(characterList) {
         result = [];
         characterList.forEach(c => {
+          var th = new TextHelper();
+          var alignment = th.findAlignment
             result.push({
                 "base_id": c.base_id,
                 "level": c.level,
@@ -135,7 +137,10 @@ class ImageProcessor {
             });
         })
     }
-
+  
+    /**
+     *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
+     */
     async getImage(characterList, template)
     {
         if (characterList.length > 5) {
@@ -146,7 +151,7 @@ class ImageProcessor {
         pArray = [];
         cArray.forEach(async (c) => {
           var portrait = await this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment).then(p => {
-            pArr.push({ 
+            pArray.push({ 
                 "base_id": c.base_id,
                 "img": p
                 });

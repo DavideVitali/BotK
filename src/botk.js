@@ -107,9 +107,7 @@ class BotK {
                     var teamList = teamValue.split(',');
 
                     // Si prepara prendendo i dati dei personaggi
-                    var promiseArray = Promise.all([
-                        textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)]);
+                    var promiseArray;
 
                     var format = (this.args.format || this.args.f);
 
@@ -118,10 +116,15 @@ class BotK {
                     }
 
                     if (!format) {
+                      promiseArray = Promise.all([
+                        textHelper.findAbbreviated(teamList),
+                        swapi.playerInfo(allyCode)]);
                       return swapi.teamTextualData(promiseArray);
                     } else if (format.toUpperCase() == "single") {
                       const imageProcessor = new ImageProcessor();
-                      
+                      //
+                      imageProcessor.getImage()
+                      //
                     }
                 })
                 .catch(e => {

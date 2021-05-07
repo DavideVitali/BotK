@@ -19,7 +19,10 @@ class TextHelper {
         //return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
-    findAlignment(base_id) {
+    /**
+     * Restituisce un array [{ base_id: value, alignment: value }]
+     */
+    findAlignment(ids) {
         return new Promise((resolve, reject) => {
             fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
                 if (err) {
@@ -27,9 +30,14 @@ class TextHelper {
                     return;
                 }
 
+                result = [];
                 var found = JSON.parse(data).filter((parsed) => { 
-                    if (parsed.base_id == base_id) {
-                        return parsed.alignment;
+                    if (ids.includes(parsed.base_id)) {
+                        result.push({
+                            base_id: parsed.base_id,
+                            alignment: parsed.alignment.toUpperCase()
+                        });
+                        return parsed;
                     }
                 });
 
@@ -43,7 +51,7 @@ class TextHelper {
                     return
                 }
 
-                resolve(found[0].alignment.replace(' ','').toUpperCase());
+                resolve(result);
             });
         });
     }
