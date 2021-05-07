@@ -123,33 +123,22 @@ class ImageProcessor {
 
     
     createCharacterArray(characterList) {
-        result = [];
-        
-        var promises = [];
+        var result = [];
+        var th = new TextHelper();
+
         characterList.forEach(c => {
-          promises.push(new Promise((resolve, reject) => {
-            var alignment = th.findAlignment(c.base_id);
-          }));
+            result.push({
+                "base_id": c.data.base_id,
+                "level": c.data.level,
+                "rarity": c.data.rarity,
+                "gLevel": c.data.gear_level,
+                "rLevel": Number(c.data.relic_tier) - 2,
+                "zeta": c.data.zeta_abilities.length,
+                "alignment": th.findAlignment(c.data.base_id)
+            });
         });
 
-        return Promise.all(promises)
-        .all
-        .then(resolved => {
-          resolved.forEach(r => {
-            c = characterList.find(e => e.base_id == r.base_id);
-            result.push({
-              "base_id": c.base_id,
-              "level": c.level,
-              "rarity": c.rarity,
-              "gLevel": c.gear_level,
-              "rLevel": Number(c.relic_tier) - 2,
-              "zeta": c.zeta_abilities.length,
-              "alignment": r.alignment
-            });
-          });
-          return result;
-        })
-        .catch(err => throw err);
+        return result;
     }
   
     /**

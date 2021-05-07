@@ -19,41 +19,16 @@ class TextHelper {
         //return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
-    /**
-     * Restituisce un array [{ base_id: value, alignment: value }]
-     */
-    findAlignment(ids) {
-        return new Promise((resolve, reject) => {
-            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
+    findAlignment(id) {
+        const characterList = require('./characterList.json');
 
-                result = [];
-                var found = JSON.parse(data).filter((parsed) => { 
-                    if (ids.includes(parsed.base_id)) {
-                        result.push({
-                            base_id: parsed.base_id,
-                            alignment: parsed.alignment.toUpperCase()
-                        });
-                        return parsed;
-                    }
-                });
+        var found = characterList.find(c => c.base_id == id);
 
-                if (found.length == 0) {
-                    reject('Non ho trovato nessun personaggio con id '+base_id);
-                    return;
-                };
+        if (!found) {
+            throw new Error('Nessun personaggio trovato con id ' + id);
+        }
 
-                if (found.length > 1) {
-                    reject('Attenzione, ci sono più personaggi con lo stesso id '+base_id);
-                    return
-                }
-
-                resolve(result);
-            });
-        });
+        return found.alignment.replace(' ','').toUpperCase();
     }
 
     /**
