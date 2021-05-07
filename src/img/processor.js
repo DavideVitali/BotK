@@ -153,16 +153,20 @@ class ImageProcessor {
 
         try {
             var timestamp;
+            var path;
             Promise.all(promises).then(resolved => {
-                var path = './src/img/processresult/' + String(timestamp) + '.png'
                 timestamp = new Date().getTime();
+                path = './src/img/processresult/' + String(timestamp) + '.png'
                 resolved.forEach(e => {
                     pArray.push({ 
                         "base_id": e.base_id,
                         "img": e.portrait
                     });
                 });
-                this.createTemplate(pArray, path, template).then(result => path);
+                this.createTemplate(pArray, path, template).then(result => {
+                  console.log(path);
+                  return path
+                });
             });
 
         } catch (e) {

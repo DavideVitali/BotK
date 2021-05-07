@@ -68,10 +68,7 @@ class BotK {
                ----------------------------------- */
             if (this.args.image || this.args.img)
             {
-                var url = 'https://swgoh.gg/game-asset/u/' + this.args.img;
-                console.log(url);
-                return axios.get(url)
-                .then(r => console.log(r));
+                
             }
 
 
@@ -116,7 +113,7 @@ class BotK {
                     if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
                     }
-                    console.log(format);
+
                     if (!format) {
                       promiseArray = Promise.all([
                         textHelper.findAbbreviated(teamList),
@@ -126,12 +123,12 @@ class BotK {
                         "body": swapi.teamTextualData(promiseArray)
                       }
                     } else if (format.toUpperCase() == "ARENA") {
-                      const imageProcessor = new ImageProcessor();
+                      const processor = new ImageProcessor();
                       promiseArray = Promise.all([
                         textHelper.findAbbreviated(teamList),
                         swapi.playerInfo(allyCode)])
                         .then(promiseResults => {
-                          console.log('ok qui');
+
                           var selectedCharacters = [];
                           var result = '';
                           for (var baseId of promiseResults[0]) {
@@ -148,9 +145,10 @@ class BotK {
 
                           return {
                             "type": "attachment",
-                            "body": imageProcessor.getImage(ca, 'arena').then(path => path) 
+                            "body": processor.getImage(ca, 'arena')
                           }
-                        }).then(r => console.log(r));
+                        })
+                        .then(result => result);
                       //
                       //
                     }
