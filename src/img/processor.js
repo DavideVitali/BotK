@@ -174,57 +174,53 @@ class ImageProcessor {
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
     createTemplate(portraits, path, template) {
-        console.log(path);
-        const textHelper = new TextHelper();
-        if (!template) {
-            throw "La definizione di template non è valida.";
-        }
-
-        var imgResult;
-        switch (template) {
-            case this.SaveTemplate.SINGLE:
-                if (portraits.length > 1) {
-                    throw "Hai scelto la modalità singola ma hai fornito più di un'immagine."
-                }
-                imgResult = portraits[0];
-                imgResult.write(path);
-                break;
-            case this.SaveTemplate.INLINE:
-                imgResult = await Jimp.read('./src/img/template/inline5v5template.png')
-                for (let i = 0; i < 5; i++)
-                {
-                    textHelper.isGalacticLegend(portraits[i].base_id)
-                    .then(async (isGL) => {
-                        if (isGL == true) {
-                            const pBack = await Jimp.read('./src/img/template/inlineGlBackground.png');
-                            imgResult.blit(pBack, (i * 128), 0);
+        return new Promise((resolve, reject) => {
+            const textHelper = new TextHelper();
+            if (!template) {
+                throw "La definizione di template non è valida.";
+            }
+    
+            var imgResult;
+            switch (template) {
+                case this.SaveTemplate.SINGLE:
+                    if (portraits.length > 1) {
+                        throw "Hai scelto la modalità singola ma hai fornito più di un'immagine."
+                    }
+                    imgResult = portraits[0];
+                    imgResult.write(path);
+                    break;
+                case this.SaveTemplate.INLINE:
+                    imgResult = await Jimp.read('./src/img/template/inline5v5template.png')
+                    for (let i = 0; i < 5; i++)
+                    {
+                        if (textHelper.isGalacticLegend(portraits[i].base_id) == true) {
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 0);
                         } else {
-                            const pBack = await Jimp.read('./src/img/template/inlineBackground.png');
-                            imgResult.blit(pBack, (i * 128), 0);
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 0);
                         }
                         imgResult.blit(portraits[i].img, (i * 128), 3);
                         imgResult.write(path);
-                    })
-                }
-                break;
-            case this.SaveTemplate.ARENA:
-                var team = portraits.map(portrait => portrait.base_id);
-                if (textHelper.hasGalacticLegend(team)) {
-                    imgResult = await Jimp.read('./src/img/template/arenaGlTemplate.png');
-                } else {
-                    imgResult = await Jimp.read('./src/img/template/arenaTemplate.png');
-                }
-                imgResult.blit(portraits[0].img, 106, 0);
-                imgResult.blit(portraits[1].img, 0, 83);
-                imgResult.blit(portraits[2].img, 212, 83);
-                imgResult.blit(portraits[3].img, 43, 202);
-                imgResult.blit(portraits[4].img, 169, 202);
-                imgResult.write(path);
-                break;
-            default:
-                throw "Modalità di output non riconosciuta.";
-        }
-        return path;
+                    }
+                    break;
+                case this.SaveTemplate.ARENA:
+                    var team = portraits.map(portrait => portrait.base_id);
+                    if (textHelper.hasGalacticLegend(team)) {
+                        imgResult = await Jimp.read('./src/img/template/arenaGlTemplate.png');
+                    } else {
+                        imgResult = await Jimp.read('./src/img/template/arenaTemplate.png');
+                    }
+                    imgResult.blit(portraits[0].img, 106, 0);
+                    imgResult.blit(portraits[1].img, 0, 83);
+                    imgResult.blit(portraits[2].img, 212, 83);
+                    imgResult.blit(portraits[3].img, 43, 202);
+                    imgResult.blit(portraits[4].img, 169, 202);
+                    imgResult.write(path);
+                    break;
+                default:
+                    throw "Modalità di output non riconosciuta.";
+            }
+            resolve(path);
+        });
     }
 }
 

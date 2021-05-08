@@ -50,30 +50,16 @@ class TextHelper {
     }
 
     isGalacticLegend(base_id) {
-        return new Promise((resolve, reject) => {
-            fs.readFile('./src/text/characterList.json', 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                }
-                var result;
-                var found = JSON.parse(data).filter((parsed) => { 
-                    if (parsed.base_id == base_id) {
-                        result = parsed.categories.includes('Galactic Legend');
-                        return parsed;
-                    }
-                });
-    
-                if (found.length == 0) {
-                    reject('Non ho trovato nessun personaggio con id '+base_id);
-                };
-    
-                if (found.length > 1) {
-                    reject('Attenzione, ci sono più personaggi con lo stesso id '+base_id);
-                }
+        const characterList = require('./characterList.json');
 
-                resolve(result);
-            });
-        })
+        var result = false;
+        characterList.filter(c => {
+            if (c.base_id == base_id && c.categories.includes('Galactic Legend')) {
+                result = true;
+            }
+        });
+
+        return result;
     }
 
     findAbbreviated(teamList) {
