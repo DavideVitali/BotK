@@ -145,13 +145,41 @@ class BotK {
                                   return c.base_id;
                               });
                               var ca = processor.createCharacterArray(selectedCharacters);
-    
+
                               var a = processor.getImage(ca, 'arena');
                               console.log('a: ',a);
                               return a;
                               } 
-                            ).then(imageresult => console.log(imageresult))
-                        }
+                            )}
+                    } else if (format.toUpperCase() == 'INLINE') {
+                      const processor = new ImageProcessor();
+                      promiseArray = Promise.all([
+                        textHelper.findAbbreviated(teamList),
+                        swapi.playerInfo(allyCode)]);
+                        return {
+                            "type": "attachment",
+                            "body": promiseArray
+                            .then(promiseResults => {
+    
+                              var selectedCharacters = [];
+                              var result = '';
+                              for (var baseId of promiseResults[0]) {
+                                  for (var unit of promiseResults[1].units) {
+                                      if (unit.data.base_id === baseId) {
+                                          selectedCharacters.push(unit);
+                                      }
+                                  }
+                              }
+                              selectedCharacters.filter(c => {
+                                  return c.base_id;
+                              });
+                              var ca = processor.createCharacterArray(selectedCharacters);
+
+                              var a = processor.getImage(ca, 'inline');
+                              console.log('a: ',a);
+                              return a;
+                              } 
+                            )}
                     }
                 })
                 .catch(e => {

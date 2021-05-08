@@ -27,10 +27,12 @@ client.on('message', message => {
 
             bot.Exec()
             .then(result => {
+              console.log('result: ', result);
               if (result.type == 'attachment') {
+                  console.log('result.body: ', result.body);
                   result.body.then(path => {
-                  const attachment = new MessageAttachment(path);
-                  message.channel.send(attachment);  
+                    const attachment = new MessageAttachment(path);
+                    message.channel.send(attachment);  
                 });
               }
               else {

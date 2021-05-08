@@ -142,31 +142,32 @@ class ImageProcessor {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
         }
 
-        var pArray = [];
-        var promises = [];
-        characterList.forEach(c => {
-            promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
-        });
+        return new Promise((resolve, reject) => {
+          var pArray = [];
+          var promises = [];
+          characterList.forEach(c => {
+              promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
+          });
 
-        try {
-            var timestamp;
-            var path;
-            Promise.all(promises).then(resolved => {
-                timestamp = new Date().getTime();
-                path = './src/img/processresult/' + String(timestamp) + '.png'
-                resolved.forEach(e => {
-                    pArray.push({ 
-                        "base_id": e.base_id,
-                        "img": e.portrait
-                    });
-                });
-                console.log(pArray);
-                return this.createTemplate(pArray, path, template);
-            });
-          } catch (e) {
-            throw e;
-          }
-        }
+          try {
+              var timestamp;
+              var path;
+              Promise.all(promises).then(resolved => {
+                  timestamp = new Date().getTime();
+                  path = './src/img/processresult/' + String(timestamp) + '.png'
+                  resolved.forEach(e => {
+                      pArray.push({ 
+                          "base_id": e.base_id,
+                          "img": e.portrait
+                      });
+                  });
+                  resolve(this.createTemplate(pArray, path, template));
+              });
+            } catch (e) {
+              throw e;
+            }
+        });
+    }
 
     /**
      * 
@@ -174,7 +175,7 @@ class ImageProcessor {
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
     createTemplate(portraits, path, template) {
-        return new Promise((resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             const textHelper = new TextHelper();
             if (!template) {
                 throw "La definizione di template non è valida.";
