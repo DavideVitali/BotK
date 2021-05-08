@@ -16,7 +16,6 @@ class ImageProcessor {
                 const Swapi = require('../api/swgohApi.js');
                 var swapi = new Swapi();
                 swapi.characterList().then(async (cList) => {
-                    console.log('processor:8', cList)
                     cList.map(character => {
                         const id = character.base_id;
                         const url = 'http://swgoh.gg' + character.image;
@@ -139,8 +138,6 @@ class ImageProcessor {
      */
     getImage(characterList, template)
     {
-      console.log('cList:', characterList, 'template', template);
-
         if (characterList.length > 5) {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
         }
@@ -163,23 +160,20 @@ class ImageProcessor {
                         "img": e.portrait
                     });
                 });
-                this.createTemplate(pArray, path, template).then(result => {
-                  console.log(path);
-                  return path
-                });
+                console.log(pArray);
+                return this.createTemplate(pArray, path, template);
             });
-
-        } catch (e) {
+          } catch (e) {
             throw e;
+          }
         }
-    }
 
     /**
      * 
      * @param {Array<Jimp>} portraits - array dei personaggi
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
-    async createTemplate(portraits, path, template) {
+    createTemplate(portraits, path, template) {
         console.log(path);
         const textHelper = new TextHelper();
         if (!template) {

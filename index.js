@@ -1,6 +1,6 @@
 'use strict';
 
-const { Client, MessageEmbed } = require('discord.js');
+const { Client, MessageEmbed, MessageAttachment } = require('discord.js');
 const TextHelper = require('./src/text/textHelper.js');
 const ArgParser = require('./src/text/argParser.js');
 const BotK = require('./src/botk.js')
@@ -27,7 +27,6 @@ client.on('message', message => {
 
             bot.Exec()
             .then(result => {
-              console.log(result)
               if (result.type == 'attachment') {
                   result.body.then(path => {
                   const attachment = new MessageAttachment(path);

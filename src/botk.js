@@ -146,9 +146,11 @@ class BotK {
                               });
                               var ca = processor.createCharacterArray(selectedCharacters);
     
-                              return processor.getImage(ca, 'arena')
-                              }
-                            ).then(path => path)
+                              var a = processor.getImage(ca, 'arena');
+                              console.log('a: ',a);
+                              return a;
+                              } 
+                            ).then(imageresult => console.log(imageresult))
                         }
                     }
                 })
