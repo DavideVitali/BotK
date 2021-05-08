@@ -126,31 +126,30 @@ class BotK {
                       const processor = new ImageProcessor();
                       promiseArray = Promise.all([
                         textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)])
-                        .then(promiseResults => {
-
-                          var selectedCharacters = [];
-                          var result = '';
-                          for (var baseId of promiseResults[0]) {
-                              for (var unit of promiseResults[1].units) {
-                                  if (unit.data.base_id === baseId) {
-                                      selectedCharacters.push(unit);
+                        swapi.playerInfo(allyCode)]);
+                        return {
+                            "type": "attachment",
+                            "body": promiseArray
+                            .then(promiseResults => {
+    
+                              var selectedCharacters = [];
+                              var result = '';
+                              for (var baseId of promiseResults[0]) {
+                                  for (var unit of promiseResults[1].units) {
+                                      if (unit.data.base_id === baseId) {
+                                          selectedCharacters.push(unit);
+                                      }
                                   }
                               }
-                          }
-                          selectedCharacters.filter(c => {
-                              return c.base_id;
-                          });
-                          var ca = processor.createCharacterArray(selectedCharacters);
-
-                          return {
-                            "type": "attachment",
-                            "body": processor.getImage(ca, 'arena')
-                          }
-                        })
-                        .then(result => result);
-                      //
-                      //
+                              selectedCharacters.filter(c => {
+                                  return c.base_id;
+                              });
+                              var ca = processor.createCharacterArray(selectedCharacters);
+    
+                              return processor.getImage(ca, 'arena')
+                              }
+                            ).then(path => path)
+                        }
                     }
                 })
                 .catch(e => {
