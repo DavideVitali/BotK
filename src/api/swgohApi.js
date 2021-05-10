@@ -1,5 +1,6 @@
 const axios = require('axios');
-const { errorMonitor } = require('events');
+const ImageProcessor = require('../img/processor.js');
+const TextHelper = require('../text/textHelper.js');
 const fs = require('fs');
 
 class Swapi {
@@ -57,6 +58,7 @@ class Swapi {
   }
 
   teamImage(teamList, allyCode) {
+    const textHelper = new TextHelper();
     const processor = new ImageProcessor();
     promiseArray = Promise.all([
       textHelper.findAbbreviated(teamList),
@@ -84,6 +86,7 @@ class Swapi {
    *  @param{Array<Promise>} team - Promise[0] = Array<base_id>, Promise[1] = playerInfo
    */
   teamTextualData(teamList, allyCode) {
+    const textHelper = new TextHelper();
     var promiseArray = Promise.all([
       textHelper.findAbbreviated(teamList),
       swapi.playerInfo(allyCode)]);
