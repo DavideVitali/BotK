@@ -115,42 +115,15 @@ class BotK {
                     }
 
                     if (!format) {
-                      promiseArray = Promise.all([
-                        textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)]);
                       return {
                         "type": "text",
-                        "body": swapi.teamTextualData(promiseArray)
+                        "body": swapi.teamTextualData(teamList, allyCode)
                       }
                     } else if (format.toUpperCase() == "ARENA") {
-                      const processor = new ImageProcessor();
-                      promiseArray = Promise.all([
-                        textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)]);
                         return {
                             "type": "attachment",
-                            "body": promiseArray
-                            .then(promiseResults => {
-    
-                              var selectedCharacters = [];
-                              var result = '';
-                              for (var baseId of promiseResults[0]) {
-                                  for (var unit of promiseResults[1].units) {
-                                      if (unit.data.base_id === baseId) {
-                                          selectedCharacters.push(unit);
-                                      }
-                                  }
-                              }
-                              selectedCharacters.filter(c => {
-                                  return c.base_id;
-                              });
-                              var ca = processor.createCharacterArray(selectedCharacters);
-
-                              var a = processor.getImage(ca, 'arena');
-                              console.log('a: ',a);
-                              return a;
-                              } 
-                            )}
+                            "body": swapi.teamImage(teamList, allyCode)
+                        }
                     } else if (format.toUpperCase() == 'INLINE') {
                       const processor = new ImageProcessor();
                       promiseArray = Promise.all([

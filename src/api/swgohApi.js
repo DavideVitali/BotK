@@ -55,11 +55,40 @@ class Swapi {
       });
     });
   }
+
+  teamImage(teamList, allyCode) {
+    const processor = new ImageProcessor();
+    promiseArray = Promise.all([
+      textHelper.findAbbreviated(teamList),
+      swapi.playerInfo(allyCode)]);
+      return promiseArray
+      .then(promiseResults => {
+        var selectedCharacters = [];
+        for (var baseId of promiseResults[0]) {
+            for (var unit of promiseResults[1].units) {
+                if (unit.data.base_id === baseId) {
+                    selectedCharacters.push(unit);
+                }
+            }
+        }
+        selectedCharacters.filter(c => {
+            return c.base_id;
+        });
+        var ca = processor.createCharacterArray(selectedCharacters);
+        return processor.getImage(ca, 'arena');
+        } 
+      ).catch(e => { throw e.message; })
+  }
+
   /**
    *  @param{Array<Promise>} team - Promise[0] = Array<base_id>, Promise[1] = playerInfo
    */
-  teamTextualData(team) {
-    return team
+  teamTextualData(teamList, allyCode) {
+    var promiseArray = Promise.all([
+      textHelper.findAbbreviated(teamList),
+      swapi.playerInfo(allyCode)]);
+
+    return promiseArray
     .then(promiseResults => {
         var selectedCharacters = [];
         var result = '';
