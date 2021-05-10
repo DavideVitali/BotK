@@ -62,7 +62,7 @@ class Swapi {
     const processor = new ImageProcessor();
     promiseArray = Promise.all([
       textHelper.findAbbreviated(teamList),
-      swapi.playerInfo(allyCode)]);
+      playerInfo(allyCode)]);
       return promiseArray
       .then(promiseResults => {
         var selectedCharacters = [];
@@ -89,7 +89,7 @@ class Swapi {
     const textHelper = new TextHelper();
     var promiseArray = Promise.all([
       textHelper.findAbbreviated(teamList),
-      swapi.playerInfo(allyCode)]);
+      playerInfo(allyCode)]);
 
     return promiseArray
     .then(promiseResults => {
