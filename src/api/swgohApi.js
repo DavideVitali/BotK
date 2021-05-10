@@ -57,7 +57,7 @@ class Swapi {
     });
   }
 
-  teamImage(teamList, allyCode) {
+  teamImage(teamList, allyCode, format) {
     const textHelper = new TextHelper();
     const processor = new ImageProcessor();
     return Promise.all([
@@ -76,9 +76,21 @@ class Swapi {
             return c.base_id;
         });
         var ca = processor.createCharacterArray(selectedCharacters);
-        return processor.getImage(ca, 'arena');
-        } 
-      ).catch(e => { throw e.message; })
+        switch (format.toUpperCase()) {
+          case "ARENA":
+            return processor.getImage(ca, 'arena');
+            break;
+          case "INLINE":
+            return processor.getImage(ca, 'inline');
+            break;
+          case "SINGLE":
+            return processor.getImage(ca, 'single');
+            break;
+          default:
+            throw new Error('Formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
+        }
+      } 
+    ).catch(e => { throw e; })
   }
 
   /**

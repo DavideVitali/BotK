@@ -149,6 +149,8 @@ class ImageProcessor {
               promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
           });
 
+          // console.log('characterList: ', characterList);
+
           try {
               var timestamp;
               var path;
@@ -161,6 +163,7 @@ class ImageProcessor {
                           "img": e.portrait
                       });
                   });
+                  //console.log('pArray: ', pArray);
                   resolve(this.createTemplate(pArray, path, template));
               });
             } catch (e) {
@@ -187,12 +190,12 @@ class ImageProcessor {
                     if (portraits.length > 1) {
                         throw "Hai scelto la modalità singola ma hai fornito più di un'immagine."
                     }
-                    imgResult = portraits[0];
+                    imgResult = portraits[0].img;
                     imgResult.write(path);
                     break;
                 case this.SaveTemplate.INLINE:
                     imgResult = await Jimp.read('./src/img/template/inline5v5template.png')
-                    for (let i = 0; i < 5; i++)
+                    for (let i = 0; i < portraits.length; i++)
                     {
                         if (textHelper.isGalacticLegend(portraits[i].base_id) == true) {
                             imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 0);
@@ -210,11 +213,25 @@ class ImageProcessor {
                     } else {
                         imgResult = await Jimp.read('./src/img/template/arenaTemplate.png');
                     }
-                    imgResult.blit(portraits[0].img, 106, 0);
-                    imgResult.blit(portraits[1].img, 0, 83);
-                    imgResult.blit(portraits[2].img, 212, 83);
-                    imgResult.blit(portraits[3].img, 43, 202);
-                    imgResult.blit(portraits[4].img, 169, 202);
+                    for (let i = 0; i < portraits.length; i++) {
+                      switch (i){
+                        case 0:
+                          imgResult.blit(portraits[i].img, 106, 0);
+                          break;
+                        case 1:
+                          imgResult.blit(portraits[1].img, 0, 83);
+                          break;
+                        case 2:
+                          imgResult.blit(portraits[2].img, 212, 83);
+                          break;
+                        case 3:
+                          imgResult.blit(portraits[3].img, 43, 202);
+                          break;
+                        case 4:
+                          imgResult.blit(portraits[4].img, 169, 202);
+                          break;
+                      }
+                    }
                     imgResult.write(path);
                     break;
                 default:

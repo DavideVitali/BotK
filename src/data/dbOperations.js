@@ -54,7 +54,13 @@ class DbOperations {
                     cursor.count()
                     .then(result => {
                         if (result == 0) {
-                            resolve(client.db('db').collection('users').insertOne(user));
+                            try {
+                              client.db('db').collection('users').insertOne(user);
+                              resolve('Operazione Completata');
+                            }
+                            catch (e) {
+                              throw e
+                            } 
                         } else {
                             reject('Utente o Codice Alleato già registrati.');
                         }

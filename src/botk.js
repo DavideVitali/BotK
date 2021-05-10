@@ -28,9 +28,10 @@ class BotK {
         'team': 'slkr,kru,hux'
     }
     */
-    constructor(args, userDiscordId) {
+    constructor(args, recipients, userDiscordId) {
         this.args = args;
-        this.discordId = userDiscordId
+        this.recipients = recipients;
+        this.discordId = userDiscordId;
     }
     
     Exec() {
@@ -59,42 +60,35 @@ class BotK {
         
         if (this.args.command.toUpperCase() === 'BK')
         {
-            if (this.args.d || this.args.defense) {
-                throw 'opzione difesa non implementata';
-            }
-
-            /* --------------------------------------
-                    GESTIONE DELLE IMMAGINI
-               ----------------------------------- */
-            if (this.args.image || this.args.img)
-            {
-                
-            }
-
-
             /* --------------------------------------
                     REGISTRAZIONE AL BOT
                ----------------------------------- */
             if (this.args.register || this.args.r)
             {
                 var allyCode = this.args.register || this.args.r;
+
                 return dbOperations.addUser(this.discordId, allyCode)
                 .then((result) => {
-                    return {
-                      "type": 'text',
-                      "body": 'Operazione completata.'
-                    }
+                  return { "body": 'Operazione Completata' }
                 })
                 .catch(e => { throw e; });
             }
 
-            /* --------------------------------------
+            /* --------------------------------
                     VALUTAZIONE DI UN TEAM
-               ----------------------------------- */
+               -------------------------------- */
             if (this.args.team || this.args.t) {
                 var teamValue = this.args.team || this.args.t;
-                return dbOperations.searchUser(this.discordId)
+
+                var user = this.discordId;
+                if (this.recipients.length == 1) {
+                  user = this.recipients[0]
+                } 
+
+                return dbOperations.searchUser(user)
                 .then(dbUser =>  {
+
+                  // Se viene fornito l'allyCode
                     var allyCode = this.args.ally || this.args.a;
                     if (!allyCode) {
                         if (dbUser == null) {
@@ -117,46 +111,31 @@ class BotK {
                     if (!format) {
                       return {
                         "type": "text",
-                        "body": swapi.teamTextualData(teamList, allyCode)
+                        "body": swapi.teamTextualData(teamList, allyCode).catch(e => {throw e;})
                       }
-                    } else if (format.toUpperCase() == "ARENA") {
+                    } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode)
+                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'INLINE') {
-                      const processor = new ImageProcessor();
-                      promiseArray = Promise.all([
-                        textHelper.findAbbreviated(teamList),
-                        swapi.playerInfo(allyCode)]);
-                        return {
+                       return {
                             "type": "attachment",
-                            "body": promiseArray
-                            .then(promiseResults => {
-    
-                              var selectedCharacters = [];
-                              var result = '';
-                              for (var baseId of promiseResults[0]) {
-                                  for (var unit of promiseResults[1].units) {
-                                      if (unit.data.base_id === baseId) {
-                                          selectedCharacters.push(unit);
-                                      }
-                                  }
-                              }
-                              selectedCharacters.filter(c => {
-                                  return c.base_id;
-                              });
-                              var ca = processor.createCharacterArray(selectedCharacters);
+                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                        }
+                    } else if (format.toUpperCase() == 'SINGLE') {
+                      if (teamList.length !== 1) {
+                        throw new Error('Hai richiesto un ritratto singolo ma hai inserito più di un personaggio');
+                      }
 
-                              var a = processor.getImage(ca, 'inline');
-                              console.log('a: ',a);
-                              return a;
-                              } 
-                            )}
+                      return {
+                        "type": "attachment",
+                        "body" : swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                      }
                     }
                 })
                 .catch(e => {
-                    throw e;
+                  throw e;
                 });
             }
             throw "Opzione non riconosciuta. Digita bk -h per ottenere l'aiuto in linea";

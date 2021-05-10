@@ -82,8 +82,7 @@ class TextHelper {
                         };
                     };
                     if (found == false) {
-                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + teamElement);
-                        return;
+                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + teamElement + "'");
                     }
                 };
                 resolve(idTeamList);

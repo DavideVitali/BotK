@@ -19,26 +19,37 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('message', message => {
+  //console.log('Members: ', message);
+  
+  //console.log('users: ', users);
+
     const argParser = new ArgParser(message.content.split(' '), 'index');
 
     if (argParser.isValid == true) {
+      console.log('argParser: ', argParser);
         try {
-            const bot = new BotK(argParser.commandResult, message.author.id);
+            const bot = new BotK(argParser.commandResult, argParser.recipients, message.author.id);
 
             bot.Exec()
             .then(result => {
-              console.log('result: ', result);
               if (result.type == 'attachment') {
-                  console.log('result.body: ', result.body);
-                  result.body.then(path => {
+                  //console.log('result.body: ', result.body);
+                  Promise.resolve(result.body).then(path => {
                     const attachment = new MessageAttachment(path);
                     message.channel.send(attachment);  
+                  })
+                  .catch(e => { 
+                    message.channel.send(embeddedMessage(colorContext.error, '', e));
                 });
               }
               else {
-                result.body.then(text => {
+                Promise.resolve(result.body)
+                .then(text => {
                   var msgBody = '<@' + message.author.id + '>\n' + text;
-                    message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                  message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                })
+                .catch(e => { 
+                  message.channel.send(embeddedMessage(colorContext.error, '', e));
                 });
               }
             })

@@ -11,6 +11,7 @@ class ArgParser {
      */
     constructor(inputArgs, src){
         this.commandResult = new Object();
+        this.recipients = [];
         this.isValid = true;
         this.isCommand = false;
 
@@ -30,6 +31,7 @@ class ArgParser {
             }
 
             var currentOptionValid = true;
+            const mentionRegex = /^([<][@])([0-9]){18}[>]$/g;
             for (let i = 0; i < optionArgs.length; i++)  {
                 if (optionArgs[i].includes('=')) {
                     var option = optionArgs[i].split('=');
@@ -45,7 +47,9 @@ class ArgParser {
                     } else {
                       option[0] = option[0].toUpperCase();
                     }
-                } 
+                } else if (optionArgs[i].match(mentionRegex)) {
+                  this.recipients.push(optionArgs[i].replace(/([<@>])/g, ''));
+                }
                 
                 if (currentOptionValid == false) { 
                     this.isValid = false;
