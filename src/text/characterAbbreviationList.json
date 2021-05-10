@@ -67,12 +67,12 @@
     {
         "name": "Bastila Shan (Fallen)",
         "base_id": "BASTILASHANDARK",
-        "abbr": ["BF","BSF","BSD","BASTILADARK","BASTILAF"]
+        "abbr": ["BF","BSF","BSD","BASTILADARK","BASTILAF","FALLENBAST"]
     },
     {
         "name": "Baze Malbus",
         "base_id": "BAZEMALBUS",
-        "abbr": ["BAZE"]
+        "abbr": ["BAZE","MALBUS"]
     },
     {
         "name": "BB-8",
@@ -92,12 +92,12 @@
     {
         "name": "Bo-Katan Kryze",
         "base_id": "BOKATAN",
-        "abbr": ["BO", "BKK", "BK", "BOKATAN", "BO KATAN"]
+        "abbr": ["BO", "BKK", "BK", "BOKATAN", "BOKATAN"]
     },
     {
         "name": "Boba Fett",
         "base_id": "BOBAFETT",
-        "abbr": ["BOBA"]
+        "abbr": ["BOBA","BFETT"]
     },
     {
         "name": "Bodhi Rook",
@@ -122,97 +122,97 @@
     {
         "name": "Canderous Ordo",
         "base_id": "CANDEROUSORDO",
-        "abbr": ["ORDO"]
+        "abbr": ["ORDO","CANDEROUS"]
     },
     {
         "name": "Captain Han Solo",
         "base_id": "HOTHHAN",
-        "abbr": ["CHS"]
+        "abbr": ["CHS","CAPHAN","CAPSOLO","CAPHS"]
     },
     {
         "name": "Captain Phasma",
         "base_id": "PHASMA",
-        "abbr": []
+        "abbr": ["PHASMA","CAPPHASMA"]
     },
     {
         "name": "Cara Dune",
         "base_id": "CARADUNE",
-        "abbr": []
+        "abbr": ["CARA","DUNE"]
     },
     {
         "name": "Carth Onasi",
         "base_id": "CARTHONASI",
-        "abbr": []
+        "abbr": ["CARTH","ONASI"]
     },
     {
         "name": "Cassian Andor",
         "base_id": "CASSIANANDOR",
-        "abbr": []
+        "abbr": ["CASSIAN"]
     },
     {
         "name": "CC-2224 \"Cody\"",
         "base_id": "CC2224",
-        "abbr": []
+        "abbr": ["CODY"]
     },
     {
         "name": "Chewbacca",
         "base_id": "CHEWBACCALEGENDARY",
-        "abbr": ["CIUBE","CHEWIE"]
+        "abbr": ["CIUBE","CHEWIE","CHEWB"]
     },
     {
         "name": "Chief Chirpa",
         "base_id": "CHIEFCHIRPA",
-        "abbr": []
+        "abbr": ["CHIRPA","CAPOCHIRPA"]
     },
     {
         "name": "Chief Nebit",
         "base_id": "CHIEFNEBIT",
-        "abbr": []
+        "abbr": ["NEBIT","CAPONEBIT"]
     },
     {
         "name": "Chirrut Îmwe",
         "base_id": "CHIRRUTIMWE",
-        "abbr": []
+        "abbr": ["CHIRRUT"]
     },
     {
         "name": "Chopper",
         "base_id": "CHOPPERS3",
-        "abbr": []
+        "abbr": ["CHOPPER","CHOP"]
     },
     {
         "name": "Clone Sergeant - Phase I",
         "base_id": "CLONESERGEANTPHASEI",
-        "abbr": []
+        "abbr": ["SERGENTE"]
     },
     {
         "name": "Clone Wars Chewbacca",
         "base_id": "CLONEWARSCHEWBACCA",
-        "abbr": []
+        "abbr": ["CWCHEWIE","CWCHEW","CWCHEWBACCA"]
     },
     {
         "name": "Colonel Starck",
         "base_id": "COLONELSTARCK",
-        "abbr": []
+        "abbr": ["STARCK"]
     },
     {
         "name": "Commander Luke Skywalker",
         "base_id": "COMMANDERLUKESKYWALKER",
-        "abbr": []
+        "abbr": ["CLS","COMANDANTELUKE"]
     },
     {
         "name": "Coruscant Underworld Police",
         "base_id": "CORUSCANTUNDERWORLDPOLICE",
-        "abbr": []
+        "abbr": ["CUP","911"]
     },
     {
         "name": "Count Dooku",
         "base_id": "COUNTDOOKU",
-        "abbr": []
+        "abbr": ["DOOKU"]
     },
     {
         "name": "CT-21-0408 \"Echo\"",
         "base_id": "CT210408",
-        "abbr": ["ECHO"]
+        "abbr": ["ECHO","OGECHO","ECHOOG"]
     },
     {
         "name": "CT-5555 \"Fives\"",
@@ -227,7 +227,7 @@
     {
         "name": "Dark Trooper",
         "base_id": "DARKTROOPER",
-        "abbr": []
+        "abbr": ["DARKTROOP","DARKT"]
     },
     {
         "name": "Darth Malak",
@@ -237,12 +237,12 @@
     {
         "name": "Darth Maul",
         "base_id": "MAUL",
-        "abbr": []
+        "abbr": ["MAUL"]
     },
     {
         "name": "Darth Nihilus",
         "base_id": "DARTHNIHILUS",
-        "abbr": []
+        "abbr": ["NIHILUS","NIHI"]
     },
     {
         "name": "Darth Revan",
@@ -252,132 +252,132 @@
     {
         "name": "Darth Sidious",
         "base_id": "DARTHSIDIOUS",
-        "abbr": []
+        "abbr": ["SIDIOUS"]
     },
     {
         "name": "Darth Sion",
         "base_id": "DARTHSION",
-        "abbr": []
+        "abbr": ["SION"]
     },
     {
         "name": "Darth Traya",
         "base_id": "DARTHTRAYA",
-        "abbr": []
+        "abbr": ["TRAYA"]
     },
     {
         "name": "Darth Vader",
         "base_id": "VADER",
-        "abbr": []
+        "abbr": ["FENER"]
     },
     {
         "name": "Dathcha",
         "base_id": "DATHCHA",
-        "abbr": []
+        "abbr": ["DAT","DATCHA","DATHCHA"]
     },
     {
         "name": "Death Trooper",
         "base_id": "DEATHTROOPER",
-        "abbr": []
+        "abbr": ["DT","DEATHT"]
     },
     {
         "name": "Dengar",
         "base_id": "DENGAR",
-        "abbr": []
+        "abbr": ["DENGAR"]
     },
     {
         "name": "Director Krennic",
         "base_id": "DIRECTORKRENNIC",
-        "abbr": []
+        "abbr": ["KRENNIC","DIRK"]
     },
     {
         "name": "Droideka",
         "base_id": "DROIDEKA",
-        "abbr": []
+        "abbr": ["DROIDEKA"]
     },
     {
         "name": "Eeth Koth",
         "base_id": "EETHKOTH",
-        "abbr": []
+        "abbr": ["EETH","KOTH"]
     },
     {
         "name": "Embo",
         "base_id": "EMBO",
-        "abbr": []
+        "abbr": ["SAMURAI"]
     },
     {
         "name": "Emperor Palpatine",
         "base_id": "EMPERORPALPATINE",
-        "abbr": []
+        "abbr": ["PALPA","EMPEROR","EMPY","PALPY","SENATORE","IMPERATORE"]
     },
     {
         "name": "Enfys Nest",
         "base_id": "ENFYSNEST",
-        "abbr": []
+        "abbr": ["NEST","ENFYS"]
     },
     {
         "name": "Ewok Elder",
         "base_id": "EWOKELDER",
-        "abbr": []
+        "abbr": ["ELDER","ANZIANO"]
     },
     {
         "name": "Ewok Scout",
         "base_id": "EWOKSCOUT",
-        "abbr": []
+        "abbr": ["RICOGNITOREEWOK","EWOKRICOGNITORE"]
     },
     {
         "name": "Ezra Bridger",
         "base_id": "EZRABRIDGERS3",
-        "abbr": []
+        "abbr": ["EZRA"]
     },
     {
         "name": "Finn",
         "base_id": "FINN",
-        "abbr": []
+        "abbr": ["FIN"]
     },
     {
         "name": "First Order Executioner",
         "base_id": "FIRSTORDEREXECUTIONER",
-        "abbr": []
+        "abbr": ["EXECUTIONER","FOEXECUTE","FOEX","FOX","GIUSTIZIERE"]
     },
     {
         "name": "First Order Officer",
         "base_id": "FIRSTORDEROFFICERMALE",
-        "abbr": []
+        "abbr": ["OFFICER","FOO","FOOFFICER","UFFICIALE"]
     },
     {
         "name": "First Order SF TIE Pilot",
         "base_id": "FIRSTORDERSPECIALFORCESPILOT",
-        "abbr": []
+        "abbr": ["FOSFTP","PILOTAFSPO"]
     },
     {
         "name": "First Order Stormtrooper",
         "base_id": "FIRSTORDERTROOPER",
-        "abbr": []
+        "abbr": ["FOS","STORMT","FOSTORM","FOST"]
     },
     {
         "name": "First Order TIE Pilot",
         "base_id": "FIRSTORDERTIEPILOT",
-        "abbr": []
+        "abbr": ["FOTP","FOTIEPILOT","PILOTAPO"]
     },
     {
         "name": "Gamorrean Guard",
         "base_id": "GAMORREANGUARD",
-        "abbr": []
+        "abbr": ["GAMORREAN"]
     },
     {
         "name": "Gar Saxon",
         "base_id": "GARSAXON",
-        "abbr": []
+        "abbr": ["GAR","SAXON"]
     },
     {
         "name": "Garazeb \"Zeb\" Orrelios",
         "base_id": "ZEBS3",
-        "abbr": []
+        "abbr": ["ZEB"]
     },
     {
         "name": "General Grievous",
         "base_id": "GRIEVOUS",
-        "abbr": []
+        "abbr": ["GG"]
     },
     {
         "name": "General Hux",
@@ -397,22 +397,22 @@
     {
         "name": "General Veers",
         "base_id": "VEERS",
-        "abbr": []
+        "abbr": ["VEERS"]
     },
     {
         "name": "Geonosian Brood Alpha",
         "base_id": "GEONOSIANBROODALPHA",
-        "abbr": []
+        "abbr": ["GBA","BROOD","ALPHA","CAPOSCIAME"]
     },
     {
         "name": "Geonosian Soldier",
         "base_id": "GEONOSIANSOLDIER",
-        "abbr": []
+        "abbr": ["GEOSOLDIER","SOLDATOGEO"]
     },
     {
         "name": "Geonosian Spy",
         "base_id": "GEONOSIANSPY",
-        "abbr": []
+        "abbr": ["SPIA","SPY"]
     },
     {
         "name": "Grand Admiral Thrawn",
@@ -422,117 +422,117 @@
     {
         "name": "Grand Master Yoda",
         "base_id": "GRANDMASTERYODA",
-        "abbr": []
+        "abbr": ["GMY","MASTERYODA","YODA","GMYODA"]
     },
     {
         "name": "Grand Moff Tarkin",
         "base_id": "GRANDMOFFTARKIN",
-        "abbr": []
+        "abbr": ["GMT","TARKIN"]
     },
     {
         "name": "Greedo",
         "base_id": "GREEDO",
-        "abbr": []
+        "abbr": ["GREE"]
     },
     {
         "name": "Greef Karga",
         "base_id": "GREEFKARGA",
-        "abbr": []
+        "abbr": ["GREEF","KARGA"]
     },
     {
         "name": "Han Solo",
         "base_id": "HANSOLO",
-        "abbr": ["HAN", "HANRAID"]
+        "abbr": ["HAN", "HANRAID","HS","SOLO"]
     },
     {
         "name": "Hera Syndulla",
         "base_id": "HERASYNDULLAS3",
-        "abbr": []
+        "abbr": ["HERA"]
     },
     {
         "name": "Hermit Yoda",
         "base_id": "HERMITYODA",
-        "abbr": []
+        "abbr": ["HYODA","HERMIT"]
     },
     {
         "name": "HK-47",
         "base_id": "HK47",
-        "abbr": []
+        "abbr": ["HK"]
     },
     {
         "name": "Hoth Rebel Scout",
         "base_id": "HOTHREBELSCOUT",
-        "abbr": []
+        "abbr": ["REBELSCOUT","RICOGNITORERIBELLE"]
     },
     {
         "name": "Hoth Rebel Soldier",
         "base_id": "HOTHREBELSOLDIER",
-        "abbr": []
+        "abbr": ["REBELSOLDIER","SOLDATORIBELLE"]
     },
     {
         "name": "Hunter",
         "base_id": "BADBATCHHUNTER",
-        "abbr": []
+        "abbr": ["HUNTER"]
     },
     {
         "name": "IG-100 MagnaGuard",
         "base_id": "MAGNAGUARD",
-        "abbr": []
+        "abbr": ["IG100","MAGNA"]
     },
     {
         "name": "IG-11",
         "base_id": "IG11",
-        "abbr": []
+        "abbr": ["IG"]
     },
     {
         "name": "IG-86 Sentinel Droid",
         "base_id": "IG86SENTINELDROID",
-        "abbr": []
+        "abbr": ["IG86","SENTINEL"]
     },
     {
         "name": "IG-88",
         "base_id": "IG88",
-        "abbr": []
+        "abbr": ["IG88"]
     },
     {
         "name": "Ima-Gun Di",
         "base_id": "IMAGUNDI",
-        "abbr": []
+        "abbr": ["IMA"]
     },
     {
         "name": "Imperial Probe Droid",
         "base_id": "IMPERIALPROBEDROID",
-        "abbr": []
+        "abbr": ["IPD","IMPERIALDROID","SONDA","DROIDESONDA"]
     },
     {
         "name": "Imperial Super Commando",
         "base_id": "IMPERIALSUPERCOMMANDO",
-        "abbr": []
+        "abbr": ["SUPERCOMMANDO"]
     },
     {
         "name": "Jango Fett",
         "base_id": "JANGOFETT",
-        "abbr": []
+        "abbr": ["JANGO"]
     },
     {
         "name": "Jawa",
         "base_id": "JAWA",
-        "abbr": []
+        "abbr": ["JAW"]
     },
     {
         "name": "Jawa Engineer",
         "base_id": "JAWAENGINEER",
-        "abbr": []
+        "abbr": ["JAWAENGINEER","INGEGNEREJAWA"]
     },
     {
         "name": "Jawa Scavenger",
         "base_id": "JAWASCAVENGER",
-        "abbr": []
+        "abbr": ["JAWASCAVENGER","MERCANTE"]
     },
     {
         "name": "Jedi Consular",
         "base_id": "JEDIKNIGHTCONSULAR",
-        "abbr": []
+        "abbr": ["JEDICONSULAR","CONSOLE"]
     },
     {
         "name": "Jedi Knight Anakin",
@@ -542,62 +542,62 @@
     {
         "name": "Jedi Knight Guardian",
         "base_id": "JEDIKNIGHTGUARDIAN",
-        "abbr": []
+        "abbr": ["JEDIKNIGHT","JEDIGUARDIAN","SENTINELLA"]
     },
     {
         "name": "Jedi Knight Luke Skywalker",
         "base_id": "JEDIKNIGHTLUKE",
-        "abbr": []
+        "abbr": ["JKL","LUKE","KNIGHTLUKE","JLS"]
     },
     {
         "name": "Jedi Knight Revan",
         "base_id": "JEDIKNIGHTREVAN",
-        "abbr": []
+        "abbr": ["JKR","REVANJEDI"]
     },
     {
         "name": "Jedi Master Luke Skywalker",
         "base_id": "GRANDMASTERLUKE",
-        "abbr": []
+        "abbr": ["JML","MASTERLUKE"]
     },
     {
         "name": "Jolee Bindo",
         "base_id": "JOLEEBINDO",
-        "abbr": []
+        "abbr": ["JOLEE","BINDO"]
     },
     {
         "name": "Juhani",
         "base_id": "JUHANI",
-        "abbr": []
+        "abbr": ["JUH"]
     },
     {
         "name": "Jyn Erso",
         "base_id": "JYNERSO",
-        "abbr": []
+        "abbr": ["JYN","ERSO"]
     },
     {
         "name": "K-2SO",
         "base_id": "K2SO",
-        "abbr": []
+        "abbr": ["K2"]
     },
     {
         "name": "Kanan Jarrus",
         "base_id": "KANANJARRUSS3",
-        "abbr": []
+        "abbr": ["KANAN","JARRUS"]
     },
     {
         "name": "Ki-Adi-Mundi",
         "base_id": "KIADIMUNDI",
-        "abbr": []
+        "abbr": ["KAM"]
     },
     {
         "name": "Kit Fisto",
         "base_id": "KITFISTO",
-        "abbr": []
+        "abbr": ["KIT","KFIST","FISTO"]
     },
     {
         "name": "Kuiil",
         "base_id": "KUIIL",
-        "abbr": []
+        "abbr": ["KUIL"]
     },
     {
         "name": "Kylo Ren",
@@ -612,102 +612,102 @@
     {
         "name": "L3-37",
         "base_id": "L3_37",
-        "abbr": []
+        "abbr": ["L3"]
     },
     {
         "name": "Lando Calrissian",
         "base_id": "ADMINISTRATORLANDO",
-        "abbr": []
+        "abbr": ["LANDO"]
     },
     {
         "name": "Lobot",
         "base_id": "LOBOT",
-        "abbr": []
+        "abbr": ["LOB"]
     },
     {
         "name": "Logray",
         "base_id": "LOGRAY",
-        "abbr": []
+        "abbr": ["LOG"]
     },
     {
         "name": "Luke Skywalker (Farmboy)",
         "base_id": "LUKESKYWALKER",
-        "abbr": []
+        "abbr": ["LUKEFARM","FARMBOY","LUKECONTADINO"]
     },
     {
         "name": "Luminara Unduli",
         "base_id": "LUMINARAUNDULI",
-        "abbr": []
+        "abbr": ["LUMI","LUMINARA"]
     },
     {
         "name": "Mace Windu",
         "base_id": "MACEWINDU",
-        "abbr": []
+        "abbr": ["MACE","WINDU"]
     },
     {
         "name": "Magmatrooper",
         "base_id": "MAGMATROOPER",
-        "abbr": []
+        "abbr": ["MAGMA"]
     },
     {
         "name": "Mission Vao",
         "base_id": "MISSIONVAO",
-        "abbr": []
+        "abbr": ["VAO","MISSION"]
     },
     {
         "name": "Mob Enforcer",
         "base_id": "HUMANTHUG",
-        "abbr": []
+        "abbr": ["MOB","SGHERRO"]
     },
     {
         "name": "Moff Gideon",
         "base_id": "MOFFGIDEONS1",
-        "abbr": []
+        "abbr": ["MOFF","GIDEON"]
     },
     {
         "name": "Mon Mothma",
         "base_id": "MONMOTHMA",
-        "abbr": []
+        "abbr": ["MON","MM","MOTHMA"]
     },
     {
         "name": "Mother Talzin",
         "base_id": "MOTHERTALZIN",
-        "abbr": []
+        "abbr": ["MOTHER","TALZIN"]
     },
     {
         "name": "Nightsister Acolyte",
         "base_id": "NIGHTSISTERACOLYTE",
-        "abbr": []
+        "abbr": ["ACOLYTE","NSACOLYTE","ACCOLITA"]
     },
     {
         "name": "Nightsister Initiate",
         "base_id": "NIGHTSISTERINITIATE",
-        "abbr": []
+        "abbr": ["NSINITIATE","INITIATE","INIZIATA"]
     },
     {
         "name": "Nightsister Spirit",
         "base_id": "NIGHTSISTERSPIRIT",
-        "abbr": []
+        "abbr": ["SPIRIT","NSSPIRIT","SPIRITO"]
     },
     {
         "name": "Nightsister Zombie",
         "base_id": "NIGHTSISTERZOMBIE",
-        "abbr": []
+        "abbr": ["ZOMBIE"]
     },
     {
         "name": "Nute Gunray",
         "base_id": "NUTEGUNRAY",
-        "abbr": []
+        "abbr": ["NUTE"]
     },
     {
         "name": "Obi-Wan Kenobi (Old Ben)",
         "base_id": "OLDBENKENOBI",
-        "abbr": []
+        "abbr": ["OLDBEN","OBIKENOBI","OB","VECCHIOBEN"]
     },
     {
         "name": "Old Daka",
         "base_id": "DAKA",
-        "abbr": []
+        "abbr": ["VECCHIADAKA"]
     },
     {
         "name": "Padmé Amidala",
@@ -727,127 +727,127 @@
     {
         "name": "Plo Koon",
         "base_id": "PLOKOON",
-        "abbr": []
+        "abbr": ["PLO","PLOK"]
     },
     {
         "name": "Poe Dameron",
         "base_id": "POE",
-        "abbr": []
+        "abbr": ["POE","DAMERON"]
     },
     {
         "name": "Poggle the Lesser",
         "base_id": "POGGLETHELESSER",
-        "abbr": []
+        "abbr": ["POGGLE","MINORE"]
     },
     {
         "name": "Princess Leia",
         "base_id": "PRINCESSLEIA",
-        "abbr": []
+        "abbr": ["LEILA","LEIA"]
     },
     {
         "name": "Qi'ra",
         "base_id": "QIRA",
-        "abbr": []
+        "abbr": ["QIRA"]
     },
     {
         "name": "Qui-Gon Jinn",
         "base_id": "QUIGONJINN",
-        "abbr": []
+        "abbr": ["QUIGON","QUI"]
     },
     {
         "name": "R2-D2",
         "base_id": "R2D2_LEGENDARY",
-        "abbr": []
+        "abbr": ["R2D2","R2"]
     },
     {
         "name": "Range Trooper",
         "base_id": "RANGETROOPER",
-        "abbr": []
+        "abbr": ["RANGET","RANGETROOP"]
     },
     {
         "name": "Rebel Officer Leia Organa",
         "base_id": "HOTHLEIA",
-        "abbr": []
+        "abbr": ["ORGANA","LEIAORGANA"]
     },
     {
         "name": "Resistance Hero Finn",
         "base_id": "EPIXFINN",
-        "abbr": []
+        "abbr": ["RESFINN","HEROFINN"]
     },
     {
         "name": "Resistance Hero Poe",
         "base_id": "EPIXPOE",
-        "abbr": []
+        "abbr": ["RESPOE","HEROPOE"]
     },
     {
         "name": "Resistance Pilot",
         "base_id": "RESISTANCEPILOT",
-        "abbr": []
+        "abbr": ["RESPILOT","PILOTARES"]
     },
     {
         "name": "Resistance Trooper",
         "base_id": "RESISTANCETROOPER",
-        "abbr": []
+        "abbr": ["RESTROOP","TRUPPA"]
     },
     {
         "name": "Rey",
         "base_id": "GLREY",
-        "abbr": []
+        "abbr": ["REY"]
     },
     {
         "name": "Rey (Jedi Training)",
         "base_id": "REYJEDITRAINING",
-        "abbr": []
+        "abbr": ["REYJEDI","JEDIREY"]
     },
     {
         "name": "Rey (Scavenger)",
         "base_id": "REY",
-        "abbr": []
+        "abbr": ["REYSCAV","SCAVENGERREY","REYMERCANTE"]
     },
     {
         "name": "Rose Tico",
         "base_id": "ROSETICO",
-        "abbr": []
+        "abbr": ["ROSE","TICO"]
     },
     {
         "name": "Royal Guard",
         "base_id": "ROYALGUARD",
-        "abbr": []
+        "abbr": ["ROYALGUARD","GUARDIAREALE"]
     },
     {
         "name": "Sabine Wren",
         "base_id": "SABINEWRENS3",
-        "abbr": []
+        "abbr": ["SABINE"]
     },
     {
         "name": "Savage Opress",
         "base_id": "SAVAGEOPRESS",
-        "abbr": []
+        "abbr": ["SAVAGE"]
     },
     {
         "name": "Scarif Rebel Pathfinder",
         "base_id": "SCARIFREBEL",
-        "abbr": []
+        "abbr": ["PATHFINDER","SCARIFREBEL"]
     },
     {
         "name": "Shaak Ti",
         "base_id": "SHAAKTI",
-        "abbr": []
+        "abbr": ["SHAAK"]
     },
     {
         "name": "Shoretrooper",
         "base_id": "SHORETROOPER",
-        "abbr": []
+        "abbr": ["SHORETROOP"]
     },
     {
         "name": "Sith Assassin",
         "base_id": "SITHASSASSIN",
-        "abbr": []
+        "abbr": ["ASSASSIN","SITHASSASSIN","ASSASSINA"]
     },
     {
         "name": "Sith Empire Trooper",
         "base_id": "SITHTROOPER",
-        "abbr": []
+        "abbr": ["EMPIRETROOP"]
     },
     {
         "name": "Sith Eternal Emperor",
@@ -857,32 +857,32 @@
     {
         "name": "Sith Marauder",
         "base_id": "SITHMARAUDER",
-        "abbr": []
+        "abbr": ["MARAUDER","SITHMARAUDER"]
     },
     {
         "name": "Sith Trooper",
         "base_id": "FOSITHTROOPER",
-        "abbr": []
+        "abbr": ["SITHTROOP"]
     },
     {
         "name": "Snowtrooper",
         "base_id": "SNOWTROOPER",
-        "abbr": []
+        "abbr": ["SNOWTROOP"]
     },
     {
         "name": "Stormtrooper",
         "base_id": "STORMTROOPER",
-        "abbr": []
+        "abbr": ["STORMTROOP"]
     },
     {
         "name": "Stormtrooper Han",
         "base_id": "STORMTROOPERHAN",
-        "abbr": []
+        "abbr": ["STORMHAN","HANTROOP"]
     },
     {
         "name": "Sun Fac",
         "base_id": "SUNFAC",
-        "abbr": []
+        "abbr": ["FAC"]
     },
     {
         "name": "Supreme Leader Kylo Ren",
@@ -892,7 +892,7 @@
     {
         "name": "T3-M4",
         "base_id": "T3_M4",
-        "abbr": []
+        "abbr": ["T3"]
     },
     {
         "name": "Talia",
@@ -902,7 +902,7 @@
     {
         "name": "Tech",
         "base_id": "BADBATCHTECH",
-        "abbr": []
+        "abbr": ["TECH"]
     },
     {
         "name": "Teebo",
@@ -912,67 +912,67 @@
     {
         "name": "The Armorer",
         "base_id": "ARMORER",
-        "abbr": []
+        "abbr": ["ARMAIOLA"]
     },
     {
         "name": "The Mandalorian",
         "base_id": "THEMANDALORIAN",
-        "abbr": []
+        "abbr": ["MANDO","MANDALORIAN"]
     },
     {
         "name": "The Mandalorian (Beskar Armor)",
         "base_id": "THEMANDALORIANBESKARARMOR",
-        "abbr": []
+        "abbr": ["MANDOBESKAR","BESKAR"]
     },
     {
         "name": "Threepio & Chewie",
         "base_id": "C3POCHEWBACCA",
-        "abbr": []
+        "abbr": ["CHEWPO","3POCHEW"]
     },
     {
         "name": "TIE Fighter Pilot",
         "base_id": "TIEFIGHTERPILOT",
-        "abbr": []
+        "abbr": ["TIEPILOT","TIEPILOTA"]
     },
     {
         "name": "Tusken Raider",
         "base_id": "TUSKENRAIDER",
-        "abbr": []
+        "abbr": ["RAIDER","TUSKENRAIDER","RAZZIATORE"]
     },
     {
         "name": "Tusken Shaman",
         "base_id": "TUSKENSHAMAN",
-        "abbr": []
+        "abbr": ["SHAMAN","SHAMANTUSKEN","SCIAMANO"]
     },
     {
         "name": "Ugnaught",
         "base_id": "UGNAUGHT",
-        "abbr": []
+        "abbr": ["UG"]
     },
     {
         "name": "URoRRuR'R'R",
         "base_id": "URORRURRR",
-        "abbr": []
+        "abbr": ["URO","RRR"]
     },
     {
         "name": "Vandor Chewbacca",
         "base_id": "YOUNGCHEWBACCA",
-        "abbr": []
+        "abbr": ["VANDORCHEW","VANDORCHEWBACCA","VCHEW"]
     },
     {
         "name": "Veteran Smuggler Chewbacca",
         "base_id": "SMUGGLERCHEWBACCA",
-        "abbr": []
+        "abbr": ["VETERANCHEW","VETERANCHEWBACCA","VETCHEW"]
     },
     {
         "name": "Veteran Smuggler Han Solo",
         "base_id": "SMUGGLERHAN",
-        "abbr": []
+        "abbr": ["VETERANSOLO","VETHAN"]
     },
     {
         "name": "Visas Marr",
         "base_id": "VISASMARR",
-        "abbr": []
+        "abbr": ["VISA"]
     },
     {
         "name": "Wampa",
@@ -982,36 +982,36 @@
     {
         "name": "Wat Tambor",
         "base_id": "WATTAMBOR",
-        "abbr": []
+        "abbr": ["WAT","TAMBOR"]
     },
     {
         "name": "Wedge Antilles",
         "base_id": "WEDGEANTILLES",
-        "abbr": []
+        "abbr": ["WEDGE"]
     },
     {
         "name": "Wicket",
         "base_id": "WICKET",
-        "abbr": []
+        "abbr": ["WICK"]
     },
     {
         "name": "Young Han Solo",
         "base_id": "YOUNGHAN",
-        "abbr": []
+        "abbr": ["YOUNGSOLO","GIOVANEHAN"]
     },
     {
         "name": "Young Lando Calrissian",
         "base_id": "YOUNGLANDO",
-        "abbr": []
+        "abbr": ["YOUNGLANDO","GIOVANELANDO"]
     },
     {
         "name": "Zaalbar",
         "base_id": "ZAALBAR",
-        "abbr": []
+        "abbr": ["ZALB"]
     },
     {
         "name": "Zam Wesell",
         "base_id": "ZAMWESELL",
-        "abbr": []
+        "abbr": ["ZAM"]
     }
 ]
