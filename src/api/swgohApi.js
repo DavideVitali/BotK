@@ -60,10 +60,9 @@ class Swapi {
   teamImage(teamList, allyCode) {
     const textHelper = new TextHelper();
     const processor = new ImageProcessor();
-    promiseArray = Promise.all([
+    return Promise.all([
       textHelper.findAbbreviated(teamList),
-      this.playerInfo(allyCode)]);
-      return promiseArray
+      this.playerInfo(allyCode)])
       .then(promiseResults => {
         var selectedCharacters = [];
         for (var baseId of promiseResults[0]) {
