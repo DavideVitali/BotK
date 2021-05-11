@@ -136,7 +136,7 @@ class ImageProcessor {
     /**
      *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
      */
-    getImage(characterList, template)
+    getImage(characterList, template, playerName)
     {
         if (characterList.length > 5) {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
@@ -158,13 +158,13 @@ class ImageProcessor {
                   timestamp = new Date().getTime();
                   path = './src/img/processresult/' + String(timestamp) + '.png'
                   resolved.forEach(e => {
-                      pArray.push({ 
+                      pArray.push({
                           "base_id": e.base_id,
                           "img": e.portrait
                       });
                   });
                   //console.log('pArray: ', pArray);
-                  resolve(this.createTemplate(pArray, path, template));
+                  resolve(this.createTemplate(pArray, path, template, playerName));
               });
             } catch (e) {
               throw e;
@@ -177,8 +177,9 @@ class ImageProcessor {
      * @param {Array<Jimp>} portraits - array dei personaggi
      * @param {SaveTemplate} template - Enum SaveTemplate
      */
-    createTemplate(portraits, path, template) {
+    createTemplate(portraits, path, template, playerName) {
         return new Promise(async (resolve, reject) => {
+            const font = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE);
             const textHelper = new TextHelper();
             if (!template) {
                 throw "La definizione di template non è valida.";
@@ -202,9 +203,16 @@ class ImageProcessor {
                         } else {
                             imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 0);
                         }
-                        imgResult.blit(portraits[i].img, (i * 128), 3);
-                        imgResult.write(path);
+                        imgResult.blit(portraits[i].img, (i * 128), 23);
                     }
+                    imgResult.print(font, 5, 5, 
+                    {
+                        text: playerName,
+                        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                        alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
+                    },
+                    640, 20);
+                    imgResult.write(path);
                     break;
                 case this.SaveTemplate.ARENA:
                     var team = portraits.map(portrait => portrait.base_id);

@@ -4,6 +4,35 @@ const TextHelper = require('../text/textHelper.js');
 const fs = require('fs');
 
 class Swapi {
+  guildMembers(allyCode) {
+    return new Promise((resolve, reject) => {
+      try {
+        var url = 'https://api.swgoh.help/swgoh/guilds/' + allyCode;
+        const request = axios.get(url);
+        resolve(request.then(response => {
+          var members = [];
+          
+          response.data[0].roster.forEach(m => members.push({ "name": m.name, "allyCode": m.allyCode }));          
+          return members.sort((first, second) => { 
+            if (first.name.toUpperCase() > second.name.toUpperCase()) {
+              return 1
+            }
+
+            if (first.name.toUpperCase() < second.name.toUpperCase()) {
+              return -1
+            }
+
+            return 0;
+          });
+        }).catch(e => { 
+          throw e; 
+          }));
+      } catch (error) {
+        reject(error => error.data);
+      }
+    });
+  }
+
   playerInfo(allyCode, mock) {
     if (mock && mock === true) {
       return new Promise((resolve, reject) => {
@@ -57,7 +86,7 @@ class Swapi {
     });
   }
 
-  teamImage(teamList, allyCode, format) {
+  teamImage(teamList, allyCode, format, playerName) {
     const textHelper = new TextHelper();
     const processor = new ImageProcessor();
     return Promise.all([
@@ -78,13 +107,13 @@ class Swapi {
         var ca = processor.createCharacterArray(selectedCharacters);
         switch (format.toUpperCase()) {
           case "ARENA":
-            return processor.getImage(ca, 'arena');
+            return processor.getImage(ca, 'arena', playerName);
             break;
           case "INLINE":
-            return processor.getImage(ca, 'inline');
+            return processor.getImage(ca, 'inline', playerName);
             break;
           case "SINGLE":
-            return processor.getImage(ca, 'single');
+            return processor.getImage(ca, 'single', playerName);
             break;
           default:
             throw new Error('Formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');

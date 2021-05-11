@@ -19,27 +19,25 @@ client.on('ready', () => {
 
 // Create an event listener for messages
 client.on('message', message => {
-  //console.log('Members: ', message);
-  
-  //console.log('users: ', users);
-
+  //console.log(message);
     const argParser = new ArgParser(message.content.split(' '), 'index');
 
     if (argParser.isValid == true) {
-      console.log('argParser: ', argParser);
         try {
             const bot = new BotK(argParser.commandResult, argParser.recipients, message.author.id);
-
+            message.react('🏃‍♂️');
             bot.Exec()
             .then(result => {
               if (result.type == 'attachment') {
                   //console.log('result.body: ', result.body);
                   Promise.resolve(result.body).then(path => {
                     const attachment = new MessageAttachment(path);
-                    message.channel.send(attachment);  
+                    message.channel.send(attachment);
+                    message.react('✅');
                   })
                   .catch(e => { 
                     message.channel.send(embeddedMessage(colorContext.error, '', e));
+                    message.react('❌');
                 });
               }
               else {
@@ -47,21 +45,26 @@ client.on('message', message => {
                 .then(text => {
                   var msgBody = '<@' + message.author.id + '>\n' + text;
                   message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                  message.react('✅');                  
                 })
                 .catch(e => { 
                   message.channel.send(embeddedMessage(colorContext.error, '', e));
+                  message.react('❌');
                 });
               }
             })
             .catch(error => {
                 message.channel.send(embeddedMessage(colorContext.error, '', error));
+                message.react('❌');
             });
         } catch (error) {
             message.channel.send(embeddedMessage(colorContext.error, '', error));
+            message.react('❌');            
         }
     } else {
         if (argParser.isCommand == true) {
             message.channel.send(embeddedMessage(colorContext.error, 'Tutta colpa di Mimmo', argParser.error));
+            message.react('❌');            
         }
     }
 });

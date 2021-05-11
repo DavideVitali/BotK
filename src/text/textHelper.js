@@ -62,6 +62,16 @@ class TextHelper {
         return result;
     }
 
+    getAbbreviations() {
+      const abl = require('./characterAbbreviationList.json');
+
+      var result;
+      abl.forEach(e => {
+        result = result + '**'+e.name+'**: '+e.abbr.join(',')+'\n';
+      });
+      return result
+    }
+
     findAbbreviated(teamList) {
         return new Promise(function(resolve, reject) {
             fs.readFile('./src/text/characterAbbreviationList.json', 'utf8', (err, data) => {

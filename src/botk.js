@@ -75,6 +75,31 @@ class BotK {
             }
 
             /* --------------------------------
+                    COMPONENTI DELLA GILDA
+               -------------------------------- */
+            if (this.args.guildmembers || this.args.gm) {
+              
+              var optionValue = this.args.guildmembers || this.args.gm;
+
+              if (optionValue.toUpperCase() == "L") {
+                return dbOperations.searchUser(this.discordId)
+                  .then(dbUser =>  {
+                    return swapi.guildMembers(dbUser.allyCode);
+                  })
+                  .then(members => {
+                      var result = '';
+                      members.forEach(m => {
+                        result = result + "**" + m.name + "**: " + m.allyCode + "\n";
+                      });
+                      return { 
+                        "type": "text",
+                        "body": result
+                      }
+                    })
+                  .catch(e => { throw e; });
+              }
+            }
+            /* --------------------------------
                     VALUTAZIONE DI UN TEAM
                -------------------------------- */
             if (this.args.team || this.args.t) {
@@ -116,12 +141,12 @@ class BotK {
                     } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                            "body": swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'INLINE') {
                        return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                            "body": swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'SINGLE') {
                       if (teamList.length !== 1) {
@@ -130,7 +155,7 @@ class BotK {
 
                       return {
                         "type": "attachment",
-                        "body" : swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                        "body" : swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
                       }
                     }
                 })
