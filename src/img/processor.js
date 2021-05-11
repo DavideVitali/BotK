@@ -179,7 +179,7 @@ class ImageProcessor {
      */
     createTemplate(portraits, path, template, playerName) {
         return new Promise(async (resolve, reject) => {
-            const font = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE);
+            const font = await Jimp.loadFont(Jimp.FONT_SANS_32_WHITE);
             const textHelper = new TextHelper();
             if (!template) {
                 throw "La definizione di template non è valida.";
@@ -199,16 +199,16 @@ class ImageProcessor {
                     for (let i = 0; i < portraits.length; i++)
                     {
                         if (textHelper.isGalacticLegend(portraits[i].base_id) == true) {
-                            imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 0);
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 20);
                         } else {
-                            imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 0);
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 20);
                         }
                         imgResult.blit(portraits[i].img, (i * 128), 23);
                     }
-                    imgResult.print(font, 5, 5, 
+                    imgResult.print(font, 15, 1, 
                     {
                         text: playerName,
-                        alignmentX: Jimp.HORIZONTAL_ALIGN_CENTER,
+                        alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
                         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
                     },
                     640, 20);
