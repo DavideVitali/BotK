@@ -136,8 +136,11 @@ class ImageProcessor {
     /**
      *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
      */
-    getImage(characterList, template, playerName)
+    getImage(characterList, template, allyCode)
     {
+        const Swapi = require('../api/swgohApi.js');
+        var swapi = new Swapi();
+
         if (characterList.length > 5) {
             throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
         }
@@ -145,6 +148,7 @@ class ImageProcessor {
         return new Promise((resolve, reject) => {
           var pArray = [];
           var promises = [];
+          promises[0] = swapi.playerInfoHELP(allyCode);
           characterList.forEach(c => {
               promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
           });
@@ -157,14 +161,15 @@ class ImageProcessor {
               Promise.all(promises).then(resolved => {
                   timestamp = new Date().getTime();
                   path = './src/img/processresult/' + String(timestamp) + '.png'
-                  resolved.forEach(e => {
+                  resolved.slice(1).forEach(e => {
                       pArray.push({
                           "base_id": e.base_id,
                           "img": e.portrait
                       });
                   });
+                  
                   //console.log('pArray: ', pArray);
-                  resolve(this.createTemplate(pArray, path, template, playerName));
+                  resolve(this.createTemplate(pArray, path, template, resolved[0][0].name));
               });
             } catch (e) {
               throw e;
@@ -199,19 +204,19 @@ class ImageProcessor {
                     for (let i = 0; i < portraits.length; i++)
                     {
                         if (textHelper.isGalacticLegend(portraits[i].base_id) == true) {
-                            imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 20);
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineGlBackground.png')), (i * 128), 30);
                         } else {
-                            imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 20);
+                            imgResult.blit((await Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 30);
                         }
-                        imgResult.blit(portraits[i].img, (i * 128), 23);
+                        imgResult.blit(portraits[i].img, (i * 128), 35);
                     }
-                    imgResult.print(font, 15, 1, 
+                    imgResult.print(font, 15, 0, 
                     {
                         text: playerName,
                         alignmentX: Jimp.HORIZONTAL_ALIGN_LEFT,
                         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
                     },
-                    640, 20);
+                    640, 32);
                     imgResult.write(path);
                     break;
                 case this.SaveTemplate.ARENA:

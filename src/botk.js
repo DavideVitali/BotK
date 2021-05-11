@@ -99,9 +99,37 @@ class BotK {
                   .catch(e => { throw e; });
               }
             }
-            /* --------------------------------
-                    VALUTAZIONE DI UN TEAM
-               -------------------------------- */
+
+            /* ----------------------------------------------------
+                    VALUTAZIONE DI UN TEAM PER GILDA
+               ---------------------------------------------------- */
+            if (this.args.guildteam || this.args.gt) {
+              var teamValue = this.args.team || this.args.t;
+              var teamList = teamValue.split(',');
+
+              return dbOperations.searchUser(this.discordId)
+                .then(dbUser =>  {
+                  return swapi.guildMembers(dbUser.allyCode);
+                })
+                .then(members => {
+                    var oMembers = [];
+                    members.forEach(m => {
+                      oMembers.push({
+                        "name": m.name,
+                        "allyCode": m.allyCode
+                      });
+                    });
+                    return { 
+                      "type": "attachment",
+                      "body": swapi.guildTeamImage(teamList, oMembers).catch(e => {throw e;})
+                    }
+                  })
+                .catch(e => { throw e; });
+            }
+
+            /* ----------------------------------------------------
+                    VALUTAZIONE DI UN TEAM PER SINGOLO PLAYER
+               ---------------------------------------------------- */
             if (this.args.team || this.args.t) {
                 var teamValue = this.args.team || this.args.t;
 
@@ -124,9 +152,6 @@ class BotK {
                     }
                     var teamList = teamValue.split(',');
 
-                    // Si prepara prendendo i dati dei personaggi
-                    var promiseArray;
-
                     var format = (this.args.format || this.args.f);
 
                     if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
@@ -141,12 +166,12 @@ class BotK {
                     } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
+                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'INLINE') {
                        return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
+                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'SINGLE') {
                       if (teamList.length !== 1) {
@@ -155,7 +180,7 @@ class BotK {
 
                       return {
                         "type": "attachment",
-                        "body" : swapi.teamImage(teamList, allyCode, format, dbUser.name).catch(e => {throw e;})
+                        "body" : swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                       }
                     }
                 })
