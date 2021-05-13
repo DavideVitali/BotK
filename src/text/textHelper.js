@@ -19,6 +19,28 @@ class TextHelper {
         //return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
+    /**
+     * param {Array} characterList - Array di personaggi da cui estrarre le stat principali:
+     */
+    getCharactersMainStats(characterList) {
+        var result = [];
+        var th = new TextHelper();
+
+        characterList.forEach(c => {
+            result.push({
+                "base_id": c.data.base_id,
+                "level": c.data.level,
+                "rarity": c.data.rarity,
+                "gLevel": c.data.gear_level,
+                "rLevel": Number(c.data.relic_tier) - 2,
+                "zeta": c.data.zeta_abilities.length,
+                "alignment": th.findAlignment(c.data.base_id)
+            });
+        });
+
+        return result;
+    }
+
     findAlignment(id) {
         const characterList = require('./characterList.json');
 

@@ -35,25 +35,21 @@ class Swapi {
   }
 
   playersInfo(allyCodes) {
-    console.log(allyCodes);
-    fetch('https://api.swgoh.help/auth/signin', {
-      "method": "post",
-      "headers": {
-        "content-type": "application/x-www-form-urlencoded"
-      }
-    })
-    .then(response => console.log(response));
+    const payload = { "allycodes": allyCodes };
 
-    fetch('https://api.swgoh.help/swgoh/player', {
-      "method": "POST",
-      "body": {
-        "allyCodes": allyCodes,
-      },
-      "headers": {                              // ***
-        "Content-Type": "application/json"    // ***
-      }                                       // ***
-    })
-    .then(r => r);
+    const ApiSwgohHelp = require('api-swgoh-help');
+    const swhelp = new ApiSwgohHelp({
+        "username": process.env['swgohHelpUser'],
+        "password": process.env['swgohHelpPassword']
+    });
+
+    return swhelp.fetchPlayer({ "allycodes": allyCodes })
+    .then(response => {
+      if (response.error || response.warning) {
+        throw new Error(response.error ? response.error : response.warning)
+      }
+      return response.result;
+    });
   }
 
   playerInfoHELP(allyCode) {
@@ -68,15 +64,15 @@ class Swapi {
   }
 
   playerRosterHELP(allyCode) {
-  return new Promise((resolve, reject) => {
-    try {
-      const response = axios.get('https://api.swgoh.help/swgoh/player/' + allyCode);
-      resolve(response.then(r => r.data[0].roster));
-    } catch (error) {
-      reject(error => error.data);
-    }
-  });
-}
+    return new Promise((resolve, reject) => {
+      try {
+        const response = axios.get('https://api.swgoh.help/swgoh/player/' + allyCode);
+        resolve(response.then(r => r.data[0].roster));
+      } catch (error) {
+        reject(error => error.data);
+      }
+    });
+  }
 
   playerInfo(allyCode, mock) {
     if (mock && mock === true) {
@@ -133,12 +129,11 @@ class Swapi {
 
   guildTeamImage(teamList, members) {
     const textHelper = new TextHelper();
-    const processor = new ImageProcessor();
     const promises = [];
     
     promises.push(textHelper.findAbbreviated(teamList));
     members.forEach(m => {
-      promises.push(this.playerInfoHELP(m.allyCode))
+      promises.push(this.playersInfo(m.allyCode))
     });
 
     
@@ -158,8 +153,7 @@ class Swapi {
         
         for(let i = 1; i < promiseResults.length; i++)
         {
-          var memberCharacters = processor.createCharacterArray(promiseResult[i].roster);
-          
+          var memberCharacters = textHelper.getCharacterMainStats(promiseResult[i].roster);
         }
     });
   }

@@ -1,7 +1,7 @@
 const Jimp = require('jimp');
 const TextHelper = require('../text/textHelper.js');
 
-class ImageProcessor {
+module.exports = class ImageProcessor {
     constructor() {
         this.SaveTemplate = {
             SINGLE: "single",
@@ -51,7 +51,7 @@ class ImageProcessor {
      * @param {String} alignment - "DARKSIDE", "LIGHTSIDE"
      */
     async makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta, alignment) {
-        // try {
+        try {
             const font = await Jimp.loadFont(Jimp.FONT_SANS_16_WHITE);
             var gStartPoint = 0;
             var rStartPoint = 0;
@@ -108,36 +108,17 @@ class ImageProcessor {
                 "base_id": base_id,
                 "portrait": resizedPortrait
             }
-        // } catch (e) {
-        //     throw new Error(e.message);
-        // }
-    }
-
-    
-    createCharacterArray(characterList) {
-        var result = [];
-        var th = new TextHelper();
-
-        characterList.forEach(c => {
-            result.push({
-                "base_id": c.data.base_id,
-                "level": c.data.level,
-                "rarity": c.data.rarity,
-                "gLevel": c.data.gear_level,
-                "rLevel": Number(c.data.relic_tier) - 2,
-                "zeta": c.data.zeta_abilities.length,
-                "alignment": th.findAlignment(c.data.base_id)
-            });
-        });
-
-        return result;
+        } catch (e) {
+            throw new Error(e.message);
+        }
     }
   
     /**
      *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
      */
-    getImage(characterList, template, allyCode)
+    getImage(characterList, template, playerName, allyCode)
     {
+        const textHelper = new TextHelper();
         const Swapi = require('../api/swgohApi.js');
         var swapi = new Swapi();
 
@@ -148,28 +129,36 @@ class ImageProcessor {
         return new Promise((resolve, reject) => {
           var pArray = [];
           var promises = [];
-          promises[0] = swapi.playerInfoHELP(allyCode);
           characterList.forEach(c => {
+            // se chiamata da .gg 
+            if (c.base_id){
               promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
+            } else { // se chiamata da .help
+              var relic = c.relic ? c.relic.currentTier - 2 : 0;
+              var nZeta = c.skills.filter(skill => skill.isZeta && skill.tier == skill.tiers).length
+              var alignment = textHelper.findAlignment(c.defId);
+              promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment ));
+            }
           });
 
-          // console.log('characterList: ', characterList);
+          //console.log('characterList: ', characterList);
 
           try {
               var timestamp;
               var path;
-              Promise.all(promises).then(resolved => {
+              Promise.all(promises)
+              .then(resolved => {
                   timestamp = new Date().getTime();
-                  path = './src/img/processresult/' + String(timestamp) + '.png'
-                  resolved.slice(1).forEach(e => {
-                      pArray.push({
-                          "base_id": e.base_id,
-                          "img": e.portrait
-                      });
+                  path = './src/img/processresult/' + String(allyCode) + String(timestamp) + '.png'
+                  resolved.forEach(e => {
+                    pArray.push({
+                      "base_id": e.base_id,
+                      "img": e.portrait
+                    });
                   });
                   
                   //console.log('pArray: ', pArray);
-                  resolve(this.createTemplate(pArray, path, template, resolved[0][0].name));
+                  resolve(this.createTemplate(pArray, path, template, playerName));
               });
             } catch (e) {
               throw e;
@@ -254,5 +243,3 @@ class ImageProcessor {
         });
     }
 }
-
-module.exports = ImageProcessor;
