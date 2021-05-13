@@ -51,8 +51,9 @@ function guildTeamStats(teamList, members) {
 }
 
 function guildTeamImage(paths) {
-  const HEIGHT = paths.length * 155;
-  const WIDTH = 640;
+  // scalato dello 0.75
+  const HEIGHT = paths.length * 116.25;
+  const WIDTH = 480;
 
   return new Promise(async (resolve, reject) => {
     var background = await Jimp.read(WIDTH, HEIGHT, 0x00ffffff);
@@ -76,8 +77,9 @@ swapi.guildMembers('914315138')
 .then(members => {
   console.log('Fin qui impiegati ' + String((new Date()).getTime() - startTime) + 'ms. Inizio a prendere le stat dei personaggi per ogni membro della gilda');
   var players = members.map(m => m.allyCode);
-  var teamList = ['DR','BSF','HK','PREDATORE','MALAK'];
+  var teamList = ['shaak','rex','echo','5','arc'];
   //var teamList = ['CLS','HAN','CIUBE','C3PO','3POCIUBE'];
+  //var teamList = ['DR','BSF','HK','PREDATORE','MALAK'];
   return guildTeamStats(teamList, players);
 })
 .then(guildMembers => {
@@ -107,7 +109,6 @@ swapi.guildMembers('914315138')
   return Promise.all(promises)
 })
 .then(paths => {
-  console.log(paths);
   return guildTeamImage(paths);
 })
 .then(finalPath => console.log(finalPath))

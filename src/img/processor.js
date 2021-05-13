@@ -206,6 +206,7 @@ module.exports = class ImageProcessor {
                         alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE
                     },
                     640, 32);
+                    imgResult.scale(0.75);
                     imgResult.write(path);
                     break;
                 case this.SaveTemplate.ARENA:
@@ -234,6 +235,7 @@ module.exports = class ImageProcessor {
                           break;
                       }
                     }
+                    imgResult.scale(0.75);
                     imgResult.write(path);
                     break;
                 default:
