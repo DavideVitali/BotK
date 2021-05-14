@@ -31,7 +31,10 @@ client.on('message', message => {
               if (result.type == 'attachment') {
                   Promise.resolve(result.body).then(path => {
                     const attachment = new MessageAttachment(path);
-                    message.channel.send(attachment);
+                    message.channel.send(attachment).then(m => {
+                      fs.unlink(path);
+                      console.log('file cancellato');
+                    });
                     message.react('✅');
                   })
                   .catch(e => { 

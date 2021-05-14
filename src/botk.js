@@ -6,6 +6,7 @@ const TextHelper = require('./text/textHelper.js');
 const DbOperations = require('./data/dbOperations.js');
 const ImageProcessor = require ('./img/processor.js');
 const { default: axios } = require('axios');
+const fs = require('fs');
 
 class BotK {
     /*

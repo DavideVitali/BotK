@@ -1,7 +1,7 @@
 const ArgParser = require('./src/text/argParser.js');
 const Bot = require('./src/botk.js');
 
-let testLine = 'bk t=padme,anakin,ahsoka,gk,c3po g=1 f=inline'
+let testLine = 'bk t=padme,anakin,ahsoka,gk,c3po g=0 f=inline'
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {
