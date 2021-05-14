@@ -4,7 +4,7 @@ const { Client, MessageEmbed, MessageAttachment } = require('discord.js');
 const TextHelper = require('./src/text/textHelper.js');
 const ArgParser = require('./src/text/argParser.js');
 const BotK = require('./src/botk.js')
-const MongoClient = require('mongodb').MongoClient;
+const fs = require('fs');
 
 // Create an instance of a Discord client
 const client = new Client();
