@@ -9,6 +9,7 @@ module.exports = class ImageProcessor {
     const TextHelper = require('../text/textHelper.js')
     const Swapi = require('../api/swgohApi.js')
     
+    this.fs = require('fs');
     this.Jimp = require('jimp');
     this.textHelper = new TextHelper();
     this.swapi = new Swapi();
@@ -343,12 +344,17 @@ module.exports = class ImageProcessor {
     return new Promise(async (resolve, reject) => {
       var background = await this.Jimp.read(WIDTH, HEIGHT, 0x00ffffff);
       for (let i = 0; i < paths.length; i++) {
-          background.blit((await this.Jimp.read(paths[i])), 0, i * 124);
+        Promise.resolve(background.blit((await this.Jimp.read(paths[i])), 0, i * 124)).then(p => {
+          this.fs.unlink(paths[i], (err) => {
+            if (err) { throw err; }
+          });
+        });
       };
 
       var timestamp = new Date().getTime();
       var path = './src/img/processresult/_' + String(timestamp) + '.png'
       background.write(path);
+      
       resolve(path);
     });
   }
