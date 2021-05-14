@@ -32,6 +32,8 @@ function guildTeamStats(teamList, members, orderBy) {
     let ids = promiseResults[1];
     let members = promiseResults[2];
 
+    statCalculator.setGameData( gameData );
+    
     var result = [];
     members.forEach(member => {
       var orderedRoster = new Array(5);
@@ -41,7 +43,6 @@ function guildTeamStats(teamList, members, orderBy) {
       var filteredRoster = member.roster.filter(unit => ids.includes(unit.defId)).map(e => {        
         var i = promiseResults[0].indexOf(e.defId);
         orderedRoster[i] = e;
-        totalGp += e.gp;
       });
       
       orderedRoster.map(o => {
