@@ -29,7 +29,6 @@ client.on('message', message => {
             bot.Exec()
             .then(result => {
               if (result.type == 'attachment') {
-                  //console.log('result.body: ', result.body);
                   Promise.resolve(result.body).then(path => {
                     const attachment = new MessageAttachment(path);
                     message.channel.send(attachment);

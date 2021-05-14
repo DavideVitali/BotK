@@ -41,6 +41,7 @@ class BotK {
 
         // connessione alle api di swgoh
         let swapi = new Swapi();
+        let processor = new ImageProcessor();
         
         /*
         <summary>Restituisce le info e il roster di un player in formato JSON</summary>
@@ -153,6 +154,7 @@ class BotK {
                     var teamList = teamValue.split(',');
 
                     var format = (this.args.format || this.args.f);
+                    var isGuildRequest = this.args.g ? true : false;
 
                     if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
@@ -166,12 +168,12 @@ class BotK {
                     } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                            "body": processor.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'INLINE') {
                        return {
                             "type": "attachment",
-                            "body": swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                            "body": processor.buildTeamImage(teamList, allyCode, format, isGuildRequest).catch(e => {throw e;})
                         }
                     } else if (format.toUpperCase() == 'SINGLE') {
                       if (teamList.length !== 1) {
@@ -180,7 +182,7 @@ class BotK {
 
                       return {
                         "type": "attachment",
-                        "body" : swapi.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                        "body" : processor.teamImage(teamList, allyCode, format).catch(e => {throw e;})
                       }
                     }
                 })
@@ -188,8 +190,7 @@ class BotK {
                   throw e;
                 });
             }
-            throw "Opzione non riconosciuta. Digita bk -h per ottenere l'aiuto in linea";
-            //return new Promise((resolve, reject) => reject("Opzione non riconosciuta. Digita 'bk --h' per ottenere l'aiuto in linea"));
+            throw "Opzione non riconosciuta";
         }
     }
 }
