@@ -16,9 +16,6 @@ const statCalculator = require('swgoh-stat-calc');
  * param {Array<string>} members - Array dei codici alleato dei membri della Gilda.
  */
 function guildTeamStats(teamList, members, orderBy) {
-  let gameData = await (await ).json();
-  statCalculator.setGameData( gameData );
-  console.log('calculator set');
 
   const promises = [];
 
@@ -33,7 +30,8 @@ function guildTeamStats(teamList, members, orderBy) {
     let members = promiseResults[2];
 
     statCalculator.setGameData( gameData );
-    
+    console.log('calculator set');
+
     var result = [];
     members.forEach(member => {
       var orderedRoster = new Array(5);
