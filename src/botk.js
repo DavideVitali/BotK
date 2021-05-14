@@ -154,7 +154,7 @@ class BotK {
                     var teamList = teamValue.split(',');
 
                     var format = (this.args.format || this.args.f);
-                    var isGuildRequest = this.args.g ? true : false;
+                    var isGuildRequest = this.args.g == 1 ? true : false;
 
                     if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');

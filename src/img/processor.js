@@ -91,7 +91,7 @@ module.exports = class ImageProcessor {
       var memberPromise;
       
       if (isGuildRequest == true) {
-        memberPromise = swapi.guildMembers(allyCode)
+        memberPromise = this.swapi.guildMembers(allyCode)
         .then(members => {
           var players = members.map(m => m.allyCode);
           return this.swapi.getTeamStats(teamList, players, 'p');
