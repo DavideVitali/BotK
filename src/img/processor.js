@@ -129,7 +129,7 @@ module.exports = class ImageProcessor {
         return Promise.all(promises)
       })
       .then(paths => {
-        resolve(this.guildTeamImage(paths));
+        resolve(this.guildTeamImage(paths, teamList.length));
       })
       .catch(e => {
         console.log(e);
@@ -214,10 +214,6 @@ module.exports = class ImageProcessor {
    */
   getImage(characterList, template, playerName, allyCode)
   {
-      if (characterList.length > 5) {
-          throw new Error('Non sono ammesse squadre con più di 5 personaggi.');
-      }
-
       return new Promise((resolve, reject) => {
         var pArray = [];
         var promises = [];
@@ -272,15 +268,11 @@ module.exports = class ImageProcessor {
   
           var imgResult;
           switch (template) {
-              case this.SaveTemplate.SINGLE:
-                  if (portraits.length > 1) {
-                      throw "Hai scelto la modalità singola ma hai fornito più di un'immagine."
-                  }
-                  imgResult = portraits[0].img;
-                  imgResult.write(path);
-                  break;
               case this.SaveTemplate.INLINE:
-                  imgResult = await this.Jimp.read('./src/img/template/inline5v5template.png')
+                  const WIDTH = 128 * portraits.length;
+                  const HEIGHT = 165;
+                  console.log('W: ', WIDTH, 'H:', HEIGHT);
+                  imgResult = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
                   for (let i = 0; i < portraits.length; i++)
                   {
                       if (this.textHelper.isGalacticLegend(portraits[i].base_id) == true) {
@@ -336,24 +328,22 @@ module.exports = class ImageProcessor {
       });
   }
 
-  guildTeamImage(paths) {
+  guildTeamImage(paths, maxUnits) {
     // scalato dello 0.75
     const HEIGHT = paths.length * 124;
-    const WIDTH = 480;
+    const WIDTH = maxUnits * 96;
 
     return new Promise(async (resolve, reject) => {
-      var background = await this.Jimp.read(WIDTH, HEIGHT, 0x00ffffff);
+      var background = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
       for (let i = 0; i < paths.length; i++) {
         background.blit((await this.Jimp.read(paths[i])), 0, i * 124)
       }
 
       var timestamp = new Date().getTime();
       var path = './src/img/processresult/_' + String(timestamp) + '.png'
-      Promise.resolve(background.write(path)).then(r => {
+      background.write(path, () => {
         paths.forEach(p => {
-          fs.unlink(p, (err) => {
-            if (err) { throw err; }
-          });
+          this.fs.unlink(p, (err) => { if (err) { throw err; }});
         });
       });
       

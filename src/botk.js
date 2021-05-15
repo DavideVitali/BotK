@@ -157,33 +157,24 @@ class BotK {
                     var format = (this.args.format || this.args.f);
                     var isGuildRequest = this.args.g == 1 ? true : false;
 
-                    if (format && format != 'SINGLE' && format != 'ARENA' && format != 'INLINE') {
+                    if (format && format != 'ARENA' && format != 'TEXT') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
                     }
 
-                    if (!format) {
+                    if ( !format ) {
                       return {
-                        "type": "text",
-                        "body": swapi.teamTextualData(teamList, allyCode).catch(e => {throw e;})
+                        "type": "attachment",
+                        "body": processor.buildTeamImage(teamList, allyCode, format, isGuildRequest).catch(e => {throw e;})
                       }
                     } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": processor.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                            "body": processor.buildTeamImage(teamList, allyCode, format, false).catch(e => {throw e;})
                         }
-                    } else if (format.toUpperCase() == 'INLINE') {
-                       return {
-                            "type": "attachment",
-                            "body": processor.buildTeamImage(teamList, allyCode, format, isGuildRequest).catch(e => {throw e;})
-                        }
-                    } else if (format.toUpperCase() == 'SINGLE') {
-                      if (teamList.length !== 1) {
-                        throw new Error('Hai richiesto un ritratto singolo ma hai inserito più di un personaggio');
-                      }
-
+                    } else if (format.toUpperCase() == 'TEXT') {
                       return {
-                        "type": "attachment",
-                        "body" : processor.teamImage(teamList, allyCode, format).catch(e => {throw e;})
+                        "type": "text",
+                        "body": swapi.teamTextualData(teamList, allyCode).catch(e => {throw e;})
                       }
                     }
                 })

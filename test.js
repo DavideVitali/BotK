@@ -2,7 +2,7 @@ const ArgParser = require('./src/text/argParser.js');
 const Bot = require('./src/botk.js');
 const fs = require('fs');
 
-let testLine = 'bk t=padme,anakin,ahsoka,gk,c3po g=0 f=inline'
+let testLine = 'bk t=DR,malak,bsf,predatore,hk47 g=1'
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {
@@ -15,11 +15,9 @@ if (argParser.isValid == true) {
           .then(bodyMessage => {
             Promise.resolve(bodyMessage)
             .then(r => {
-              console.log('r: ', r);
-              console.log('bm: ', bodyMessage);
-              fs.unlink(bodyMessage, (err) => {
-                if (err) { throw err; }
-              });
+              // fs.unlink(bodyMessage, (err) => {
+              //   if (err) { throw err; }
+              // });
             });
           })
           .catch(e => {
