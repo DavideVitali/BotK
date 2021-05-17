@@ -477,7 +477,7 @@
     {
         "name": "Hunter",
         "base_id": "BADBATCHHUNTER",
-        "abbr": ["HUNTER"]
+        "abbr": ["HUNTER","BBH"]
     },
     {
         "name": "IG-100 MagnaGuard",
