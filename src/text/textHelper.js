@@ -3,20 +3,28 @@ const { parse } = require('path');
 
 class TextHelper {
     getSecrets() {
-        return {
-            "discord": {
-                "token": process.env.token,
-                "applicationId": process.env.applicationId,
-                "myId": process.env.myId
-            },
-            "mongodb": {
-                "domain": process.env.domain,
-                "namespace": process.env.namespace,
-                "user": process.env.user,
-                "pass": process.env.pass
+        if ( process.env.token ) {
+            return {
+                "discord": {
+                    "token": process.env.token,
+                    "applicationId": process.env.applicationId,
+                    "myId": process.env.myId
+                },
+                "mongodb": {
+                    "domain": process.env.domain,
+                    "namespace": process.env.namespace,
+                    "user": process.env.user,
+                    "pass": process.env.pass
+                },
+                "helpapi": {
+                    "swgohHelpUser": process.env.swgohHelpUser,
+                    "swgohHelpPassword": process.env.swgohHelpPassword
+                }
             }
+        } else {
+            const secrets = require('../../secrets/tokens.json');
+            return secrets;
         }
-        //return JSON.parse(fs.readFileSync('secrets/tokens.json', 'utf8'));
     }
 
     /**
