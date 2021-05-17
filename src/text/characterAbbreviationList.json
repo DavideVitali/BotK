@@ -297,7 +297,7 @@
     {
         "name": "Echo",
         "base_id": "BADBATCHECHO",
-        "abbr": ["BBECHO","ECHOBB","NEWECHO"]
+        "abbr": ["BBECHO","ECHOBB","NEWECHO","BBE"]
     },
     {
         "name": "Eeth Koth",
@@ -907,7 +907,7 @@
     {
         "name": "Tech",
         "base_id": "BADBATCHTECH",
-        "abbr": ["TECH"]
+        "abbr": ["TECH","BBT"]
     },
     {
         "name": "Teebo",
@@ -998,6 +998,11 @@
         "name": "Wicket",
         "base_id": "WICKET",
         "abbr": ["WICK"]
+    },
+    {
+        "name": "Wrecker",
+        "base_id": "BADBATCHWRECKER",
+        "abbr": ["WRECKER","BBW"]
     },
     {
         "name": "Young Han Solo",
