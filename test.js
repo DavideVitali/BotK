@@ -2,7 +2,7 @@ const ArgParser = require('./src/text/argParser.js');
 const Bot = require('./src/botk.js');
 const fs = require('fs');
 
-let testLine = 'bk t=DR,malak,bsf,predatore,hk47 g=1'
+let testLine = 'bk t=rex,echo,5,arc,bbecho'
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {
