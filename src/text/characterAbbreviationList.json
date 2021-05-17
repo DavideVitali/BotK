@@ -295,10 +295,10 @@
         "abbr": ["DROIDEKA"]
     },
     {
-        "name":"Echo",
-        "base_id":"BADBATCHECHO",
+        "name": "Echo",
+        "base_id": "BADBATCHECHO",
         "abbr": ["BBECHO","ECHOBB","NEWECHO"]
-    }
+    },
     {
         "name": "Eeth Koth",
         "base_id": "EETHKOTH",
