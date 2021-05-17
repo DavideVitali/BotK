@@ -83,28 +83,42 @@ module.exports = class ImageProcessor {
             throw new Error('Formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
         }
       } 
-    ).catch(e => { throw e; })
+    )
+  }
+
+  getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest) {
+    return new Promise(( resolve, reject ) => {
+      if ( !orderBy ) {
+        orderBy = 'P'
+      } else if ( orderBy && orderBy.toUpperCase() !== 'N' ) {
+        reject("La clausola ordinativa opzionale permette solo il valore 'n' (ordina per Nome giocatore), altrimenti l'elenco dei team viene ordinato per Potere Galattico in via predefinita");
+        return;
+      }
+
+      if (isGuildRequest == true) {
+        this.swapi.guildMembers(allyCode)
+        .then(members => {
+          var players = members.map(m => m.allyCode);
+          resolve(this.swapi.getTeamStats(teamList, players, orderBy ));
+        })
+        .catch(e => {
+          reject(e);
+        })
+      } else {
+        Promise.resolve(allyCode)
+        .then(member => {
+          resolve(this.swapi.getTeamStats(teamList, member, orderBy));
+        })
+        .catch(e => {
+          reject (e);
+        });
+      }
+    })
   }
 
   buildTeamImage(teamList, allyCode, orderBy, isGuildRequest) {
     return new Promise((resolve, reject) => {
-      var promiseResult;
-      var memberPromise;
-      
-      if (isGuildRequest == true) {
-        memberPromise = this.swapi.guildMembers(allyCode)
-        .then(members => {
-          var players = members.map(m => m.allyCode);
-          return this.swapi.getTeamStats(teamList, players, 'p');
-        })
-      } else {
-        memberPromise = Promise.resolve(allyCode)
-        .then(member => {
-          return this.swapi.getTeamStats(teamList, member, 'p');
-        })
-      }
-
-      memberPromise
+      this.getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest)
       .then(guildMembers => {
         var membersWithPortraits = [];
         guildMembers.forEach(member => {
@@ -132,10 +146,9 @@ module.exports = class ImageProcessor {
         resolve(this.guildTeamImage(paths, teamList.length));
       })
       .catch(e => {
-        console.log(e);
-        throw e;
+        reject(e);
       });
-    });
+    })
   }
   /**
    * 
@@ -218,15 +231,20 @@ module.exports = class ImageProcessor {
         var pArray = [];
         var promises = [];
         characterList.forEach(c => {
-          // se chiamata da .gg 
-          if (c.base_id){
-            promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
-          } else { // se chiamata da .help
-            var relic = c.relic ? c.relic.currentTier - 2 : 0;
-            var nZeta = c.skills.filter(skill => skill.isZeta && skill.tier == skill.tiers).length
-            var alignment = this.textHelper.findAlignment(c.defId);
-            promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment ));
+          try {
+            if (c.base_id){
+              promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
+            } else { // se chiamata da .help
+              var relic = c.relic ? c.relic.currentTier - 2 : 0;
+              var nZeta = c.skills.filter(skill => skill.isZeta && skill.tier == skill.tiers).length
+              var alignment = this.textHelper.findAlignment(c.defId);
+              promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment ));
+            }
+          } catch (e) {
+            console.log('processor:231', e); reject(e);
+            return;
           }
+          // se chiamata da .gg 
         });
 
         //console.log('characterList: ', characterList);
@@ -247,9 +265,14 @@ module.exports = class ImageProcessor {
                 
                 //console.log('pArray: ', pArray);
                 resolve(this.createTemplate(pArray, path, template, playerName));
+            })
+            .catch(e => {
+              console.log('processor:257', e)
+              reject(e);
             });
           } catch (e) {
-            throw e;
+            console.log('processor:261', e)
+            reject(e);
           }
       });
   }

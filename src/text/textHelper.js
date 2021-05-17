@@ -95,31 +95,22 @@ class TextHelper {
     }
 
     findAbbreviated(teamList) {
-        return new Promise(function(resolve, reject) {
-            fs.readFile('./src/text/characterAbbreviationList.json', 'utf8', (err, data) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                var cList = JSON.parse(data);
-                var idTeamList = []
-                for (var teamElement of teamList) {
-                    var found = false;
-                    for (var character of cList) {
-                        if (character.abbr.includes(teamElement.toUpperCase()) || character.name.replace(' ', '').toUpperCase() == teamElement.replace(' ', '').toUpperCase() || character.base_id == teamElement.replace(' ', '').toUpperCase()) {
-                            found = true;
-                            idTeamList.push(character.base_id);
-                            break;
-                        };
-                    };
-                    if (found == false) {
-                        reject("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + teamElement + "'");
-                    }
-                };
-                resolve(idTeamList);
-            });
-        });
+      const characterList = require('./characterAbbreviationList.json');
+      var idTeamList = [];
+      for (var teamElement of teamList) {
+        var found = false;
+        for (var character of characterList) {
+            if (character.abbr.includes(teamElement.toUpperCase()) || character.name.replace(' ', '').toUpperCase() == teamElement.replace(' ', '').toUpperCase() || character.base_id == teamElement.replace(' ', '').toUpperCase()) {
+              found = true;
+              idTeamList.push(character.base_id);
+              break;
+            };
+        };
+        if (found == false) {
+          throw new Error("Non ho trovato nessun personaggio corrisponde all'abbreviazione '" + teamElement + "'");
+        }
+      };
+      return idTeamList;
     }
 }
 

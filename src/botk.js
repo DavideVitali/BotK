@@ -102,36 +102,9 @@ class BotK {
               }
             }
 
-            /* ----------------------------------------------------
-                    VALUTAZIONE DI UN TEAM PER GILDA
-               ---------------------------------------------------- */
-            if (this.args.guildteam || this.args.gt) {
-              var teamValue = this.args.team || this.args.t;
-              var teamList = teamValue.split(',');
-
-              return dbOperations.searchUser(this.discordId)
-                .then(dbUser =>  {
-                  return swapi.guildMembers(dbUser.allyCode);
-                })
-                .then(members => {
-                    var oMembers = [];
-                    members.forEach(m => {
-                      oMembers.push({
-                        "name": m.name,
-                        "allyCode": m.allyCode
-                      });
-                    });
-                    return { 
-                      "type": "attachment",
-                      "body": swapi.guildTeamImage(teamList, oMembers).catch(e => {throw e;})
-                    }
-                  })
-                .catch(e => { throw e; });
-            }
-
-            /* ----------------------------------------------------
-                    VALUTAZIONE DI UN TEAM PER SINGOLO PLAYER
-               ---------------------------------------------------- */
+            /* ----------------------------------
+                    VALUTAZIONE DI UN TEAM 
+               ---------------------------------- */
             if (this.args.team || this.args.t) {
                 var teamValue = this.args.team || this.args.t;
 
@@ -162,24 +135,30 @@ class BotK {
                     }
 
                     if ( !format ) {
-                      return {
-                        "type": "attachment",
-                        "body": processor.buildTeamImage(teamList, allyCode, format, isGuildRequest).catch(e => {throw e;})
-                      }
+                        try {
+                          var body = processor.buildTeamImage(teamList, allyCode, format, isGuildRequest);
+                        }
+                        catch (e) {
+                          console.log('botk:142'); throw e;
+                        }
+                        return {
+                          "type": "attachment",
+                          "body": body
+                        }
                     } else if (format.toUpperCase() == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": processor.buildTeamImage(teamList, allyCode, format, false).catch(e => {throw e;})
+                            "body": processor.buildTeamImage(teamList, allyCode, format, false)
                         }
                     } else if (format.toUpperCase() == 'TEXT') {
                       return {
                         "type": "text",
-                        "body": swapi.teamTextualData(teamList, allyCode).catch(e => {throw e;})
+                        "body": swapi.teamTextualData(teamList, allyCode)
                       }
                     }
                 })
                 .catch(e => {
-                  throw e;
+                  console.log('botk:161'); throw e;
                 });
             }
             throw "Opzione non riconosciuta";
