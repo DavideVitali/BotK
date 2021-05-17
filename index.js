@@ -39,7 +39,7 @@ client.on('message', message => {
                     message.react('✅');
                   })
                   .catch(e => { 
-                    message.channel.send(embeddedMessage(colorContext.error, '', e));
+                    message.channel.send(embeddedMessage(colorContext.error, '', e.message));
                     message.react('❌');
                 });
               }
@@ -51,17 +51,17 @@ client.on('message', message => {
                   message.react('✅');                  
                 })
                 .catch(e => { 
-                  message.channel.send(embeddedMessage(colorContext.error, '', e));
+                  message.channel.send(embeddedMessage(colorContext.error, '', e.message));
                   message.react('❌');
                 });
               }
             })
-            .catch(error => {
-                message.channel.send(embeddedMessage(colorContext.error, '', error));
+            .catch(e => {
+                message.channel.send(embeddedMessage(colorContext.error, '', e.message));
                 message.react('❌');
             });
-        } catch (error) {
-            message.channel.send(embeddedMessage(colorContext.error, '', error));
+        } catch (e) {
+            message.channel.send(embeddedMessage(colorContext.error, '', e.message));
             message.react('❌');            
         }
     } else {

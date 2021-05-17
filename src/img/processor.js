@@ -1,9 +1,8 @@
 module.exports = class ImageProcessor {
   constructor() {
     this.SaveTemplate = {
-        SINGLE: "single",
-        ARENA: "arena",
-        INLINE: "inline"
+        ARENA: "ARENA",
+        INLINE: "INLINE"
     };
 
     const TextHelper = require('../text/textHelper.js')
@@ -69,56 +68,13 @@ module.exports = class ImageProcessor {
         team = this.swapi.getTeamStats(selectedCharacters, members, orderBy)
         .then()
         var ca = this.processor.createCharacterArray(selectedCharacters);
-        switch (format.toUpperCase()) {
-          case "ARENA":
-            return this.processor.getImage(ca, 'arena', allyCode);
-            break;
-          case "INLINE":
-            return this.processor.getImage(ca, 'inline', allyCode);
-            break;
-          case "SINGLE":
-            return this.processor.getImage(ca, 'single', allyCode);
-            break;
-          default:
-            throw new Error('Formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
-        }
-      } 
-    )
+        return this.processor.getImage(ca, format, allyCode);
+      });
   }
 
-  getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest) {
-    return new Promise(( resolve, reject ) => {
-      if ( !orderBy ) {
-        orderBy = 'P'
-      } else if ( orderBy && orderBy.toUpperCase() !== 'N' ) {
-        reject("La clausola ordinativa opzionale permette solo il valore 'n' (ordina per Nome giocatore), altrimenti l'elenco dei team viene ordinato per Potere Galattico in via predefinita");
-        return;
-      }
-
-      if (isGuildRequest == true) {
-        this.swapi.guildMembers(allyCode)
-        .then(members => {
-          var players = members.map(m => m.allyCode);
-          resolve(this.swapi.getTeamStats(teamList, players, orderBy ));
-        })
-        .catch(e => {
-          reject(e);
-        })
-      } else {
-        Promise.resolve(allyCode)
-        .then(member => {
-          resolve(this.swapi.getTeamStats(teamList, member, orderBy));
-        })
-        .catch(e => {
-          reject (e);
-        });
-      }
-    })
-  }
-
-  buildTeamImage(teamList, allyCode, orderBy, isGuildRequest) {
+  buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest) {
     return new Promise((resolve, reject) => {
-      this.getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest)
+      this.swapi.getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest)
       .then(guildMembers => {
         var membersWithPortraits = [];
         guildMembers.forEach(member => {
@@ -126,7 +82,7 @@ module.exports = class ImageProcessor {
             "allyCode": member.allyCode,
             "name": member.name,
             "units": member.units,
-            "portrait": this.getImage(member.units, 'inline', member.name, member.allyCode)
+            "portrait": this.getImage(member.units, format, member.name, member.allyCode)
           });
         });
         return membersWithPortraits;
@@ -222,9 +178,6 @@ module.exports = class ImageProcessor {
       }
   }
 
-  /**
-   *  @param{Array<JSON>} characterList - Array di JSON dei personaggi
-   */
   getImage(characterList, template, playerName, allyCode)
   {
       return new Promise((resolve, reject) => {
@@ -241,7 +194,7 @@ module.exports = class ImageProcessor {
               promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment ));
             }
           } catch (e) {
-            console.log('processor:231', e); reject(e);
+            reject(e);
             return;
           }
           // se chiamata da .gg 
@@ -267,11 +220,9 @@ module.exports = class ImageProcessor {
                 resolve(this.createTemplate(pArray, path, template, playerName));
             })
             .catch(e => {
-              console.log('processor:257', e)
               reject(e);
             });
           } catch (e) {
-            console.log('processor:261', e)
             reject(e);
           }
       });
@@ -294,7 +245,7 @@ module.exports = class ImageProcessor {
               case this.SaveTemplate.INLINE:
                   const WIDTH = 128 * portraits.length;
                   const HEIGHT = 165;
-                  console.log('W: ', WIDTH, 'H:', HEIGHT);
+                  //console.log('W: ', WIDTH, 'H:', HEIGHT);
                   imgResult = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
                   for (let i = 0; i < portraits.length; i++)
                   {
@@ -312,7 +263,7 @@ module.exports = class ImageProcessor {
                       alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
                   },
                   640, 32);
-                  imgResult.scale(0.75);
+                  //imgResult.scale(0.75);
                   imgResult.write(path);
                   break;
               case this.SaveTemplate.ARENA:
@@ -352,14 +303,18 @@ module.exports = class ImageProcessor {
   }
 
   guildTeamImage(paths, maxUnits) {
-    // scalato dello 0.75
-    const HEIGHT = paths.length * 124;
-    const WIDTH = maxUnits * 96;
+    // 1.00x : 128 x 165
+    // 0.75x : 96 x 124
+    const SINGLE_WIDTH = 128;
+    const SINGLE_HEIGHT = 165;
+
+    const TOTAL_HEIGHT = paths.length * SINGLE_HEIGHT;
+    const TOTAL_WIDTH = maxUnits * SINGLE_WIDTH;
 
     return new Promise(async (resolve, reject) => {
-      var background = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
+      var background = await this.Jimp.read(TOTAL_WIDTH, TOTAL_HEIGHT, '#000000');
       for (let i = 0; i < paths.length; i++) {
-        background.blit((await this.Jimp.read(paths[i])), 0, i * 124)
+        background.blit((await this.Jimp.read(paths[i])), 0, i * SINGLE_HEIGHT)
       }
 
       var timestamp = new Date().getTime();

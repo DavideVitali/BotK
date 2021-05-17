@@ -127,30 +127,43 @@ class BotK {
                     }
                     var teamList = teamValue.split(',');
 
-                    var format = (this.args.format || this.args.f);
+                    var format;
+                    if ( !this.args.f ) {
+                      format = 'INLINE';
+                    } else {
+                      format = this.args.f.toUpperCase();
+                    }
+
+                    var orderBy;
+                    if ( !this.args.o ) {
+                      orderBy = 'P';
+                    } else {
+                      orderBy = this.args.o.toUpperCase();
+                    }
+
                     var isGuildRequest = this.args.g == 1 ? true : false;
 
-                    if (format && format != 'ARENA' && format != 'TEXT') {
+                    if (format && format != 'INLINE' && format != 'ARENA' && format != 'TEXT') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
                     }
 
-                    if ( !format ) {
+                    if ( format == 'INLINE' ) {
                         try {
-                          var body = processor.buildTeamImage(teamList, allyCode, format, isGuildRequest);
+                          var body = processor.buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest);
                         }
                         catch (e) {
-                          console.log('botk:142'); throw e;
+                          throw e;
                         }
                         return {
                           "type": "attachment",
                           "body": body
                         }
-                    } else if (format.toUpperCase() == 'ARENA') {
+                    } else if (format == 'ARENA') {
                         return {
                             "type": "attachment",
-                            "body": processor.buildTeamImage(teamList, allyCode, format, false)
+                            "body": processor.buildTeamImage(teamList, allyCode, format, orderBy, false)
                         }
-                    } else if (format.toUpperCase() == 'TEXT') {
+                    } else if (format == 'TEXT') {
                       return {
                         "type": "text",
                         "body": swapi.teamTextualData(teamList, allyCode)
@@ -158,7 +171,7 @@ class BotK {
                     }
                 })
                 .catch(e => {
-                  console.log('botk:161'); throw e;
+                  throw e;
                 });
             }
             throw "Opzione non riconosciuta";

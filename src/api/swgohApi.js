@@ -19,17 +19,7 @@ class Swapi {
           var members = [];
           
           response.data[0].roster.forEach(m => members.push({ "name": m.name, "allyCode": m.allyCode })); 
-          return members.sort((first, second) => { 
-            if (first.name.toUpperCase() > second.name.toUpperCase()) {
-              return 1
-            }
-
-            if (first.name.toUpperCase() < second.name.toUpperCase()) {
-              return -1
-            }
-
-            return 0;
-          });
+          return members;
         }).catch(e => { 
           throw e; 
           }));
@@ -118,6 +108,36 @@ class Swapi {
     });
   }
 
+  getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest) {
+    return new Promise(( resolve, reject ) => {
+      if ( !orderBy ) {
+        orderBy = 'P'
+      } else if ( orderBy && orderBy.toUpperCase() !== 'N' && orderBy.toUpperCase() !== 'P') {
+        reject("Se spacificata, la clausola ordinativa opzionale permette i soli valori 'N' (ordinamento per Nome giocatore) e 'P' (ordinamento per Potere Galattico. Se non specificata, l'elenco dei team viene ordinato per Potere Galattico.");
+        return;
+      }
+
+      if (isGuildRequest == true) {
+        this.swapi.guildMembers(allyCode)
+        .then(members => {
+          var players = members.map(m => m.allyCode);
+          resolve(this.swapi.getTeamStats(teamList, players, orderBy ));
+        })
+        .catch(e => {
+          reject(e);
+        })
+      } else {
+        Promise.resolve(allyCode)
+        .then(member => {
+          resolve(this.swapi.getTeamStats(teamList, member, orderBy));
+        })
+        .catch(e => {
+          reject (e);
+        });
+      }
+    })
+  }
+  
   getTeamStats(teamList, members, orderBy) {
     const promises = [];
 
