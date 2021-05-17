@@ -179,7 +179,7 @@ class Swapi {
         });
       });
 
-      if (orderBy == "p") {
+      if (orderBy == "P") {
         return result.sort((f, s) => s.totalGp - f.totalGp);
       } else {
         return result.sort((f, s) => f.name.toUpperCase() - s.name.toUpperCase() ? -1 : 1);
