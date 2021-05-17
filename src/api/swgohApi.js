@@ -118,10 +118,10 @@ class Swapi {
       }
 
       if (isGuildRequest == true) {
-        this.swapi.guildMembers(allyCode)
+        this.guildMembers(allyCode)
         .then(members => {
           var players = members.map(m => m.allyCode);
-          resolve(this.swapi.getTeamStats(teamList, players, orderBy ));
+          resolve(this.getTeamStats(teamList, players, orderBy ));
         })
         .catch(e => {
           reject(e);
@@ -129,7 +129,7 @@ class Swapi {
       } else {
         Promise.resolve(allyCode)
         .then(member => {
-          resolve(this.swapi.getTeamStats(teamList, member, orderBy));
+          resolve(this.getTeamStats(teamList, member, orderBy));
         })
         .catch(e => {
           reject (e);
@@ -137,7 +137,7 @@ class Swapi {
       }
     })
   }
-  
+
   getTeamStats(teamList, members, orderBy) {
     const promises = [];
 
