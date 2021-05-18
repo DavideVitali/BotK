@@ -244,7 +244,7 @@ module.exports = class ImageProcessor {
           switch (template) {
               case this.SaveTemplate.INLINE:
                   const WIDTH = 128 * portraits.length;
-                  const HEIGHT = portraits.some(p => p.stats) == true ?  270 : 165;
+                  const HEIGHT = portraits.some(p => p.stats) == true ?  305 : 165;
                   
                   imgResult = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
                   for (let i = 0; i < portraits.length; i++)
@@ -255,13 +255,53 @@ module.exports = class ImageProcessor {
                           imgResult.blit((await this.Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 30);
                       }
                       imgResult
-                      .blit(portraits[i].img, (i * 128), 35)
-                      .print(statFont, i * 128, 165, {
-                        text: 'S: ' + portraits[i].stats['Velocita'] + '\n' +'H: ' + portraits[i].stats['Salute'] + '\n'+'P: ' + portraits[i].stats['Protezione'],
-                        alignmentX: this.Jimp.HORIZONTAL_ALIGN_MIDDLE,
-                        alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
-                      },
-                      128, 105)
+                      .blit(portraits[i].img, (i * 128), 35);
+
+                      if ( portraits[i].stats ) {
+                        imgResult
+                        .print(statFont, i * 128, 165, {
+                          text: 'Vel: ' + portraits[i].stats['Velocita'],
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                        .print(statFont, i * 128, 185, {
+                          text: 'Sal: ' + portraits[i].stats['Salute'],
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                        .print(statFont, i * 128, 205, {
+                          text: 'Pro: ' + portraits[i].stats['Protezione'],
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                        .print(statFont, i * 128, 225, {
+                          text: 'Eff: ' + Math.round(portraits[i].stats['Efficacia'] * 100) + '%',
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                        .print(statFont, i * 128, 245, {
+                          text: 'Ten: ' + Math.round(portraits[i].stats['Tenacia'] * 100) + '%', 
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)                        
+                        .print(statFont, i * 128, 265, {
+                          text: 'Att: ' + portraits[i].stats['Danni fisici'] + ' / ' + portraits[i].stats['Danni speciali'],
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                        .print(statFont, i * 128, 285, {
+                          text: 'Dif: ' + Math.round(portraits[i].stats['Corazza'] * 100) + '% / ' + Math.round(portraits[i].stats['Resistenza'] * 100) + '%',
+                          alignmentX: this.Jimp.HORIZONTAL_ALIGN_LEFT,
+                          alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                        },
+                        128, 20)
+                      }
                   }
                   imgResult.print(font, 15, 0, 
                   {
@@ -313,7 +353,7 @@ module.exports = class ImageProcessor {
     // 1.00x : 128 x 165
     // 0.75x : 96 x 124
     const SINGLE_WIDTH = 128;
-    const SINGLE_HEIGHT = withStats == true ? 270 : 165;
+    const SINGLE_HEIGHT = withStats == true ? 305 : 165;
 
     const TOTAL_HEIGHT = paths.length * SINGLE_HEIGHT;
     const TOTAL_WIDTH = maxUnits * SINGLE_WIDTH;

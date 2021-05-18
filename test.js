@@ -8,7 +8,7 @@ let swapi = new Swapi();
 let statCalculator = require('swgoh-stat-calc');
 
 
-let testLine = 'bk t=5,echo,rex,arc,bbe s=1'
+let testLine = 'bk t=SEE,palpa,vader,malak,drevan s=1'
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {
