@@ -106,7 +106,7 @@ module.exports = class ImageProcessor {
       });
     })
   }
-
+  
   /**
    * 
    * @param {Number} level 
@@ -118,21 +118,17 @@ module.exports = class ImageProcessor {
    */
   async makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta, alignment) {
       try {
-          var gStartPoint = 0;
-          var rStartPoint = 0;
+          const gStartPoint = alignment == 'DARKSIDE' ? 112 : 0;
+          const rStartPoint = alignment == 'DARKSIDE' ? 40 : 0;
+          const maskPath = './src/img/template/mask.png';
+          const starActivePath = './src/img/template/star_active.png';
+          const starInactivePath = './src/img/template/star_inactive.png'; 
           var path = './src/img/portrait/';
           var name = base_id + '.png';
-          var maskPath = './src/img/template/mask.png';
-          if (alignment == 'DARKSIDE') {
-              gStartPoint = 112;
-              rStartPoint = 40;
-          }
   
           const font = await this.Jimp.loadFont(this.Jimp.FONT_SANS_16_WHITE);
           const resizedPortrait = (await this.Jimp.read('./src/img/template/background.png')).blit((await this.Jimp.read(path + name)).resize(100,100), 14,14);
           const mask = await this.Jimp.read(maskPath);
-          const starActivePath = './src/img/template/star_active.png';
-          const starInactivePath = './src/img/template/star_inactive.png'; 
   
           if (gLevel >= 13) {
               resizedPortrait.blit((await this.Jimp.read('./src/img/template/g13.png')), 4, 8, 0, gStartPoint, 120, 112).mask(mask);
