@@ -2,6 +2,37 @@ const fs = require('fs');
 const { parse } = require('path');
 
 class TextHelper {
+  constructor() {
+
+    /**
+     * 37 e 38 entrambi precisione (quale fisico / speciale?)
+     * 
+     */
+    this.StatsTable = {
+        "1": "Salute",
+        "5": "Velocita",
+        "6": "Danni fisici",
+        "7": "Danni speciali",
+        "8": "Corazza",
+        "9": "Resistenza",
+        "10": "Penetrazione corazza",
+        "11": "Penetrazione resistenza",
+        "12": "Prob. schivata / deviazione",
+        "13": "Prob. schivata / deviazione",
+        "14": "Prob. critico fisico",
+        "15": "Prob. critico speciale",
+        "16": "Danni critici",
+        "17": "Efficacia",
+        "18": "Tenacia",
+        "27": "Furto vitale",
+        "28": "Protezione",
+        "37": "Precisione",
+        "38": "Precisione",
+        "39": "Schivata colpi critici fisici / speciali",
+        "40": "Schivata colpi critici fisici / speciali"
+      }
+    }
+
     getSecrets() {
         if ( process.env.token ) {
             return {
