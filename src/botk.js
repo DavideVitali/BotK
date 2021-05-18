@@ -29,6 +29,7 @@ class BotK {
         'team': 'slkr,kru,hux'
     }
     */
+
     constructor(args, recipients, userDiscordId) {
         this.args = args;
         this.recipients = recipients;
@@ -79,27 +80,34 @@ class BotK {
             /* --------------------------------
                     COMPONENTI DELLA GILDA
                -------------------------------- */
-            if (this.args.guildmembers || this.args.gm) {
+            if ( this.args.gm ) {
               
-              var optionValue = this.args.guildmembers || this.args.gm;
-
-              if (optionValue.toUpperCase() == "L") {
-                return dbOperations.searchUser(this.discordId)
-                  .then(dbUser =>  {
-                    return swapi.guildMembers(dbUser.allyCode);
-                  })
-                  .then(members => {
-                      var result = '';
-                      members.forEach(m => {
-                        result = result + "**" + m.name + "**: " + m.allyCode + "\n";
-                      });
-                      return { 
-                        "type": "text",
-                        "body": result
-                      }
-                    })
-                  .catch(e => { throw e; });
+              var orderBy;
+              if ( !this.args.gm ) {
+                orderBy = 'N';
+              } else {
+                orderBy = this.args.gm.toUpperCase();
               }
+
+              return dbOperations.searchUser(this.discordId)
+              .then(dbUser =>  {
+                return swapi.guildMembers(dbUser.allyCode);
+              })
+              .then(members => {
+                  var result = '';
+                  
+                  members
+                  .sort(( f, s ) => f.name.toUpperCase() < s.name.toUpperCase() ? -1 : 1)
+                  .forEach(m => {
+                    result = result + "**" + m.name + "**: " + m.allyCode + "\n";
+                  });
+
+                  return { 
+                    "type": "text",
+                    "body": result
+                  }
+                })
+              .catch(e => { throw e; });
             }
 
             /* ----------------------------------
