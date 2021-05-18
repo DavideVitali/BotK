@@ -142,6 +142,7 @@ class BotK {
                     }
 
                     var isGuildRequest = this.args.g == 1 ? true : false;
+                    var withStats = this.args.s == 1 ? true : false;
 
                     if (format && format != 'INLINE' && format != 'ARENA' && format != 'TEXT') {
                       throw ('Hai richiesto un formato non riconosciuto. Le opzioni valide sono: "single", "arena" e "inline".');
@@ -149,7 +150,7 @@ class BotK {
 
                     if ( format == 'INLINE' ) {
                         try {
-                          var body = processor.buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest);
+                          var body = processor.buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest, withStats);
                         }
                         catch (e) {
                           throw e;

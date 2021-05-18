@@ -45,36 +45,36 @@ module.exports = class ImageProcessor {
       }
   }
 
-  teamImage(teamList, allyCode, format, orderBy) {
-    return Promise.all([
-      this.textHelper.findAbbreviated(teamList),
-      this.playerInfo(allyCode)])
-      .then(promiseResults => {
-        var selectedCharacters = [];
-        for (var baseId of promiseResults[0]) {
-            for (var unit of promiseResults[1].units) {
-                if (unit.data.base_id === baseId) {
-                    selectedCharacters.push(unit);
-                }
-            }
-        }
-        selectedCharacters.filter(c => {
-            return c.base_id;
-        });
+  // teamImage(teamList, allyCode, format, orderBy, withStats) {
+  //   return Promise.all([
+  //     this.textHelper.findAbbreviated(teamList),
+  //     this.playerInfo(allyCode)])
+  //     .then(promiseResults => {
+  //       var selectedCharacters = [];
+  //       for (var baseId of promiseResults[0]) {
+  //           for (var unit of promiseResults[1].units) {
+  //               if (unit.data.base_id === baseId) {
+  //                   selectedCharacters.push(unit);
+  //               }
+  //           }
+  //       }
+  //       selectedCharacters.filter(c => {
+  //           return c.base_id;
+  //       });
 
-        let members = [];
-        members.push(allyCode);
+  //       let members = [];
+  //       members.push(allyCode);
 
-        team = this.swapi.getTeamStats(selectedCharacters, members, orderBy)
-        .then()
-        var ca = this.processor.createCharacterArray(selectedCharacters);
-        return this.processor.getImage(ca, format, allyCode);
-      });
-  }
+  //       team = this.swapi.getTeamStats(selectedCharacters, members, orderBy)
+  //       .then()
+  //       var ca = this.processor.createCharacterArray(selectedCharacters);
+  //       return this.processor.getImage(ca, format, allyCode);
+  //     });
+  // }
 
-  buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest) {
+  buildTeamImage(teamList, allyCode, format, orderBy, isGuildRequest, withStats) {
     return new Promise((resolve, reject) => {
-      this.swapi.getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest)
+      this.swapi.getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest, withStats)
       .then(guildMembers => {
         var membersWithPortraits = [];
         guildMembers.forEach(member => {
@@ -99,7 +99,7 @@ module.exports = class ImageProcessor {
         return Promise.all(promises)
       })
       .then(paths => {
-        resolve(this.guildTeamImage(paths, teamList.length));
+        resolve(this.guildTeamImage(paths, teamList.length, withStats));
       })
       .catch(e => {
         reject(e);
@@ -116,7 +116,7 @@ module.exports = class ImageProcessor {
    * @param {Number} nZeta 
    * @param {String} alignment - "DARKSIDE", "LIGHTSIDE"
    */
-  async makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta, alignment) {
+  async makePortrait(base_id, level, rarity, gLevel, rLevel, nZeta, alignment, stats) {
       try {
           const gStartPoint = alignment == 'DARKSIDE' ? 112 : 0;
           const rStartPoint = alignment == 'DARKSIDE' ? 40 : 0;
@@ -168,7 +168,8 @@ module.exports = class ImageProcessor {
   
           return {
               "base_id": base_id,
-              "portrait": resizedPortrait
+              "portrait": resizedPortrait,
+              "stats": stats
           }
       } catch (e) {
           throw new Error(e.message);
@@ -183,12 +184,12 @@ module.exports = class ImageProcessor {
         characterList.forEach(c => {
           try {
             if (c.base_id){
-              promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment));
+              promises.push(this.makePortrait(c.base_id, c.level, c.rarity, c.gLevel, c.rLevel, c.zeta, c.alignment, c.stats));
             } else { // se chiamata da .help
               var relic = c.relic ? c.relic.currentTier - 2 : 0;
               var nZeta = c.skills.filter(skill => skill.isZeta && skill.tier == skill.tiers).length
               var alignment = this.textHelper.findAlignment(c.defId);
-              promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment ));
+              promises.push(this.makePortrait( c.defId, c.level, c.rarity, c.gear, relic, nZeta, alignment, c.stats ));
             }
           } catch (e) {
             reject(e);
@@ -209,7 +210,8 @@ module.exports = class ImageProcessor {
                 resolved.forEach(e => {
                   pArray.push({
                     "base_id": e.base_id,
-                    "img": e.portrait
+                    "img": e.portrait,
+                    "stats": e.stats
                   });
                 });
                 
@@ -230,9 +232,10 @@ module.exports = class ImageProcessor {
    * @param {Array<Jimp>} portraits - array dei personaggi
    * @param {SaveTemplate} template - Enum SaveTemplate
    */
-  createTemplate(portraits, path, template, playerName) {
+  createTemplate( portraits, path, template, playerName ) {
       return new Promise(async (resolve, reject) => {
           const font = await this.Jimp.loadFont(this.Jimp.FONT_SANS_32_WHITE);
+          const statFont = await this.Jimp.loadFont(this.Jimp.FONT_SANS_16_WHITE);
           if (!template) {
               throw "La definizione di template non è valida.";
           }
@@ -241,8 +244,8 @@ module.exports = class ImageProcessor {
           switch (template) {
               case this.SaveTemplate.INLINE:
                   const WIDTH = 128 * portraits.length;
-                  const HEIGHT = 165;
-                  //console.log('W: ', WIDTH, 'H:', HEIGHT);
+                  const HEIGHT = portraits.some(p => p.stats) == true ?  270 : 165;
+                  
                   imgResult = await this.Jimp.read(WIDTH, HEIGHT, 0x00000000);
                   for (let i = 0; i < portraits.length; i++)
                   {
@@ -251,7 +254,14 @@ module.exports = class ImageProcessor {
                       } else {
                           imgResult.blit((await this.Jimp.read('./src/img/template/inlineBackground.png')), (i * 128), 30);
                       }
-                      imgResult.blit(portraits[i].img, (i * 128), 35);
+                      imgResult
+                      .blit(portraits[i].img, (i * 128), 35)
+                      .print(statFont, i * 128, 165, {
+                        text: 'S: ' + portraits[i].stats['Velocita'] + '\n' +'H: ' + portraits[i].stats['Salute'] + '\n'+'P: ' + portraits[i].stats['Protezione'],
+                        alignmentX: this.Jimp.HORIZONTAL_ALIGN_MIDDLE,
+                        alignmentY: this.Jimp.VERTICAL_ALIGN_MIDDLE
+                      },
+                      128, 105)
                   }
                   imgResult.print(font, 15, 0, 
                   {
@@ -299,11 +309,11 @@ module.exports = class ImageProcessor {
       });
   }
 
-  guildTeamImage(paths, maxUnits) {
+  guildTeamImage(paths, maxUnits, withStats) {
     // 1.00x : 128 x 165
     // 0.75x : 96 x 124
     const SINGLE_WIDTH = 128;
-    const SINGLE_HEIGHT = 165;
+    const SINGLE_HEIGHT = withStats == true ? 270 : 165;
 
     const TOTAL_HEIGHT = paths.length * SINGLE_HEIGHT;
     const TOTAL_WIDTH = maxUnits * SINGLE_WIDTH;

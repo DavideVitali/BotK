@@ -108,7 +108,7 @@ class Swapi {
     });
   }
 
-  getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest) {
+  getMemberTeamStats(teamList, allyCode, orderBy, isGuildRequest, withStats) {
     return new Promise(( resolve, reject ) => {
       if ( !orderBy ) {
         orderBy = 'P'
@@ -120,7 +120,7 @@ class Swapi {
       if (isGuildRequest == true) {
         this.guildMembers(allyCode)
         .then(members => {
-          resolve(this.getTeamStats(teamList, members.map(m => m.allyCode), orderBy ));
+          resolve(this.getTeamStats(teamList, members.map(m => m.allyCode), orderBy, withStats ));
         })
         .catch(e => {
           reject(e);
@@ -128,7 +128,7 @@ class Swapi {
       } else {
         Promise.resolve(allyCode)
         .then(member => {
-          resolve(this.getTeamStats(teamList, member, orderBy));
+          resolve(this.getTeamStats(teamList, member, orderBy, withStats));
         })
         .catch(e => {
           reject (e);
@@ -137,7 +137,7 @@ class Swapi {
     })
   }
 
-  getTeamStats(teamList, members, orderBy) {
+  getTeamStats(teamList, members, orderBy, withStats) {
     const promises = [];
 
     promises.push(fetch('https://swgoh-stat-calc.glitch.me/gameData.json').then(r => r.json()));
@@ -161,6 +161,12 @@ class Swapi {
         var filteredRoster = member.roster.filter(unit => ids.includes(unit.defId)).map(filteredUnit => {        
           var i = ids.indexOf(filteredUnit.defId);
           orderedRoster[i] = filteredUnit;
+          if ( withStats == true ) {
+            filteredUnit.stats = this.statCalculator.calcCharStats( filteredUnit, {
+              gameStyle: true, 
+              language: this.textHelper.StatsTable 
+            }).final
+          }
           totalGp += this.statCalculator.calcCharGP( filteredUnit );
         });
         
@@ -176,6 +182,7 @@ class Swapi {
           "units": trimmedRoster,
           "totalGp": totalGp
         });
+        
       });
 
       if (orderBy == "P") {
