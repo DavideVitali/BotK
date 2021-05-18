@@ -17,7 +17,7 @@ class TextHelper {
                     "pass": process.env.pass
                 },
                 "helpapi": {
-                    "swgohHelpUser": process.env.swgohHelpUser,
+                    "swgohHelpUsername": process.env.swgohHelpUsername,
                     "swgohHelpPassword": process.env.swgohHelpPassword
                 }
             }

@@ -247,7 +247,7 @@
     {
         "name": "Darth Revan",
         "base_id": "DARTHREVAN",
-        "abbr": ["DR"]
+        "abbr": ["DR","DREVAN"]
     },
     {
         "name": "Darth Sidious",

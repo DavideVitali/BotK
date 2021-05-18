@@ -34,8 +34,8 @@ class Swapi {
 
     const ApiSwgohHelp = require('api-swgoh-help');
     const swhelp = new ApiSwgohHelp({
-        "username": process.env['swgohHelpUser'],
-        "password": process.env['swgohHelpPassword']
+        "username": this.textHelper.getSecrets().helpapi.swgohHelpUsername,
+        "password": this.textHelper.getSecrets().helpapi.swgohHelpPassword
     });
 
     return swhelp.fetchPlayer({ "allycodes": allyCodes })
@@ -120,12 +120,11 @@ class Swapi {
       if (isGuildRequest == true) {
         this.guildMembers(allyCode)
         .then(members => {
-          var players = members.map(m => m.allyCode);
-          resolve(this.getTeamStats(teamList, players, orderBy ));
+          resolve(this.getTeamStats(teamList, members.map(m => m.allyCode), orderBy ));
         })
         .catch(e => {
           reject(e);
-        })
+        });
       } else {
         Promise.resolve(allyCode)
         .then(member => {
@@ -182,7 +181,7 @@ class Swapi {
       if (orderBy == "P") {
         return result.sort((f, s) => s.totalGp - f.totalGp);
       } else {
-        return result.sort((f, s) => f.name.toUpperCase() - s.name.toUpperCase() ? -1 : 1);
+        return result.sort((f, s) => f.name.toUpperCase() < s.name.toUpperCase() ? -1 : 1);
       }
     })
     .catch(err => { throw err; });

@@ -2,7 +2,7 @@ const ArgParser = require('./src/text/argParser.js');
 const Bot = require('./src/botk.js');
 const fs = require('fs');
 
-let testLine = 'bk t=dr,malak g=1 a=899715175'
+let testLine = 'bk t=see,drevan,malak,bsf,wat'
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {
@@ -12,7 +12,7 @@ if (argParser.isValid == true) {
     .then(message => message)
     .then(path => console.log(path))
     .catch (e => {
-      console.log('test:34 ', e);
+      console.log(e);
     });
 }
 else {
