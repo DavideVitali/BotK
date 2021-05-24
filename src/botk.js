@@ -73,10 +73,10 @@ class BotK {
                   var abbrs = result.split(';');
                   var results = [];
                   for (let i = 0; i < abbrs.length; i += 40) {
-                    var messageChunk = abbrs.slice(i, i + 39).join(';\n')
+                    var messageChunk = abbrs.slice(i, i + 39).join(';\n');
                     results.push(messageChunk);
                   }
-
+                  
                   return { 
                     "type": "longtext",
                     "body": results
