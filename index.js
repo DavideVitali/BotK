@@ -42,8 +42,20 @@ client.on('message', message => {
                     message.channel.send(embeddedMessage(colorContext.error, '', e.message));
                     message.react('❌');
                 });
-              }
-              else {
+              } else if ( result.type == 'longtext') {
+                Promise.resolve(result.body)
+                .then(text => {
+                  result.body.forEach(m => {
+                    var msgBody = '<@' + message.author.id + '>\n' + m;
+                    message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                    message.react('✅');                  
+                  });
+                })
+                .catch(e => { 
+                  message.channel.send(embeddedMessage(colorContext.error, '', e.message));
+                  message.react('❌');
+                });
+              } else {
                 Promise.resolve(result.body)
                 .then(text => {
                   var msgBody = '<@' + message.author.id + '>\n' + text;

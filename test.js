@@ -13,7 +13,10 @@ const argParser = new ArgParser(testLine.split(' '), 'index');
 if (argParser.isValid == true) {
     const bot = new Bot(argParser.commandResult, argParser.recipients, process.env.myId);
     bot.Exec()
-    .then(result => result.body)
+    .then(result => {
+      console.log('result: ', result);
+      return result.body;
+    })
     .then(message => message)
     .then(path => console.log(path))
     .catch (e => {

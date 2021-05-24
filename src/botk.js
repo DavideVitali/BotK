@@ -69,10 +69,24 @@ class BotK {
             if (this.args.abbr)
             {
               return textHelper.getAbbreviationsList().then(result => {
-                return { 
-                  "type": "text",
-                  "body": result
+                if ( result.length > 2000 ) {
+                  var abbrs = result.split(';');
+                  var results = [];
+                  for (let i = 0; i < abbrs.length; i += 40) {
+                    var messageChunk = abbrs.slice(i, i + 39).join(';\n')
+                    results.push(messageChunk);
                   }
+
+                  return { 
+                    "type": "longtext",
+                    "body": results
+                  }
+                } else {
+                  return { 
+                    "type": "text",
+                    "body": result
+                  }
+                }
               });              
             }
 
