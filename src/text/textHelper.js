@@ -138,7 +138,7 @@ class TextHelper {
 
       var result;
       abl.forEach(e => {
-        result = result + '**'+e.name+'**: '+e.abbr.join(',')+'\n';
+        result = result + '**' + e.name + '**: ' + e.abbr.join(',') + '\n';
       });
       return result
     }
