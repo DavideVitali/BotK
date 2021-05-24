@@ -47,7 +47,7 @@ client.on('message', message => {
                 .then(text => {
                   result.body.forEach(m => {
                     var msgBody = '<@' + message.author.id + '>\n' + m;
-                    message.channel.send(embeddedMessage(colorContext.success, '', msgBody));
+                    message.author.send(embeddedMessage(colorContext.success, '', msgBody));
                     message.react('✅');                  
                   });
                 })
