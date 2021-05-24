@@ -1,6 +1,3 @@
-const fs = require('fs');
-const { parse } = require('path');
-
 class TextHelper {
   constructor() {
 
@@ -56,6 +53,21 @@ class TextHelper {
             const secrets = require('../../secrets/tokens.json');
             return secrets;
         }
+    }
+
+    getAbbreviationsList() {
+      return new Promise( (resolve, reject) => {
+        const abl = require('./characterAbbreviationList.json');
+        var result = '';
+
+        abl.forEach( e => {
+          result += e.abbr.length > 0 ? 
+            String(e.name + ': ' + e.abbr.join(', ') + '\n\r' ) : 
+            String(e.name + ': ' + e.base_id + '\n\r' )
+        });
+        
+        resolve(result);
+      });
     }
 
     /**

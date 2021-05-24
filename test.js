@@ -7,6 +7,7 @@ let textHelper = new TextHelper();
 let swapi = new Swapi();
 let statCalculator = require('swgoh-stat-calc');
 
+var testLine = 'bk abbr=?';
 const argParser = new ArgParser(testLine.split(' '), 'index');
 
 if (argParser.isValid == true) {

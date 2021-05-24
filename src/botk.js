@@ -64,6 +64,19 @@ class BotK {
         if (this.args.command.toUpperCase() === 'BK')
         {
             /* --------------------------------------
+                    LISTA DELLE ABBREVIAZIONI
+               ----------------------------------- */
+            if (this.args.abbr)
+            {
+              return textHelper.getAbbreviationsList().then(result => {
+                return { 
+                  "type": "text",
+                  "body": result
+                  }
+              });              
+            }
+
+            /* --------------------------------------
                     REGISTRAZIONE AL BOT
                ----------------------------------- */
             if (this.args.register || this.args.r)
