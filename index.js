@@ -46,7 +46,7 @@ client.on('message', message => {
                 Promise.resolve(result.body)
                 .then(text => {
                   var user = message.author;
-                  user.send(embeddedMessage(colorContext.success, '', text), { SplitOptions: { char: ';\n' }} );
+                  user.send(embeddedMessage(colorContext.success, '', text), { split: true, { SplitOptions: { char: ';\n' }} });
                   message.react('✅');                  
                   // result.body.forEach(m => {
                   //   var user = message.author;
