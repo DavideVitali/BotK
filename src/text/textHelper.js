@@ -61,7 +61,9 @@ class TextHelper {
         var result = '';
 
         abl.forEach( e => {
-          result += e.abbr.length > 0 ? String(e.name + ': ' + e.base_id + ', ' + e.abbr.join(', ') + ';' ) : String(e.name + ': ' + e.base_id + ';\n' )
+          result += e.abbr.length > 0 ? 
+          String('**'+ e.name + '**: ' + e.base_id + ', ' + e.abbr.join(', ') + ';\n\r' ) : 
+          String('**'+ e.name + '**: ' + e.base_id + ';\n\r' )
         });
         
         resolve(result);

@@ -14,8 +14,8 @@ if (argParser.isValid == true) {
     const bot = new Bot(argParser.commandResult, argParser.recipients, process.env.myId);
     bot.Exec()
     .then(result => result.body)
-    .then(message => message)
-      // console.log(message.length);
+    .then(message => //message)
+      console.log(message))
       //   message.forEach(m => {
       //     console.log('*********PARTE DI MESSAGGIO*****************', m);
       //     //var msgBody = '<@' + message.author.id + '>\n' + m;

@@ -53,7 +53,7 @@ class BotK {
             if (this.args.abbr)
             {
               return textHelper.getAbbreviationsList().then(result => {
-                if ( result.length > 2000 ) {
+                //if ( result.length > 2000 ) {
                   // var abbrs = result.split(';');
                   // var results = [];
                   // for (let i = 0; i < abbrs.length; i += 40) {
@@ -61,16 +61,16 @@ class BotK {
                   //   results.push(messageChunk);
                   // }
 
+                //   return { 
+                //     "type": "longtext",
+                //     "body": result
+                //   }
+                // } else {
                   return { 
                     "type": "longtext",
                     "body": result
                   }
-                } else {
-                  return { 
-                    "type": "text",
-                    "body": result
-                  }
-                }
+                // }
               });              
             }
 
