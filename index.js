@@ -45,12 +45,14 @@ client.on('message', message => {
               } else if ( result.type == 'longtext') {
                 Promise.resolve(result.body)
                 .then(text => {
-                  result.body.forEach(m => {
-                    var msgBody = '<@' + message.author.id + '>\n' + m;
-                    var user = message.author;
-                    user.send(embeddedMessage(colorContext.success, '', msgBody));
-                    message.react('✅');                  
-                  });
+                  var user = message.author;
+                  user.send(embeddedMessage(colorContext.success, '', text), { SplitOptions: { char: ';\n' }} );
+                  message.react('✅');                  
+                  // result.body.forEach(m => {
+                  //   var user = message.author;
+                  //   user.send(embeddedMessage(colorContext.success, '', m), { SplitOptions: { char: ';' }} );
+                  //   message.react('✅');                  
+                  // });
                 })
                 .catch(e => { 
                   message.channel.send(embeddedMessage(colorContext.error, '', e.message));

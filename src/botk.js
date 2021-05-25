@@ -45,22 +45,6 @@ class BotK {
         let swapi = new Swapi();
         let processor = new ImageProcessor();
         
-        /*
-        <summary>Restituisce le info e il roster di un player in formato JSON</summary>
-        <param "allyCode">Codice Alleato del player</param>
-        <param "mock">**NON USARE IN PRODUZIONE!!!!* Se true, il roster viene estratto da ./_apiModules/mockPlayerInfo.json, per bypassare eventuali restrizioni imposte dal proxy</param>
-        <remarks>restituisce una promise</remarks>
-        var playerInfo = swapi.playerInfo(allyCode: <int>, mock: <bool>)
-        */
-        //var playerInfo = swapi.playerInfo(914315138, true).then(r => console.log(r)).catch(e => console.log(e))
-       
-        /*
-        <summary>Restituisce l'array degli BASE_ID dei personaggi immessi dall'utente sotto forma di abbreviazione o nickname</summary>
-        <param "teamList">Array dei personaggi immessi dal giocatore</param>
-        <remarks>restituisce una promise</remarks>
-        var idArray = textHelper.findAbbreviated(teamList: [<string>])
-        */
-        
         if (this.args.command.toUpperCase() === 'BK')
         {
             /* --------------------------------------
@@ -70,16 +54,16 @@ class BotK {
             {
               return textHelper.getAbbreviationsList().then(result => {
                 if ( result.length > 2000 ) {
-                  var abbrs = result.split(';');
-                  var results = [];
-                  for (let i = 0; i < abbrs.length; i += 40) {
-                    var messageChunk = abbrs.slice(i, i + 40).join(';\n');
-                    results.push(messageChunk);
-                  }
+                  // var abbrs = result.split(';');
+                  // var results = [];
+                  // for (let i = 0; i < abbrs.length; i += 40) {
+                  //   var messageChunk = abbrs.slice(i, i + 40).join(';\n');
+                  //   results.push(messageChunk);
+                  // }
 
                   return { 
                     "type": "longtext",
-                    "body": results
+                    "body": result
                   }
                 } else {
                   return { 
