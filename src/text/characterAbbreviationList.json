@@ -195,6 +195,11 @@
         "abbr": ["STARCK"]
     },
     {
+        "name": "Commander Ahsoka Tano",
+        "base_id": "COMMANDERAHSOKA",
+        "abbr": ["CAT"]
+    },
+    {
         "name": "Commander Luke Skywalker",
         "base_id": "COMMANDERLUKESKYWALKER",
         "abbr": ["CLS","COMANDANTELUKE"]
@@ -560,6 +565,11 @@
         "abbr": ["JKR","REVANJEDI"]
     },
     {
+        "name": "Jedi Master Kenobi",
+        "base_id": "JEDIMASTERKENOBI",
+        "abbr": ["JMK"]
+    },
+    {
         "name": "Jedi Master Luke Skywalker",
         "base_id": "GRANDMASTERLUKE",
         "abbr": ["JML","MASTERLUKE"]
@@ -713,6 +723,11 @@
         "name": "Old Daka",
         "base_id": "DAKA",
         "abbr": ["VECCHIADAKA"]
+    },
+    {
+        "name": "Omega",
+        "base_id": "BADBATCHOMEGA",
+        "abbr": ["BBO"]
     },
     {
         "name": "Padmé Amidala",
